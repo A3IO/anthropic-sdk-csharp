@@ -1,0 +1,63 @@
+using Anthropic = Anthropic;
+using CodeAnalysis = System.Diagnostics.CodeAnalysis;
+using Generic = System.Collections.Generic;
+using Json = System.Text.Json;
+using RedactedThinkingBlockProperties = Anthropic.Models.Messages.RedactedThinkingBlockProperties;
+using Serialization = System.Text.Json.Serialization;
+using System = System;
+
+namespace Anthropic.Models.Messages;
+
+[Serialization::JsonConverter(typeof(Anthropic::ModelConverter<RedactedThinkingBlock>))]
+public sealed record class RedactedThinkingBlock
+    : Anthropic::ModelBase,
+        Anthropic::IFromRaw<RedactedThinkingBlock>
+{
+    public required string Data
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("data", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException("data", "Missing required argument");
+
+            return Json::JsonSerializer.Deserialize<string>(element)
+                ?? throw new System::ArgumentNullException("data");
+        }
+        set { this.Properties["data"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    public required RedactedThinkingBlockProperties::Type Type
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("type", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException("type", "Missing required argument");
+
+            return Json::JsonSerializer.Deserialize<RedactedThinkingBlockProperties::Type>(element)
+                ?? throw new System::ArgumentNullException("type");
+        }
+        set { this.Properties["type"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    public override void Validate()
+    {
+        this.Type.Validate();
+    }
+
+    public RedactedThinkingBlock() { }
+
+#pragma warning disable CS8618
+    [CodeAnalysis::SetsRequiredMembers]
+    RedactedThinkingBlock(Generic::Dictionary<string, Json::JsonElement> properties)
+    {
+        Properties = properties;
+    }
+#pragma warning restore CS8618
+
+    public static RedactedThinkingBlock FromRawUnchecked(
+        Generic::Dictionary<string, Json::JsonElement> properties
+    )
+    {
+        return new(properties);
+    }
+}

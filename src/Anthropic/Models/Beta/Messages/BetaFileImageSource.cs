@@ -1,0 +1,66 @@
+using Anthropic = Anthropic;
+using BetaFileImageSourceProperties = Anthropic.Models.Beta.Messages.BetaFileImageSourceProperties;
+using CodeAnalysis = System.Diagnostics.CodeAnalysis;
+using Generic = System.Collections.Generic;
+using Json = System.Text.Json;
+using Serialization = System.Text.Json.Serialization;
+using System = System;
+
+namespace Anthropic.Models.Beta.Messages;
+
+[Serialization::JsonConverter(typeof(Anthropic::ModelConverter<BetaFileImageSource>))]
+public sealed record class BetaFileImageSource
+    : Anthropic::ModelBase,
+        Anthropic::IFromRaw<BetaFileImageSource>
+{
+    public required string FileID
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("file_id", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException(
+                    "file_id",
+                    "Missing required argument"
+                );
+
+            return Json::JsonSerializer.Deserialize<string>(element)
+                ?? throw new System::ArgumentNullException("file_id");
+        }
+        set { this.Properties["file_id"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    public required BetaFileImageSourceProperties::Type Type
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("type", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException("type", "Missing required argument");
+
+            return Json::JsonSerializer.Deserialize<BetaFileImageSourceProperties::Type>(element)
+                ?? throw new System::ArgumentNullException("type");
+        }
+        set { this.Properties["type"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    public override void Validate()
+    {
+        this.Type.Validate();
+    }
+
+    public BetaFileImageSource() { }
+
+#pragma warning disable CS8618
+    [CodeAnalysis::SetsRequiredMembers]
+    BetaFileImageSource(Generic::Dictionary<string, Json::JsonElement> properties)
+    {
+        Properties = properties;
+    }
+#pragma warning restore CS8618
+
+    public static BetaFileImageSource FromRawUnchecked(
+        Generic::Dictionary<string, Json::JsonElement> properties
+    )
+    {
+        return new(properties);
+    }
+}

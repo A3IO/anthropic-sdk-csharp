@@ -1,0 +1,82 @@
+using Anthropic = Anthropic;
+using BetaThinkingBlockParamProperties = Anthropic.Models.Beta.Messages.BetaThinkingBlockParamProperties;
+using CodeAnalysis = System.Diagnostics.CodeAnalysis;
+using Generic = System.Collections.Generic;
+using Json = System.Text.Json;
+using Serialization = System.Text.Json.Serialization;
+using System = System;
+
+namespace Anthropic.Models.Beta.Messages;
+
+[Serialization::JsonConverter(typeof(Anthropic::ModelConverter<BetaThinkingBlockParam>))]
+public sealed record class BetaThinkingBlockParam
+    : Anthropic::ModelBase,
+        Anthropic::IFromRaw<BetaThinkingBlockParam>
+{
+    public required string Signature
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("signature", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException(
+                    "signature",
+                    "Missing required argument"
+                );
+
+            return Json::JsonSerializer.Deserialize<string>(element)
+                ?? throw new System::ArgumentNullException("signature");
+        }
+        set { this.Properties["signature"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    public required string Thinking
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("thinking", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException(
+                    "thinking",
+                    "Missing required argument"
+                );
+
+            return Json::JsonSerializer.Deserialize<string>(element)
+                ?? throw new System::ArgumentNullException("thinking");
+        }
+        set { this.Properties["thinking"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    public required BetaThinkingBlockParamProperties::Type Type
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("type", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException("type", "Missing required argument");
+
+            return Json::JsonSerializer.Deserialize<BetaThinkingBlockParamProperties::Type>(element)
+                ?? throw new System::ArgumentNullException("type");
+        }
+        set { this.Properties["type"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    public override void Validate()
+    {
+        this.Type.Validate();
+    }
+
+    public BetaThinkingBlockParam() { }
+
+#pragma warning disable CS8618
+    [CodeAnalysis::SetsRequiredMembers]
+    BetaThinkingBlockParam(Generic::Dictionary<string, Json::JsonElement> properties)
+    {
+        Properties = properties;
+    }
+#pragma warning restore CS8618
+
+    public static BetaThinkingBlockParam FromRawUnchecked(
+        Generic::Dictionary<string, Json::JsonElement> properties
+    )
+    {
+        return new(properties);
+    }
+}

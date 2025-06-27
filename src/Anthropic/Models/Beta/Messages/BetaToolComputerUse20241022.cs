@@ -1,0 +1,144 @@
+using Anthropic = Anthropic;
+using BetaToolComputerUse20241022Properties = Anthropic.Models.Beta.Messages.BetaToolComputerUse20241022Properties;
+using CodeAnalysis = System.Diagnostics.CodeAnalysis;
+using Generic = System.Collections.Generic;
+using Json = System.Text.Json;
+using Serialization = System.Text.Json.Serialization;
+using System = System;
+
+namespace Anthropic.Models.Beta.Messages;
+
+[Serialization::JsonConverter(typeof(Anthropic::ModelConverter<BetaToolComputerUse20241022>))]
+public sealed record class BetaToolComputerUse20241022
+    : Anthropic::ModelBase,
+        Anthropic::IFromRaw<BetaToolComputerUse20241022>
+{
+    /// <summary>
+    /// The height of the display in pixels.
+    /// </summary>
+    public required long DisplayHeightPx
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("display_height_px", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException(
+                    "display_height_px",
+                    "Missing required argument"
+                );
+
+            return Json::JsonSerializer.Deserialize<long>(element);
+        }
+        set
+        {
+            this.Properties["display_height_px"] = Json::JsonSerializer.SerializeToElement(value);
+        }
+    }
+
+    /// <summary>
+    /// The width of the display in pixels.
+    /// </summary>
+    public required long DisplayWidthPx
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("display_width_px", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException(
+                    "display_width_px",
+                    "Missing required argument"
+                );
+
+            return Json::JsonSerializer.Deserialize<long>(element);
+        }
+        set
+        {
+            this.Properties["display_width_px"] = Json::JsonSerializer.SerializeToElement(value);
+        }
+    }
+
+    /// <summary>
+    /// Name of the tool.
+    ///
+    /// This is how the tool will be called by the model and in `tool_use` blocks.
+    /// </summary>
+    public required BetaToolComputerUse20241022Properties::Name Name
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("name", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException("name", "Missing required argument");
+
+            return Json::JsonSerializer.Deserialize<BetaToolComputerUse20241022Properties::Name>(
+                    element
+                ) ?? throw new System::ArgumentNullException("name");
+        }
+        set { this.Properties["name"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    public required BetaToolComputerUse20241022Properties::Type Type
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("type", out Json::JsonElement element))
+                throw new System::ArgumentOutOfRangeException("type", "Missing required argument");
+
+            return Json::JsonSerializer.Deserialize<BetaToolComputerUse20241022Properties::Type>(
+                    element
+                ) ?? throw new System::ArgumentNullException("type");
+        }
+        set { this.Properties["type"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// Create a cache control breakpoint at this content block.
+    /// </summary>
+    public BetaCacheControlEphemeral? CacheControl
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("cache_control", out Json::JsonElement element))
+                return null;
+
+            return Json::JsonSerializer.Deserialize<BetaCacheControlEphemeral?>(element);
+        }
+        set { this.Properties["cache_control"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// The X11 display number (e.g. 0, 1) for the display.
+    /// </summary>
+    public long? DisplayNumber
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("display_number", out Json::JsonElement element))
+                return null;
+
+            return Json::JsonSerializer.Deserialize<long?>(element);
+        }
+        set { this.Properties["display_number"] = Json::JsonSerializer.SerializeToElement(value); }
+    }
+
+    public override void Validate()
+    {
+        this.Name.Validate();
+        this.Type.Validate();
+        this.CacheControl?.Validate();
+    }
+
+    public BetaToolComputerUse20241022() { }
+
+#pragma warning disable CS8618
+    [CodeAnalysis::SetsRequiredMembers]
+    BetaToolComputerUse20241022(Generic::Dictionary<string, Json::JsonElement> properties)
+    {
+        Properties = properties;
+    }
+#pragma warning restore CS8618
+
+    public static BetaToolComputerUse20241022 FromRawUnchecked(
+        Generic::Dictionary<string, Json::JsonElement> properties
+    )
+    {
+        return new(properties);
+    }
+}
