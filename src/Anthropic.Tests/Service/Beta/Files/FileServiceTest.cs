@@ -1,22 +1,16 @@
-using Anthropic = Anthropic;
 using Beta = Anthropic.Models.Beta;
 using Files = Anthropic.Models.Beta.Files;
-using System = System;
 using Tasks = System.Threading.Tasks;
+using Tests = Anthropic.Tests;
 
 namespace Anthropic.Tests.Service.Beta.Files;
 
-public class FileServiceTest
+public class FileServiceTest : Tests::TestBase
 {
     [Fact]
     public async Tasks::Task List_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var page = await client.Beta.Files.List(
+        var page = await this.client.Beta.Files.List(
             new Files::FileListParams()
             {
                 AfterID = "after_id",
@@ -31,12 +25,7 @@ public class FileServiceTest
     [Fact]
     public async Tasks::Task Delete_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var deletedFile = await client.Beta.Files.Delete(
+        var deletedFile = await this.client.Beta.Files.Delete(
             new Files::FileDeleteParams()
             {
                 FileID = "file_id",
@@ -49,12 +38,7 @@ public class FileServiceTest
     [Fact]
     public async Tasks::Task Download_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        await client.Beta.Files.Download(
+        await this.client.Beta.Files.Download(
             new Files::FileDownloadParams()
             {
                 FileID = "file_id",
@@ -66,12 +50,7 @@ public class FileServiceTest
     [Fact]
     public async Tasks::Task RetrieveMetadata_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var fileMetadata = await client.Beta.Files.RetrieveMetadata(
+        var fileMetadata = await this.client.Beta.Files.RetrieveMetadata(
             new Files::FileRetrieveMetadataParams()
             {
                 FileID = "file_id",
@@ -84,12 +63,7 @@ public class FileServiceTest
     [Fact]
     public async Tasks::Task Upload_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var fileMetadata = await client.Beta.Files.Upload(
+        var fileMetadata = await this.client.Beta.Files.Upload(
             new Files::FileUploadParams()
             {
                 File = "a value",

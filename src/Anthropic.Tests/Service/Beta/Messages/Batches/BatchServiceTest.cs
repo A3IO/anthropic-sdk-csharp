@@ -1,4 +1,3 @@
-using Anthropic = Anthropic;
 using BatchCreateParamsProperties = Anthropic.Models.Beta.Messages.Batches.BatchCreateParamsProperties;
 using Batches = Anthropic.Models.Beta.Messages.Batches;
 using Beta = Anthropic.Models.Beta;
@@ -16,22 +15,17 @@ using Messages = Anthropic.Models.Beta.Messages;
 using Messages1 = Anthropic.Models.Messages;
 using ParamsProperties = Anthropic.Models.Beta.Messages.Batches.BatchCreateParamsProperties.RequestProperties.ParamsProperties;
 using RequestProperties = Anthropic.Models.Beta.Messages.Batches.BatchCreateParamsProperties.RequestProperties;
-using System = System;
 using Tasks = System.Threading.Tasks;
+using Tests = Anthropic.Tests;
 
 namespace Anthropic.Tests.Service.Beta.Messages.Batches;
 
-public class BatchServiceTest
+public class BatchServiceTest : Tests::TestBase
 {
     [Fact]
     public async Tasks::Task Create_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var betaMessageBatch = await client.Beta.Messages.Batches.Create(
+        var betaMessageBatch = await this.client.Beta.Messages.Batches.Create(
             new Batches::BatchCreateParams()
             {
                 Requests =
@@ -162,12 +156,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task Retrieve_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var betaMessageBatch = await client.Beta.Messages.Batches.Retrieve(
+        var betaMessageBatch = await this.client.Beta.Messages.Batches.Retrieve(
             new Batches::BatchRetrieveParams()
             {
                 MessageBatchID = "message_batch_id",
@@ -180,12 +169,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task List_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var page = await client.Beta.Messages.Batches.List(
+        var page = await this.client.Beta.Messages.Batches.List(
             new Batches::BatchListParams()
             {
                 AfterID = "after_id",
@@ -200,12 +184,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task Delete_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var betaDeletedMessageBatch = await client.Beta.Messages.Batches.Delete(
+        var betaDeletedMessageBatch = await this.client.Beta.Messages.Batches.Delete(
             new Batches::BatchDeleteParams()
             {
                 MessageBatchID = "message_batch_id",
@@ -218,12 +197,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task Cancel_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var betaMessageBatch = await client.Beta.Messages.Batches.Cancel(
+        var betaMessageBatch = await this.client.Beta.Messages.Batches.Cancel(
             new Batches::BatchCancelParams()
             {
                 MessageBatchID = "message_batch_id",
@@ -236,12 +210,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task Results_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var betaMessageBatchIndividualResponse = await client.Beta.Messages.Batches.Results(
+        var betaMessageBatchIndividualResponse = await this.client.Beta.Messages.Batches.Results(
             new Batches::BatchResultsParams()
             {
                 MessageBatchID = "message_batch_id",

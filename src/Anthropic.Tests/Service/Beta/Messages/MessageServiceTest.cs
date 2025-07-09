@@ -1,4 +1,3 @@
-using Anthropic = Anthropic;
 using Beta = Anthropic.Models.Beta;
 using BetaCacheControlEphemeralProperties = Anthropic.Models.Beta.Messages.BetaCacheControlEphemeralProperties;
 using BetaCitationCharLocationParamProperties = Anthropic.Models.Beta.Messages.BetaCitationCharLocationParamProperties;
@@ -14,22 +13,17 @@ using MessageCountTokensParamsProperties = Anthropic.Models.Beta.Messages.Messag
 using MessageCreateParamsProperties = Anthropic.Models.Beta.Messages.MessageCreateParamsProperties;
 using Messages = Anthropic.Models.Messages;
 using Messages1 = Anthropic.Models.Beta.Messages;
-using System = System;
 using Tasks = System.Threading.Tasks;
+using Tests = Anthropic.Tests;
 
 namespace Anthropic.Tests.Service.Beta.Messages;
 
-public class MessageServiceTest
+public class MessageServiceTest : Tests::TestBase
 {
     [Fact]
     public async Tasks::Task Create_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var betaMessage = await client.Beta.Messages.Create(
+        var betaMessage = await this.client.Beta.Messages.Create(
             new Messages1::MessageCreateParams()
             {
                 MaxTokens = 1024,
@@ -144,12 +138,7 @@ public class MessageServiceTest
     [Fact]
     public async Tasks::Task CountTokens_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var betaMessageTokensCount = await client.Beta.Messages.CountTokens(
+        var betaMessageTokensCount = await this.client.Beta.Messages.CountTokens(
             new Messages1::MessageCountTokensParams()
             {
                 Messages =

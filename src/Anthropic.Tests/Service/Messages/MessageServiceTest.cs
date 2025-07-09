@@ -1,4 +1,3 @@
-using Anthropic = Anthropic;
 using CacheControlEphemeralProperties = Anthropic.Models.Messages.CacheControlEphemeralProperties;
 using CitationCharLocationParamProperties = Anthropic.Models.Messages.CitationCharLocationParamProperties;
 using InputSchemaProperties = Anthropic.Models.Messages.ToolProperties.InputSchemaProperties;
@@ -7,8 +6,8 @@ using MessageCountTokensParamsProperties = Anthropic.Models.Messages.MessageCoun
 using MessageCreateParamsProperties = Anthropic.Models.Messages.MessageCreateParamsProperties;
 using MessageParamProperties = Anthropic.Models.Messages.MessageParamProperties;
 using Messages = Anthropic.Models.Messages;
-using System = System;
 using Tasks = System.Threading.Tasks;
+using Tests = Anthropic.Tests;
 using TextBlockParamProperties = Anthropic.Models.Messages.TextBlockParamProperties;
 using ThinkingConfigEnabledProperties = Anthropic.Models.Messages.ThinkingConfigEnabledProperties;
 using ToolChoiceAutoProperties = Anthropic.Models.Messages.ToolChoiceAutoProperties;
@@ -16,17 +15,12 @@ using ToolProperties = Anthropic.Models.Messages.ToolProperties;
 
 namespace Anthropic.Tests.Service.Messages;
 
-public class MessageServiceTest
+public class MessageServiceTest : Tests::TestBase
 {
     [Fact]
     public async Tasks::Task Create_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var message = await client.Messages.Create(
+        var message = await this.client.Messages.Create(
             new Messages::MessageCreateParams()
             {
                 MaxTokens = 1024,
@@ -122,12 +116,7 @@ public class MessageServiceTest
     [Fact]
     public async Tasks::Task CountTokens_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var messageTokensCount = await client.Messages.CountTokens(
+        var messageTokensCount = await this.client.Messages.CountTokens(
             new Messages::MessageCountTokensParams()
             {
                 Messages =

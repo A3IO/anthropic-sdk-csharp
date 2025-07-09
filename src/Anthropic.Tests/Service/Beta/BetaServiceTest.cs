@@ -1,3 +1,5 @@
+using Tests = Anthropic.Tests;
+
 namespace Anthropic.Tests.Service.Beta;
 
-public class BetaServiceTest { }
+public class BetaServiceTest : Tests::TestBase { }

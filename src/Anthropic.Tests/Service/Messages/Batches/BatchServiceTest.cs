@@ -1,4 +1,3 @@
-using Anthropic = Anthropic;
 using BatchCreateParamsProperties = Anthropic.Models.Messages.Batches.BatchCreateParamsProperties;
 using Batches = Anthropic.Models.Messages.Batches;
 using CacheControlEphemeralProperties = Anthropic.Models.Messages.CacheControlEphemeralProperties;
@@ -9,8 +8,8 @@ using MessageParamProperties = Anthropic.Models.Messages.MessageParamProperties;
 using Messages = Anthropic.Models.Messages;
 using ParamsProperties = Anthropic.Models.Messages.Batches.BatchCreateParamsProperties.RequestProperties.ParamsProperties;
 using RequestProperties = Anthropic.Models.Messages.Batches.BatchCreateParamsProperties.RequestProperties;
-using System = System;
 using Tasks = System.Threading.Tasks;
+using Tests = Anthropic.Tests;
 using TextBlockParamProperties = Anthropic.Models.Messages.TextBlockParamProperties;
 using ThinkingConfigEnabledProperties = Anthropic.Models.Messages.ThinkingConfigEnabledProperties;
 using ToolChoiceAutoProperties = Anthropic.Models.Messages.ToolChoiceAutoProperties;
@@ -18,17 +17,12 @@ using ToolProperties = Anthropic.Models.Messages.ToolProperties;
 
 namespace Anthropic.Tests.Service.Messages.Batches;
 
-public class BatchServiceTest
+public class BatchServiceTest : Tests::TestBase
 {
     [Fact]
     public async Tasks::Task Create_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var messageBatch = await client.Messages.Batches.Create(
+        var messageBatch = await this.client.Messages.Batches.Create(
             new Batches::BatchCreateParams()
             {
                 Requests =
@@ -137,12 +131,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task Retrieve_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var messageBatch = await client.Messages.Batches.Retrieve(
+        var messageBatch = await this.client.Messages.Batches.Retrieve(
             new Batches::BatchRetrieveParams() { MessageBatchID = "message_batch_id" }
         );
         messageBatch.Validate();
@@ -151,12 +140,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task List_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var page = await client.Messages.Batches.List(
+        var page = await this.client.Messages.Batches.List(
             new Batches::BatchListParams()
             {
                 AfterID = "after_id",
@@ -170,12 +154,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task Delete_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var deletedMessageBatch = await client.Messages.Batches.Delete(
+        var deletedMessageBatch = await this.client.Messages.Batches.Delete(
             new Batches::BatchDeleteParams() { MessageBatchID = "message_batch_id" }
         );
         deletedMessageBatch.Validate();
@@ -184,12 +163,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task Cancel_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var messageBatch = await client.Messages.Batches.Cancel(
+        var messageBatch = await this.client.Messages.Batches.Cancel(
             new Batches::BatchCancelParams() { MessageBatchID = "message_batch_id" }
         );
         messageBatch.Validate();
@@ -198,12 +172,7 @@ public class BatchServiceTest
     [Fact]
     public async Tasks::Task Results_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var messageBatchIndividualResponse = await client.Messages.Batches.Results(
+        var messageBatchIndividualResponse = await this.client.Messages.Batches.Results(
             new Batches::BatchResultsParams() { MessageBatchID = "message_batch_id" }
         );
         messageBatchIndividualResponse.Validate();

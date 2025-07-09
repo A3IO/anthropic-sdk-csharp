@@ -1,23 +1,17 @@
-using Anthropic = Anthropic;
 using Beta = Anthropic.Models.Beta;
 using Completions = Anthropic.Models.Completions;
 using Messages = Anthropic.Models.Messages;
-using System = System;
 using Tasks = System.Threading.Tasks;
+using Tests = Anthropic.Tests;
 
 namespace Anthropic.Tests.Service.Completions;
 
-public class CompletionServiceTest
+public class CompletionServiceTest : Tests::TestBase
 {
     [Fact]
     public async Tasks::Task Create_Works()
     {
-        Anthropic::IAnthropicClient client = new Anthropic::AnthropicClient()
-        {
-            BaseUrl = new System::Uri("http://localhost:4010"),
-            APIKey = "my-anthropic-api-key",
-        };
-        var completion = await client.Completions.Create(
+        var completion = await this.client.Completions.Create(
             new Completions::CompletionCreateParams()
             {
                 MaxTokensToSample = 256,
