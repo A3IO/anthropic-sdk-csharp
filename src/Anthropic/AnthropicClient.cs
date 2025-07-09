@@ -23,21 +23,19 @@ public sealed class AnthropicClient : IAnthropicClient
         init { _baseUrl = new(() => value); }
     }
 
-    System::Lazy<string> _apiKey = new(() =>
+    System::Lazy<string?> _apiKey = new(() =>
         System::Environment.GetEnvironmentVariable("ANTHROPIC_API_KEY")
-        ?? throw new System::ArgumentNullException(nameof(_apiKey))
     );
-    public string APIKey
+    public string? APIKey
     {
         get { return _apiKey.Value; }
         init { _apiKey = new(() => value); }
     }
 
-    System::Lazy<string> _authToken = new(() =>
+    System::Lazy<string?> _authToken = new(() =>
         System::Environment.GetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN")
-        ?? throw new System::ArgumentNullException(nameof(_authToken))
     );
-    public string AuthToken
+    public string? AuthToken
     {
         get { return _authToken.Value; }
         init { _authToken = new(() => value); }

@@ -13,9 +13,9 @@ public interface IAnthropicClient
 
     System::Uri BaseUrl { get; init; }
 
-    string APIKey { get; init; }
+    string? APIKey { get; init; }
 
-    string AuthToken { get; init; }
+    string? AuthToken { get; init; }
 
     Completions::ICompletionService Completions { get; }
 
