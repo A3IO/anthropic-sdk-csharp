@@ -58,6 +58,8 @@ public sealed record class ThinkingBlock : Anthropic::ModelBase, Anthropic::IFro
 
     public override void Validate()
     {
+        _ = this.Signature;
+        _ = this.Thinking;
         this.Type.Validate();
     }
 

@@ -46,6 +46,7 @@ public sealed record class DeletedFile : Anthropic::ModelBase, Anthropic::IFromR
 
     public override void Validate()
     {
+        _ = this.ID;
         this.Type?.Validate();
     }
 

@@ -41,6 +41,7 @@ public sealed record class RawContentBlockStopEvent
 
     public override void Validate()
     {
+        _ = this.Index;
         this.Type.Validate();
     }
 

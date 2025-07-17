@@ -101,6 +101,10 @@ public sealed record class BetaMCPToolUseBlockParam
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.Input;
+        _ = this.Name;
+        _ = this.ServerName;
         this.Type.Validate();
         this.CacheControl?.Validate();
     }

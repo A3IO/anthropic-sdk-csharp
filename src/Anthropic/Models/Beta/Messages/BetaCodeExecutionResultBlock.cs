@@ -97,6 +97,9 @@ public sealed record class BetaCodeExecutionResultBlock
         {
             item.Validate();
         }
+        _ = this.ReturnCode;
+        _ = this.Stderr;
+        _ = this.Stdout;
         this.Type.Validate();
     }
 

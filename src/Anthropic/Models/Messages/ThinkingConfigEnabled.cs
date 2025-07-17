@@ -53,6 +53,7 @@ public sealed record class ThinkingConfigEnabled
 
     public override void Validate()
     {
+        _ = this.BudgetTokens;
         this.Type.Validate();
     }
 

@@ -37,7 +37,14 @@ public sealed record class BetaRequestMCPServerToolConfiguration
         set { this.Properties["enabled"] = Json::JsonSerializer.SerializeToElement(value); }
     }
 
-    public override void Validate() { }
+    public override void Validate()
+    {
+        foreach (var item in this.AllowedTools ?? [])
+        {
+            _ = item;
+        }
+        _ = this.Enabled;
+    }
 
     public BetaRequestMCPServerToolConfiguration() { }
 

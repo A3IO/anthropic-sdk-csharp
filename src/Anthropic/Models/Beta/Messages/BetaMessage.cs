@@ -220,6 +220,7 @@ public sealed record class BetaMessage : Anthropic::ModelBase, Anthropic::IFromR
 
     public override void Validate()
     {
+        _ = this.ID;
         this.Container?.Validate();
         foreach (var item in this.Content)
         {
@@ -228,6 +229,7 @@ public sealed record class BetaMessage : Anthropic::ModelBase, Anthropic::IFromR
         this.Model.Validate();
         this.Role.Validate();
         this.StopReason?.Validate();
+        _ = this.StopSequence;
         this.Type.Validate();
         this.Usage.Validate();
     }

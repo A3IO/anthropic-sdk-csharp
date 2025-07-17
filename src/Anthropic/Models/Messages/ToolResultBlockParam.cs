@@ -85,9 +85,11 @@ public sealed record class ToolResultBlockParam
 
     public override void Validate()
     {
+        _ = this.ToolUseID;
         this.Type.Validate();
         this.CacheControl?.Validate();
         this.Content?.Validate();
+        _ = this.IsError;
     }
 
     public ToolResultBlockParam() { }

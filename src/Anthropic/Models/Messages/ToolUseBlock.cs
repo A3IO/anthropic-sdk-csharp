@@ -64,6 +64,9 @@ public sealed record class ToolUseBlock : Anthropic::ModelBase, Anthropic::IFrom
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.Input;
+        _ = this.Name;
         this.Type.Validate();
     }
 

@@ -126,7 +126,16 @@ public sealed record class WebSearchTool20250305
     {
         this.Name.Validate();
         this.Type.Validate();
+        foreach (var item in this.AllowedDomains ?? [])
+        {
+            _ = item;
+        }
+        foreach (var item in this.BlockedDomains ?? [])
+        {
+            _ = item;
+        }
         this.CacheControl?.Validate();
+        _ = this.MaxUses;
         this.UserLocation?.Validate();
     }
 

@@ -47,7 +47,11 @@ public sealed record class BetaContainer : Anthropic::ModelBase, Anthropic::IFro
         set { this.Properties["expires_at"] = Json::JsonSerializer.SerializeToElement(value); }
     }
 
-    public override void Validate() { }
+    public override void Validate()
+    {
+        _ = this.ID;
+        _ = this.ExpiresAt;
+    }
 
     public BetaContainer() { }
 

@@ -42,6 +42,7 @@ public sealed record class BillingError : Anthropic::ModelBase, Anthropic::IFrom
 
     public override void Validate()
     {
+        _ = this.Message;
         this.Type.Validate();
     }
 

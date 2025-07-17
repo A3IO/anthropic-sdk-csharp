@@ -91,6 +91,10 @@ public sealed record class UserLocation : Anthropic::ModelBase, Anthropic::IFrom
     public override void Validate()
     {
         this.Type.Validate();
+        _ = this.City;
+        _ = this.Country;
+        _ = this.Region;
+        _ = this.Timezone;
     }
 
     public UserLocation() { }

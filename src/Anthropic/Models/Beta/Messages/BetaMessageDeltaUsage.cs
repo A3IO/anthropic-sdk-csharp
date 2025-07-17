@@ -123,6 +123,10 @@ public sealed record class BetaMessageDeltaUsage
 
     public override void Validate()
     {
+        _ = this.CacheCreationInputTokens;
+        _ = this.CacheReadInputTokens;
+        _ = this.InputTokens;
+        _ = this.OutputTokens;
         this.ServerToolUse?.Validate();
     }
 

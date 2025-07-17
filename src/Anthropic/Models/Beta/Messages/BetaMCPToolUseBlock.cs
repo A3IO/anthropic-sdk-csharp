@@ -88,6 +88,10 @@ public sealed record class BetaMCPToolUseBlock
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.Input;
+        _ = this.Name;
+        _ = this.ServerName;
         this.Type.Validate();
     }
 

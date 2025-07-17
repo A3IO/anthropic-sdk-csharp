@@ -45,6 +45,7 @@ public sealed record class BetaGatewayTimeoutError
 
     public override void Validate()
     {
+        _ = this.Message;
         this.Type.Validate();
     }
 

@@ -99,6 +99,8 @@ public sealed record class DocumentBlockParam
         this.Type.Validate();
         this.CacheControl?.Validate();
         this.Citations?.Validate();
+        _ = this.Context;
+        _ = this.Title;
     }
 
     public DocumentBlockParam() { }

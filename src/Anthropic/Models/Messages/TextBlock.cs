@@ -65,6 +65,7 @@ public sealed record class TextBlock : Anthropic::ModelBase, Anthropic::IFromRaw
         {
             item.Validate();
         }
+        _ = this.Text;
         this.Type.Validate();
     }
 

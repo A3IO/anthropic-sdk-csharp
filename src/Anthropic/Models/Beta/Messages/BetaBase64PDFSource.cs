@@ -58,6 +58,7 @@ public sealed record class BetaBase64PDFSource
 
     public override void Validate()
     {
+        _ = this.Data;
         this.MediaType.Validate();
         this.Type.Validate();
     }

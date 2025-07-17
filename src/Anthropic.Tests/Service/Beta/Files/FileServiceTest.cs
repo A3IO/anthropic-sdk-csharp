@@ -38,13 +38,14 @@ public class FileServiceTest : Tests::TestBase
     [Fact]
     public async Tasks::Task Download_Works()
     {
-        await this.client.Beta.Files.Download(
+        var response = await this.client.Beta.Files.Download(
             new Files::FileDownloadParams()
             {
                 FileID = "file_id",
                 Betas = [Beta::AnthropicBeta.MessageBatches2024_09_24],
             }
         );
+        _ = response;
     }
 
     [Fact]

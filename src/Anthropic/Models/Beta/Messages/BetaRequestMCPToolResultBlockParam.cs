@@ -88,9 +88,11 @@ public sealed record class BetaRequestMCPToolResultBlockParam
 
     public override void Validate()
     {
+        _ = this.ToolUseID;
         this.Type.Validate();
         this.CacheControl?.Validate();
         this.Content?.Validate();
+        _ = this.IsError;
     }
 
     public BetaRequestMCPToolResultBlockParam() { }

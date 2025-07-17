@@ -80,6 +80,7 @@ public sealed record class BetaCodeExecutionToolResultBlockParam
     public override void Validate()
     {
         this.Content.Validate();
+        _ = this.ToolUseID;
         this.Type.Validate();
         this.CacheControl?.Validate();
     }

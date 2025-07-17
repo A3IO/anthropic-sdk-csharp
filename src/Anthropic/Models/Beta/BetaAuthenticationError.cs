@@ -45,6 +45,7 @@ public sealed record class BetaAuthenticationError
 
     public override void Validate()
     {
+        _ = this.Message;
         this.Type.Validate();
     }
 

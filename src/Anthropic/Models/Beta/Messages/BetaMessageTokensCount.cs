@@ -31,7 +31,10 @@ public sealed record class BetaMessageTokensCount
         set { this.Properties["input_tokens"] = Json::JsonSerializer.SerializeToElement(value); }
     }
 
-    public override void Validate() { }
+    public override void Validate()
+    {
+        _ = this.InputTokens;
+    }
 
     public BetaMessageTokensCount() { }
 

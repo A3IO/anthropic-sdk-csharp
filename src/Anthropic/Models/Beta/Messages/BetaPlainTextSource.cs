@@ -58,6 +58,7 @@ public sealed record class BetaPlainTextSource
 
     public override void Validate()
     {
+        _ = this.Data;
         this.MediaType.Validate();
         this.Type.Validate();
     }

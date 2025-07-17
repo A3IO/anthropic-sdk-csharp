@@ -49,6 +49,7 @@ public sealed record class DeletedMessageBatch
 
     public override void Validate()
     {
+        _ = this.ID;
         this.Type.Validate();
     }
 

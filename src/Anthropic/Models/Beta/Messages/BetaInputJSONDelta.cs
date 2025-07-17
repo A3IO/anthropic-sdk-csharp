@@ -44,6 +44,7 @@ public sealed record class BetaInputJSONDelta
 
     public override void Validate()
     {
+        _ = this.PartialJSON;
         this.Type.Validate();
     }
 

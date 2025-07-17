@@ -23,7 +23,10 @@ public sealed record class BetaCitationsConfigParam
         set { this.Properties["enabled"] = Json::JsonSerializer.SerializeToElement(value); }
     }
 
-    public override void Validate() { }
+    public override void Validate()
+    {
+        _ = this.Enabled;
+    }
 
     public BetaCitationsConfigParam() { }
 

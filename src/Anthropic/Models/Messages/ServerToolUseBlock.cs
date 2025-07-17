@@ -66,6 +66,8 @@ public sealed record class ServerToolUseBlock
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.Input;
         this.Name.Validate();
         this.Type.Validate();
     }

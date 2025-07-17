@@ -42,6 +42,7 @@ public sealed record class BetaURLImageSource
     public override void Validate()
     {
         this.Type.Validate();
+        _ = this.URL;
     }
 
     public BetaURLImageSource() { }

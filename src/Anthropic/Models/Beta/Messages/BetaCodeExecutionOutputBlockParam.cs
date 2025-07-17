@@ -45,6 +45,7 @@ public sealed record class BetaCodeExecutionOutputBlockParam
 
     public override void Validate()
     {
+        _ = this.FileID;
         this.Type.Validate();
     }
 

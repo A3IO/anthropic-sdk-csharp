@@ -101,7 +101,9 @@ public sealed record class Tool : Anthropic::ModelBase, Anthropic::IFromRaw<Tool
     public override void Validate()
     {
         this.InputSchema.Validate();
+        _ = this.Name;
         this.CacheControl?.Validate();
+        _ = this.Description;
         this.Type?.Validate();
     }
 

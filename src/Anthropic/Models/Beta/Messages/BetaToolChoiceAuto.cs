@@ -59,6 +59,7 @@ public sealed record class BetaToolChoiceAuto
     public override void Validate()
     {
         this.Type.Validate();
+        _ = this.DisableParallelToolUse;
     }
 
     public BetaToolChoiceAuto() { }

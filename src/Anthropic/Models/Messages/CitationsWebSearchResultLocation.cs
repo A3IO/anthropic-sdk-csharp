@@ -86,7 +86,11 @@ public sealed record class CitationsWebSearchResultLocation
 
     public override void Validate()
     {
+        _ = this.CitedText;
+        _ = this.EncryptedIndex;
+        _ = this.Title;
         this.Type.Validate();
+        _ = this.URL;
     }
 
     public CitationsWebSearchResultLocation() { }

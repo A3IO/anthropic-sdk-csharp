@@ -85,6 +85,9 @@ public sealed record class BetaModelInfo : Anthropic::ModelBase, Anthropic::IFro
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.CreatedAt;
+        _ = this.DisplayName;
         this.Type.Validate();
     }
 

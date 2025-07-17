@@ -57,6 +57,11 @@ public sealed record class InputSchema : Anthropic::ModelBase, Anthropic::IFromR
     public override void Validate()
     {
         this.Type.Validate();
+        _ = this.Properties1;
+        foreach (var item in this.Required ?? [])
+        {
+            _ = item;
+        }
     }
 
     public InputSchema() { }

@@ -109,7 +109,10 @@ public sealed record class Completion : Anthropic::ModelBase, Anthropic::IFromRa
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.Completion1;
         this.Model.Validate();
+        _ = this.StopReason;
         this.Type.Validate();
     }
 

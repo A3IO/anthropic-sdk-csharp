@@ -101,7 +101,9 @@ public sealed record class BetaTool : Anthropic::ModelBase, Anthropic::IFromRaw<
     public override void Validate()
     {
         this.InputSchema.Validate();
+        _ = this.Name;
         this.CacheControl?.Validate();
+        _ = this.Description;
         this.Type?.Validate();
     }
 

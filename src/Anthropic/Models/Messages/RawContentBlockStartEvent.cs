@@ -59,6 +59,7 @@ public sealed record class RawContentBlockStartEvent
     public override void Validate()
     {
         this.ContentBlock.Validate();
+        _ = this.Index;
         this.Type.Validate();
     }
 

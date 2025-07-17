@@ -44,6 +44,7 @@ public sealed record class BetaSignatureDelta
 
     public override void Validate()
     {
+        _ = this.Signature;
         this.Type.Validate();
     }
 

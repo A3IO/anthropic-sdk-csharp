@@ -50,6 +50,7 @@ public sealed record class BetaDeletedMessageBatch
 
     public override void Validate()
     {
+        _ = this.ID;
         this.Type.Validate();
     }
 

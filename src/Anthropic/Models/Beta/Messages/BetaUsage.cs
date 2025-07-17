@@ -159,6 +159,10 @@ public sealed record class BetaUsage : Anthropic::ModelBase, Anthropic::IFromRaw
     public override void Validate()
     {
         this.CacheCreation?.Validate();
+        _ = this.CacheCreationInputTokens;
+        _ = this.CacheReadInputTokens;
+        _ = this.InputTokens;
+        _ = this.OutputTokens;
         this.ServerToolUse?.Validate();
         this.ServiceTier?.Validate();
     }

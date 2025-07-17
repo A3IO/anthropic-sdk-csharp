@@ -88,7 +88,11 @@ public sealed record class WebSearchResultBlock
 
     public override void Validate()
     {
+        _ = this.EncryptedContent;
+        _ = this.PageAge;
+        _ = this.Title;
         this.Type.Validate();
+        _ = this.URL;
     }
 
     public WebSearchResultBlock() { }

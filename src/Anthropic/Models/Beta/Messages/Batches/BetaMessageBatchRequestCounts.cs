@@ -110,7 +110,14 @@ public sealed record class BetaMessageBatchRequestCounts
         set { this.Properties["succeeded"] = Json::JsonSerializer.SerializeToElement(value); }
     }
 
-    public override void Validate() { }
+    public override void Validate()
+    {
+        _ = this.Canceled;
+        _ = this.Errored;
+        _ = this.Expired;
+        _ = this.Processing;
+        _ = this.Succeeded;
+    }
 
     public BetaMessageBatchRequestCounts() { }
 

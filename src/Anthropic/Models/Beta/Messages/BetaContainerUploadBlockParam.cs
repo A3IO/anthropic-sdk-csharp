@@ -64,6 +64,7 @@ public sealed record class BetaContainerUploadBlockParam
 
     public override void Validate()
     {
+        _ = this.FileID;
         this.Type.Validate();
         this.CacheControl?.Validate();
     }

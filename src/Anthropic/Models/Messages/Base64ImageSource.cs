@@ -57,6 +57,7 @@ public sealed record class Base64ImageSource
 
     public override void Validate()
     {
+        _ = this.Data;
         this.MediaType.Validate();
         this.Type.Validate();
     }
