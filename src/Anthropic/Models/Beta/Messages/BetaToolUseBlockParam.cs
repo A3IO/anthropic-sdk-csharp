@@ -81,6 +81,9 @@ public sealed record class BetaToolUseBlockParam
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.Input;
+        _ = this.Name;
         this.Type.Validate();
         this.CacheControl?.Validate();
     }

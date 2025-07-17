@@ -42,6 +42,7 @@ public sealed record class BetaURLPDFSource
     public override void Validate()
     {
         this.Type.Validate();
+        _ = this.URL;
     }
 
     public BetaURLPDFSource() { }

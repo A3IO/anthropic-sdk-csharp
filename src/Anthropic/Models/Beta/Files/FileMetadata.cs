@@ -138,7 +138,13 @@ public sealed record class FileMetadata : Anthropic::ModelBase, Anthropic::IFrom
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.CreatedAt;
+        _ = this.Filename;
+        _ = this.MimeType;
+        _ = this.SizeBytes;
         this.Type.Validate();
+        _ = this.Downloadable;
     }
 
     public FileMetadata() { }

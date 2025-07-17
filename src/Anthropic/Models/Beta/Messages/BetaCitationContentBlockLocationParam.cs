@@ -110,6 +110,11 @@ public sealed record class BetaCitationContentBlockLocationParam
 
     public override void Validate()
     {
+        _ = this.CitedText;
+        _ = this.DocumentIndex;
+        _ = this.DocumentTitle;
+        _ = this.EndBlockIndex;
+        _ = this.StartBlockIndex;
         this.Type.Validate();
     }
 

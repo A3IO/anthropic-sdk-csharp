@@ -44,6 +44,7 @@ public sealed record class BetaFileDocumentSource
 
     public override void Validate()
     {
+        _ = this.FileID;
         this.Type.Validate();
     }
 

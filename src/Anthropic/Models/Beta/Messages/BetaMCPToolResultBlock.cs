@@ -77,6 +77,8 @@ public sealed record class BetaMCPToolResultBlock
     public override void Validate()
     {
         this.Content.Validate();
+        _ = this.IsError;
+        _ = this.ToolUseID;
         this.Type.Validate();
     }
 

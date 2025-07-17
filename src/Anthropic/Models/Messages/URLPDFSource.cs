@@ -40,6 +40,7 @@ public sealed record class URLPDFSource : Anthropic::ModelBase, Anthropic::IFrom
     public override void Validate()
     {
         this.Type.Validate();
+        _ = this.URL;
     }
 
     public URLPDFSource() { }

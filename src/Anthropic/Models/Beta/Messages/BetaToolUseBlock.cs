@@ -66,6 +66,9 @@ public sealed record class BetaToolUseBlock
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.Input;
+        _ = this.Name;
         this.Type.Validate();
     }
 

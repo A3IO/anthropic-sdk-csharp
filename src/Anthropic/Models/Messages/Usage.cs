@@ -140,6 +140,10 @@ public sealed record class Usage : Anthropic::ModelBase, Anthropic::IFromRaw<Usa
 
     public override void Validate()
     {
+        _ = this.CacheCreationInputTokens;
+        _ = this.CacheReadInputTokens;
+        _ = this.InputTokens;
+        _ = this.OutputTokens;
         this.ServerToolUse?.Validate();
         this.ServiceTier?.Validate();
     }

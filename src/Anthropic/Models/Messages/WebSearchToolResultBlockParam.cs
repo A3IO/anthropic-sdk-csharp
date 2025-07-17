@@ -77,6 +77,7 @@ public sealed record class WebSearchToolResultBlockParam
     public override void Validate()
     {
         this.Content.Validate();
+        _ = this.ToolUseID;
         this.Type.Validate();
         this.CacheControl?.Validate();
     }

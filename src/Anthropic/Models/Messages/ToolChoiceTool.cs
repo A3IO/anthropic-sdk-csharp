@@ -74,7 +74,9 @@ public sealed record class ToolChoiceTool
 
     public override void Validate()
     {
+        _ = this.Name;
         this.Type.Validate();
+        _ = this.DisableParallelToolUse;
     }
 
     public ToolChoiceTool() { }

@@ -42,6 +42,7 @@ public sealed record class BetaRedactedThinkingBlock
 
     public override void Validate()
     {
+        _ = this.Data;
         this.Type.Validate();
     }
 

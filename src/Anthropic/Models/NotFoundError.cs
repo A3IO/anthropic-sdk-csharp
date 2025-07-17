@@ -42,6 +42,7 @@ public sealed record class NotFoundError : Anthropic::ModelBase, Anthropic::IFro
 
     public override void Validate()
     {
+        _ = this.Message;
         this.Type.Validate();
     }
 

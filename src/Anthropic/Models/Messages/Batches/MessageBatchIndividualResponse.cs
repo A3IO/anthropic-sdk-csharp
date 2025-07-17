@@ -63,6 +63,7 @@ public sealed record class MessageBatchIndividualResponse
 
     public override void Validate()
     {
+        _ = this.CustomID;
         this.Result.Validate();
     }
 

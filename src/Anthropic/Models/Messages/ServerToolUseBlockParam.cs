@@ -83,6 +83,8 @@ public sealed record class ServerToolUseBlockParam
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.Input;
         this.Name.Validate();
         this.Type.Validate();
         this.CacheControl?.Validate();

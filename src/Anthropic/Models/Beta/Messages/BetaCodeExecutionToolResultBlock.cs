@@ -63,6 +63,7 @@ public sealed record class BetaCodeExecutionToolResultBlock
     public override void Validate()
     {
         this.Content.Validate();
+        _ = this.ToolUseID;
         this.Type.Validate();
     }
 

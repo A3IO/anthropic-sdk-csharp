@@ -44,6 +44,7 @@ public sealed record class BetaRateLimitError
 
     public override void Validate()
     {
+        _ = this.Message;
         this.Type.Validate();
     }
 

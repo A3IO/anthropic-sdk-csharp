@@ -124,6 +124,12 @@ public sealed record class BetaCitationSearchResultLocation
 
     public override void Validate()
     {
+        _ = this.CitedText;
+        _ = this.EndBlockIndex;
+        _ = this.SearchResultIndex;
+        _ = this.Source;
+        _ = this.StartBlockIndex;
+        _ = this.Title;
         this.Type.Validate();
     }
 

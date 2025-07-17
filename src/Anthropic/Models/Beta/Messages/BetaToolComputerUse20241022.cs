@@ -120,9 +120,12 @@ public sealed record class BetaToolComputerUse20241022
 
     public override void Validate()
     {
+        _ = this.DisplayHeightPx;
+        _ = this.DisplayWidthPx;
         this.Name.Validate();
         this.Type.Validate();
         this.CacheControl?.Validate();
+        _ = this.DisplayNumber;
     }
 
     public BetaToolComputerUse20241022() { }

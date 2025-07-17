@@ -65,6 +65,7 @@ public sealed record class BetaTextBlock : Anthropic::ModelBase, Anthropic::IFro
         {
             item.Validate();
         }
+        _ = this.Text;
         this.Type.Validate();
     }
 

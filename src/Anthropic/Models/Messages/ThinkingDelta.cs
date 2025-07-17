@@ -42,6 +42,7 @@ public sealed record class ThinkingDelta : Anthropic::ModelBase, Anthropic::IFro
 
     public override void Validate()
     {
+        _ = this.Thinking;
         this.Type.Validate();
     }
 

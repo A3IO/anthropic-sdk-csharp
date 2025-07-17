@@ -41,6 +41,7 @@ public sealed record class RedactedThinkingBlock
 
     public override void Validate()
     {
+        _ = this.Data;
         this.Type.Validate();
     }
 

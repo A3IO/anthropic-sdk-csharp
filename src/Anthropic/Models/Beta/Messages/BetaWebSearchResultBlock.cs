@@ -89,7 +89,11 @@ public sealed record class BetaWebSearchResultBlock
 
     public override void Validate()
     {
+        _ = this.EncryptedContent;
+        _ = this.PageAge;
+        _ = this.Title;
         this.Type.Validate();
+        _ = this.URL;
     }
 
     public BetaWebSearchResultBlock() { }

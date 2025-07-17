@@ -62,6 +62,7 @@ public sealed record class BetaWebSearchToolResultBlock
     public override void Validate()
     {
         this.Content.Validate();
+        _ = this.ToolUseID;
         this.Type.Validate();
     }
 

@@ -57,6 +57,7 @@ public sealed record class Request : Anthropic::ModelBase, Anthropic::IFromRaw<R
 
     public override void Validate()
     {
+        _ = this.CustomID;
         this.Params.Validate();
     }
 

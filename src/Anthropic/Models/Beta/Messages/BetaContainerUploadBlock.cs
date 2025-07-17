@@ -48,6 +48,7 @@ public sealed record class BetaContainerUploadBlock
 
     public override void Validate()
     {
+        _ = this.FileID;
         this.Type.Validate();
     }
 

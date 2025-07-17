@@ -44,6 +44,7 @@ public sealed record class BetaThinkingDelta
 
     public override void Validate()
     {
+        _ = this.Thinking;
         this.Type.Validate();
     }
 

@@ -68,7 +68,11 @@ public sealed record class BetaCacheCreation
         }
     }
 
-    public override void Validate() { }
+    public override void Validate()
+    {
+        _ = this.Ephemeral1hInputTokens;
+        _ = this.Ephemeral5mInputTokens;
+    }
 
     public BetaCacheCreation() { }
 

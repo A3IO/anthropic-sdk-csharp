@@ -107,6 +107,11 @@ public sealed record class CitationPageLocation
 
     public override void Validate()
     {
+        _ = this.CitedText;
+        _ = this.DocumentIndex;
+        _ = this.DocumentTitle;
+        _ = this.EndPageNumber;
+        _ = this.StartPageNumber;
         this.Type.Validate();
     }
 

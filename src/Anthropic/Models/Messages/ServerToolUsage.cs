@@ -33,7 +33,10 @@ public sealed record class ServerToolUsage
         }
     }
 
-    public override void Validate() { }
+    public override void Validate()
+    {
+        _ = this.WebSearchRequests;
+    }
 
     public ServerToolUsage() { }
 

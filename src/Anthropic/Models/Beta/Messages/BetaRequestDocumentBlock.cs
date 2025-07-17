@@ -101,6 +101,8 @@ public sealed record class BetaRequestDocumentBlock
         this.Type.Validate();
         this.CacheControl?.Validate();
         this.Citations?.Validate();
+        _ = this.Context;
+        _ = this.Title;
     }
 
     public BetaRequestDocumentBlock() { }

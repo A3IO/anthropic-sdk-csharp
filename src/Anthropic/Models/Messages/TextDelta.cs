@@ -39,6 +39,7 @@ public sealed record class TextDelta : Anthropic::ModelBase, Anthropic::IFromRaw
 
     public override void Validate()
     {
+        _ = this.Text;
         this.Type.Validate();
     }
 

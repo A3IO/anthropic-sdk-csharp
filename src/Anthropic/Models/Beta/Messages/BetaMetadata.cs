@@ -28,7 +28,10 @@ public sealed record class BetaMetadata : Anthropic::ModelBase, Anthropic::IFrom
         set { this.Properties["user_id"] = Json::JsonSerializer.SerializeToElement(value); }
     }
 
-    public override void Validate() { }
+    public override void Validate()
+    {
+        _ = this.UserID;
+    }
 
     public BetaMetadata() { }
 

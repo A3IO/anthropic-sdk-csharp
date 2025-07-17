@@ -55,6 +55,7 @@ public sealed record class RawContentBlockDeltaEvent
     public override void Validate()
     {
         this.Delta.Validate();
+        _ = this.Index;
         this.Type.Validate();
     }
 

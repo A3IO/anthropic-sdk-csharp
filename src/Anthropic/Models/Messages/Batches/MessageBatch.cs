@@ -217,8 +217,15 @@ public sealed record class MessageBatch : Anthropic::ModelBase, Anthropic::IFrom
 
     public override void Validate()
     {
+        _ = this.ID;
+        _ = this.ArchivedAt;
+        _ = this.CancelInitiatedAt;
+        _ = this.CreatedAt;
+        _ = this.EndedAt;
+        _ = this.ExpiresAt;
         this.ProcessingStatus.Validate();
         this.RequestCounts.Validate();
+        _ = this.ResultsURL;
         this.Type.Validate();
     }
 

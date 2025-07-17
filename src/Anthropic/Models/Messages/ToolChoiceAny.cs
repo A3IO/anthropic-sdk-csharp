@@ -57,6 +57,7 @@ public sealed record class ToolChoiceAny : Anthropic::ModelBase, Anthropic::IFro
     public override void Validate()
     {
         this.Type.Validate();
+        _ = this.DisableParallelToolUse;
     }
 
     public ToolChoiceAny() { }

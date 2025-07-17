@@ -39,6 +39,7 @@ public sealed record class BetaTextDelta : Anthropic::ModelBase, Anthropic::IFro
 
     public override void Validate()
     {
+        _ = this.Text;
         this.Type.Validate();
     }
 

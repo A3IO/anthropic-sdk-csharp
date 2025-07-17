@@ -201,6 +201,7 @@ public sealed record class Message : Anthropic::ModelBase, Anthropic::IFromRaw<M
 
     public override void Validate()
     {
+        _ = this.ID;
         foreach (var item in this.Content)
         {
             item.Validate();
@@ -208,6 +209,7 @@ public sealed record class Message : Anthropic::ModelBase, Anthropic::IFromRaw<M
         this.Model.Validate();
         this.Role.Validate();
         this.StopReason?.Validate();
+        _ = this.StopSequence;
         this.Type.Validate();
         this.Usage.Validate();
     }

@@ -63,6 +63,7 @@ public sealed record class Delta : Anthropic::ModelBase, Anthropic::IFromRaw<Del
     {
         this.Container?.Validate();
         this.StopReason?.Validate();
+        _ = this.StopSequence;
     }
 
     public Delta() { }

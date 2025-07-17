@@ -422,24 +422,34 @@ public sealed record class Params : Anthropic::ModelBase, Anthropic::IFromRaw<Pa
 
     public override void Validate()
     {
+        _ = this.MaxTokens;
         foreach (var item in this.Messages)
         {
             item.Validate();
         }
         this.Model.Validate();
+        _ = this.Container;
         foreach (var item in this.MCPServers ?? [])
         {
             item.Validate();
         }
         this.Metadata?.Validate();
         this.ServiceTier?.Validate();
+        foreach (var item in this.StopSequences ?? [])
+        {
+            _ = item;
+        }
+        _ = this.Stream;
         this.System?.Validate();
+        _ = this.Temperature;
         this.Thinking?.Validate();
         this.ToolChoice?.Validate();
         foreach (var item in this.Tools ?? [])
         {
             item.Validate();
         }
+        _ = this.TopK;
+        _ = this.TopP;
     }
 
     public Params() { }

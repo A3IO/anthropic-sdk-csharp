@@ -108,6 +108,11 @@ public sealed record class BetaCitationCharLocation
 
     public override void Validate()
     {
+        _ = this.CitedText;
+        _ = this.DocumentIndex;
+        _ = this.DocumentTitle;
+        _ = this.EndCharIndex;
+        _ = this.StartCharIndex;
         this.Type.Validate();
     }
 

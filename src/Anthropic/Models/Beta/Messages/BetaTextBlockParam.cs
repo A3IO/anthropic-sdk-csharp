@@ -68,6 +68,7 @@ public sealed record class BetaTextBlockParam
 
     public override void Validate()
     {
+        _ = this.Text;
         this.Type.Validate();
         this.CacheControl?.Validate();
         foreach (var item in this.Citations ?? [])

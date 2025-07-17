@@ -60,6 +60,8 @@ public sealed record class ThinkingBlockParam
 
     public override void Validate()
     {
+        _ = this.Signature;
+        _ = this.Thinking;
         this.Type.Validate();
     }
 
