@@ -6,12 +6,12 @@ using ToolResultBlockParamProperties = Anthropic.Models.Messages.ToolResultBlock
 
 namespace Anthropic.Models.Messages.ToolResultBlockParamProperties.ContentVariants;
 
-[Serialization::JsonConverter(typeof(Anthropic::VariantConverter<UnionMember0, string>))]
-public sealed record class UnionMember0(string Value)
+[Serialization::JsonConverter(typeof(Anthropic::VariantConverter<String, string>))]
+public sealed record class String(string Value)
     : ToolResultBlockParamProperties::Content,
-        Anthropic::IVariant<UnionMember0, string>
+        Anthropic::IVariant<String, string>
 {
-    public static UnionMember0 From(string value)
+    public static String From(string value)
     {
         return new(value);
     }
@@ -20,13 +20,13 @@ public sealed record class UnionMember0(string Value)
 }
 
 [Serialization::JsonConverter(
-    typeof(Anthropic::VariantConverter<UnionMember1, Generic::List<ContentProperties::Block>>)
+    typeof(Anthropic::VariantConverter<Blocks, Generic::List<ContentProperties::Block>>)
 )]
-public sealed record class UnionMember1(Generic::List<ContentProperties::Block> Value)
+public sealed record class Blocks(Generic::List<ContentProperties::Block> Value)
     : ToolResultBlockParamProperties::Content,
-        Anthropic::IVariant<UnionMember1, Generic::List<ContentProperties::Block>>
+        Anthropic::IVariant<Blocks, Generic::List<ContentProperties::Block>>
 {
-    public static UnionMember1 From(Generic::List<ContentProperties::Block> value)
+    public static Blocks From(Generic::List<ContentProperties::Block> value)
     {
         return new(value);
     }

@@ -6,12 +6,12 @@ using Serialization = System.Text.Json.Serialization;
 
 namespace Anthropic.Models.Beta.Messages.MessageCountTokensParamsProperties.SystemVariants;
 
-[Serialization::JsonConverter(typeof(Anthropic::VariantConverter<UnionMember0, string>))]
-public sealed record class UnionMember0(string Value)
+[Serialization::JsonConverter(typeof(Anthropic::VariantConverter<String, string>))]
+public sealed record class String(string Value)
     : MessageCountTokensParamsProperties::System,
-        Anthropic::IVariant<UnionMember0, string>
+        Anthropic::IVariant<String, string>
 {
-    public static UnionMember0 From(string value)
+    public static String From(string value)
     {
         return new(value);
     }
@@ -20,13 +20,16 @@ public sealed record class UnionMember0(string Value)
 }
 
 [Serialization::JsonConverter(
-    typeof(Anthropic::VariantConverter<UnionMember1, Generic::List<Messages::BetaTextBlockParam>>)
+    typeof(Anthropic::VariantConverter<
+        BetaTextBlockParams,
+        Generic::List<Messages::BetaTextBlockParam>
+    >)
 )]
-public sealed record class UnionMember1(Generic::List<Messages::BetaTextBlockParam> Value)
+public sealed record class BetaTextBlockParams(Generic::List<Messages::BetaTextBlockParam> Value)
     : MessageCountTokensParamsProperties::System,
-        Anthropic::IVariant<UnionMember1, Generic::List<Messages::BetaTextBlockParam>>
+        Anthropic::IVariant<BetaTextBlockParams, Generic::List<Messages::BetaTextBlockParam>>
 {
-    public static UnionMember1 From(Generic::List<Messages::BetaTextBlockParam> value)
+    public static BetaTextBlockParams From(Generic::List<Messages::BetaTextBlockParam> value)
     {
         return new(value);
     }

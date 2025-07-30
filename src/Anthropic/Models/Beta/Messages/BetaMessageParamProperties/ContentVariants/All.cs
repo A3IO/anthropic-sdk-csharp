@@ -6,12 +6,12 @@ using Serialization = System.Text.Json.Serialization;
 
 namespace Anthropic.Models.Beta.Messages.BetaMessageParamProperties.ContentVariants;
 
-[Serialization::JsonConverter(typeof(Anthropic::VariantConverter<UnionMember0, string>))]
-public sealed record class UnionMember0(string Value)
+[Serialization::JsonConverter(typeof(Anthropic::VariantConverter<String, string>))]
+public sealed record class String(string Value)
     : BetaMessageParamProperties::Content,
-        Anthropic::IVariant<UnionMember0, string>
+        Anthropic::IVariant<String, string>
 {
-    public static UnionMember0 From(string value)
+    public static String From(string value)
     {
         return new(value);
     }
@@ -21,15 +21,17 @@ public sealed record class UnionMember0(string Value)
 
 [Serialization::JsonConverter(
     typeof(Anthropic::VariantConverter<
-        UnionMember1,
+        BetaContentBlockParams,
         Generic::List<Messages::BetaContentBlockParam>
     >)
 )]
-public sealed record class UnionMember1(Generic::List<Messages::BetaContentBlockParam> Value)
+public sealed record class BetaContentBlockParams(
+    Generic::List<Messages::BetaContentBlockParam> Value
+)
     : BetaMessageParamProperties::Content,
-        Anthropic::IVariant<UnionMember1, Generic::List<Messages::BetaContentBlockParam>>
+        Anthropic::IVariant<BetaContentBlockParams, Generic::List<Messages::BetaContentBlockParam>>
 {
-    public static UnionMember1 From(Generic::List<Messages::BetaContentBlockParam> value)
+    public static BetaContentBlockParams From(Generic::List<Messages::BetaContentBlockParam> value)
     {
         return new(value);
     }

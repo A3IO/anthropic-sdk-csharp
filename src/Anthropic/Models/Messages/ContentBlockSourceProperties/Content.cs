@@ -11,8 +11,7 @@ public abstract record class Content
 {
     internal Content() { }
 
-    public static implicit operator Content(string value) =>
-        new ContentVariants::UnionMember0(value);
+    public static implicit operator Content(string value) => new ContentVariants::String(value);
 
     public static implicit operator Content(
         Generic::List<Messages::ContentBlockSourceContent> value

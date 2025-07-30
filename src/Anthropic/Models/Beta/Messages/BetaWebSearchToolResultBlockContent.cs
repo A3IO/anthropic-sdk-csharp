@@ -18,7 +18,7 @@ public abstract record class BetaWebSearchToolResultBlockContent
 
     public static implicit operator BetaWebSearchToolResultBlockContent(
         Generic::List<BetaWebSearchResultBlock> value
-    ) => new BetaWebSearchToolResultBlockContentVariants::UnionMember1(value);
+    ) => new BetaWebSearchToolResultBlockContentVariants::BetaWebSearchResultBlocks(value);
 
     public abstract void Validate();
 }

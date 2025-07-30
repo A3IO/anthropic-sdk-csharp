@@ -6,12 +6,12 @@ using Serialization = System.Text.Json.Serialization;
 
 namespace Anthropic.Models.Messages.MessageParamProperties.ContentVariants;
 
-[Serialization::JsonConverter(typeof(Anthropic::VariantConverter<UnionMember0, string>))]
-public sealed record class UnionMember0(string Value)
+[Serialization::JsonConverter(typeof(Anthropic::VariantConverter<String, string>))]
+public sealed record class String(string Value)
     : MessageParamProperties::Content,
-        Anthropic::IVariant<UnionMember0, string>
+        Anthropic::IVariant<String, string>
 {
-    public static UnionMember0 From(string value)
+    public static String From(string value)
     {
         return new(value);
     }
@@ -20,13 +20,16 @@ public sealed record class UnionMember0(string Value)
 }
 
 [Serialization::JsonConverter(
-    typeof(Anthropic::VariantConverter<UnionMember1, Generic::List<Messages::ContentBlockParam>>)
+    typeof(Anthropic::VariantConverter<
+        ContentBlockParams,
+        Generic::List<Messages::ContentBlockParam>
+    >)
 )]
-public sealed record class UnionMember1(Generic::List<Messages::ContentBlockParam> Value)
+public sealed record class ContentBlockParams(Generic::List<Messages::ContentBlockParam> Value)
     : MessageParamProperties::Content,
-        Anthropic::IVariant<UnionMember1, Generic::List<Messages::ContentBlockParam>>
+        Anthropic::IVariant<ContentBlockParams, Generic::List<Messages::ContentBlockParam>>
 {
-    public static UnionMember1 From(Generic::List<Messages::ContentBlockParam> value)
+    public static ContentBlockParams From(Generic::List<Messages::ContentBlockParam> value)
     {
         return new(value);
     }

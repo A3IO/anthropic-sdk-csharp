@@ -30,15 +30,22 @@ public sealed record class BetaWebSearchToolResultError(
 
 [Serialization::JsonConverter(
     typeof(Anthropic::VariantConverter<
-        UnionMember1,
+        BetaWebSearchResultBlocks,
         Generic::List<Messages::BetaWebSearchResultBlock>
     >)
 )]
-public sealed record class UnionMember1(Generic::List<Messages::BetaWebSearchResultBlock> Value)
+public sealed record class BetaWebSearchResultBlocks(
+    Generic::List<Messages::BetaWebSearchResultBlock> Value
+)
     : Messages::BetaWebSearchToolResultBlockContent,
-        Anthropic::IVariant<UnionMember1, Generic::List<Messages::BetaWebSearchResultBlock>>
+        Anthropic::IVariant<
+            BetaWebSearchResultBlocks,
+            Generic::List<Messages::BetaWebSearchResultBlock>
+        >
 {
-    public static UnionMember1 From(Generic::List<Messages::BetaWebSearchResultBlock> value)
+    public static BetaWebSearchResultBlocks From(
+        Generic::List<Messages::BetaWebSearchResultBlock> value
+    )
     {
         return new(value);
     }

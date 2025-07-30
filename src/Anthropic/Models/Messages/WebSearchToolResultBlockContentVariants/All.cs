@@ -27,13 +27,18 @@ public sealed record class WebSearchToolResultError(Messages::WebSearchToolResul
 }
 
 [Serialization::JsonConverter(
-    typeof(Anthropic::VariantConverter<UnionMember1, Generic::List<Messages::WebSearchResultBlock>>)
+    typeof(Anthropic::VariantConverter<
+        WebSearchResultBlocks,
+        Generic::List<Messages::WebSearchResultBlock>
+    >)
 )]
-public sealed record class UnionMember1(Generic::List<Messages::WebSearchResultBlock> Value)
+public sealed record class WebSearchResultBlocks(
+    Generic::List<Messages::WebSearchResultBlock> Value
+)
     : Messages::WebSearchToolResultBlockContent,
-        Anthropic::IVariant<UnionMember1, Generic::List<Messages::WebSearchResultBlock>>
+        Anthropic::IVariant<WebSearchResultBlocks, Generic::List<Messages::WebSearchResultBlock>>
 {
-    public static UnionMember1 From(Generic::List<Messages::WebSearchResultBlock> value)
+    public static WebSearchResultBlocks From(Generic::List<Messages::WebSearchResultBlock> value)
     {
         return new(value);
     }

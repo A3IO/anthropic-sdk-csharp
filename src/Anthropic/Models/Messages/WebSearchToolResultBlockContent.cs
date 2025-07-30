@@ -16,7 +16,7 @@ public abstract record class WebSearchToolResultBlockContent
 
     public static implicit operator WebSearchToolResultBlockContent(
         Generic::List<WebSearchResultBlock> value
-    ) => new WebSearchToolResultBlockContentVariants::UnionMember1(value);
+    ) => new WebSearchToolResultBlockContentVariants::WebSearchResultBlocks(value);
 
     public abstract void Validate();
 }

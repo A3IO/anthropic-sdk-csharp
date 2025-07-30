@@ -17,10 +17,10 @@ public abstract record class System
 {
     internal System() { }
 
-    public static implicit operator System(string value) => new SystemVariants::UnionMember0(value);
+    public static implicit operator System(string value) => new SystemVariants::String(value);
 
     public static implicit operator System(Generic::List<Messages::BetaTextBlockParam> value) =>
-        new SystemVariants::UnionMember1(value);
+        new SystemVariants::BetaTextBlockParams(value);
 
     public abstract void Validate();
 }
