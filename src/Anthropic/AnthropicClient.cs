@@ -1,8 +1,8 @@
-using Beta = Anthropic.Service.Beta;
-using Completions = Anthropic.Service.Completions;
+using Beta = Anthropic.Services.Beta;
+using Completions = Anthropic.Services.Completions;
 using Http = System.Net.Http;
-using Messages = Anthropic.Service.Messages;
-using Models = Anthropic.Service.Models;
+using Messages = Anthropic.Services.Messages;
+using Models = Anthropic.Services.Models;
 
 namespace Anthropic;
 
