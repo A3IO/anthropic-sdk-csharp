@@ -65,11 +65,7 @@ Or manually:
 ```C#
 using Anthropic;
 
-AnthropicClient client = new()
-{
-    APIKey = "my-anthropic-api-key",
-    AuthToken = "my-auth-token",
-};
+AnthropicClient client = new() { APIKey = "my-anthropic-api-key" };
 ```
 
 Alternatively, you can use a combination of the two approaches.
