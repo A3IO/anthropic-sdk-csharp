@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -25,13 +26,13 @@ public sealed class MessageService : IMessageService
 
     public async Task<Message> Create(MessageCreateParams parameters)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
+        using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
         {
             Content = parameters.BodyContent(),
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -40,21 +41,25 @@ public sealed class MessageService : IMessageService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<Message>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 
-    public async Task<MessageTokensCount> CountTokens(MessageCountTokensParams parameters)
+    public async IAsyncEnumerable<RawMessageStreamEvent> CreateStreaming(
+        MessageCreateParams parameters
+    )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
+        parameters.BodyProperties["stream"] = JsonSerializer.Deserialize<JsonElement>("true");
+        using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
         {
             Content = parameters.BodyContent(),
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -63,6 +68,34 @@ public sealed class MessageService : IMessageService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
+        await foreach (var message in SseMessage.GetEnumerable(response))
+        {
+            yield return JsonSerializer.Deserialize<RawMessageStreamEvent>(
+                message.Data,
+                ModelBase.SerializerOptions
+            ) ?? throw new NullReferenceException();
+        }
+    }
+
+    public async Task<MessageTokensCount> CountTokens(MessageCountTokensParams parameters)
+    {
+        using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
+        {
+            Content = parameters.BodyContent(),
+        };
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+            .ConfigureAwait(false);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpException(
+                response.StatusCode,
+                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
+            );
+        }
+
         return JsonSerializer.Deserialize<MessageTokensCount>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions

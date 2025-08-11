@@ -202,23 +202,6 @@ public sealed record class MessageCreateParams : ParamsBase
     }
 
     /// <summary>
-    /// Whether to incrementally stream the response using server-sent events.
-    ///
-    /// See [streaming](https://docs.anthropic.com/en/api/messages-streaming) for details.
-    /// </summary>
-    public bool? Stream
-    {
-        get
-        {
-            if (!this.BodyProperties.TryGetValue("stream", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        set { this.BodyProperties["stream"] = JsonSerializer.SerializeToElement(value); }
-    }
-
-    /// <summary>
     /// System prompt.
     ///
     /// A system prompt is a way of providing context and instructions to Claude,

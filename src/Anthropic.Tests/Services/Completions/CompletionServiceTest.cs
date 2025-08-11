@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Anthropic.Models.Beta;
 using Anthropic.Models.Messages;
 
 namespace Anthropic.Tests.Services.Completions;
@@ -15,15 +14,26 @@ public class CompletionServiceTest : TestBase
                 MaxTokensToSample = 256,
                 Model = Model.Claude3_7SonnetLatest,
                 Prompt = "\n\nHuman: Hello, world!\n\nAssistant:",
-                Metadata = new() { UserID = "13803d75-b4b5-4c3e-b2a2-6f21399b021b" },
-                StopSequences = ["string"],
-                Stream = true,
-                Temperature = 1,
-                TopK = 5,
-                TopP = 0.7,
-                Betas = [AnthropicBeta.MessageBatches2024_09_24],
             }
         );
         completion.Validate();
+    }
+
+    [Fact]
+    public async Task CreateStreaming_Works()
+    {
+        var stream = this.client.Completions.CreateStreaming(
+            new()
+            {
+                MaxTokensToSample = 256,
+                Model = Model.Claude3_7SonnetLatest,
+                Prompt = "\n\nHuman: Hello, world!\n\nAssistant:",
+            }
+        );
+
+        await foreach (var completion in stream)
+        {
+            completion.Validate();
+        }
     }
 }

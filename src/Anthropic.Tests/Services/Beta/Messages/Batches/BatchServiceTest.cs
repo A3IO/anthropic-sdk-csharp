@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Anthropic.Models.Beta;
 using Anthropic.Models.Beta.Messages.Batches.BatchCreateParamsProperties.RequestProperties.ParamsProperties;
 using Anthropic.Models.Beta.Messages.BetaCacheControlEphemeralProperties;
 using Anthropic.Models.Beta.Messages.BetaMessageParamProperties;
@@ -95,7 +94,6 @@ public class BatchServiceTest : TestBase
                         },
                     },
                 ],
-                Betas = [AnthropicBeta.MessageBatches2024_09_24],
             }
         );
         betaMessageBatch.Validate();
@@ -105,11 +103,7 @@ public class BatchServiceTest : TestBase
     public async Task Retrieve_Works()
     {
         var betaMessageBatch = await this.client.Beta.Messages.Batches.Retrieve(
-            new()
-            {
-                MessageBatchID = "message_batch_id",
-                Betas = [AnthropicBeta.MessageBatches2024_09_24],
-            }
+            new() { MessageBatchID = "message_batch_id" }
         );
         betaMessageBatch.Validate();
     }
@@ -117,15 +111,7 @@ public class BatchServiceTest : TestBase
     [Fact]
     public async Task List_Works()
     {
-        var page = await this.client.Beta.Messages.Batches.List(
-            new()
-            {
-                AfterID = "after_id",
-                BeforeID = "before_id",
-                Limit = 1,
-                Betas = [AnthropicBeta.MessageBatches2024_09_24],
-            }
-        );
+        var page = await this.client.Beta.Messages.Batches.List(new());
         page.Validate();
     }
 
@@ -133,11 +119,7 @@ public class BatchServiceTest : TestBase
     public async Task Delete_Works()
     {
         var betaDeletedMessageBatch = await this.client.Beta.Messages.Batches.Delete(
-            new()
-            {
-                MessageBatchID = "message_batch_id",
-                Betas = [AnthropicBeta.MessageBatches2024_09_24],
-            }
+            new() { MessageBatchID = "message_batch_id" }
         );
         betaDeletedMessageBatch.Validate();
     }
@@ -146,25 +128,21 @@ public class BatchServiceTest : TestBase
     public async Task Cancel_Works()
     {
         var betaMessageBatch = await this.client.Beta.Messages.Batches.Cancel(
-            new()
-            {
-                MessageBatchID = "message_batch_id",
-                Betas = [AnthropicBeta.MessageBatches2024_09_24],
-            }
+            new() { MessageBatchID = "message_batch_id" }
         );
         betaMessageBatch.Validate();
     }
 
     [Fact]
-    public async Task Results_Works()
+    public async Task ResultsStreaming_Works()
     {
-        var betaMessageBatchIndividualResponse = await this.client.Beta.Messages.Batches.Results(
-            new()
-            {
-                MessageBatchID = "message_batch_id",
-                Betas = [AnthropicBeta.MessageBatches2024_09_24],
-            }
+        var stream = this.client.Beta.Messages.Batches.ResultsStreaming(
+            new() { MessageBatchID = "message_batch_id" }
         );
-        betaMessageBatchIndividualResponse.Validate();
+
+        await foreach (var betaMessageBatchIndividualResponse in stream)
+        {
+            betaMessageBatchIndividualResponse.Validate();
+        }
     }
 }

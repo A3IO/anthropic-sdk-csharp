@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Anthropic.Models.Beta.Messages;
 using Batches = Anthropic.Services.Beta.Messages.Batches;
@@ -17,6 +18,16 @@ public interface IMessageService
     /// Learn more about the Messages API in our [user guide](/en/docs/initial-setup)
     /// </summary>
     Task<BetaMessage> Create(MessageCreateParams parameters);
+
+    /// <summary>
+    /// Send a structured list of input messages with text and/or image content, and
+    /// the model will generate the next message in the conversation.
+    ///
+    /// The Messages API can be used for either single queries or stateless multi-turn conversations.
+    ///
+    /// Learn more about the Messages API in our [user guide](/en/docs/initial-setup)
+    /// </summary>
+    IAsyncEnumerable<BetaRawMessageStreamEvent> CreateStreaming(MessageCreateParams parameters);
 
     /// <summary>
     /// Count the number of tokens in a Message.

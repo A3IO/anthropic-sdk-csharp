@@ -126,23 +126,6 @@ public sealed record class CompletionCreateParams : ParamsBase
     }
 
     /// <summary>
-    /// Whether to incrementally stream the response using server-sent events.
-    ///
-    /// See [streaming](https://docs.anthropic.com/en/api/streaming) for details.
-    /// </summary>
-    public bool? Stream
-    {
-        get
-        {
-            if (!this.BodyProperties.TryGetValue("stream", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        set { this.BodyProperties["stream"] = JsonSerializer.SerializeToElement(value); }
-    }
-
-    /// <summary>
     /// Amount of randomness injected into the response.
     ///
     /// Defaults to `1.0`. Ranges from `0.0` to `1.0`. Use `temperature` closer to

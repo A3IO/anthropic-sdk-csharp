@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,13 +18,13 @@ public sealed class BatchService : IBatchService
 
     public async Task<BetaMessageBatch> Create(BatchCreateParams parameters)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
+        using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
         {
             Content = parameters.BodyContent(),
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -32,6 +33,7 @@ public sealed class BatchService : IBatchService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<BetaMessageBatch>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
@@ -40,10 +42,10 @@ public sealed class BatchService : IBatchService
 
     public async Task<BetaMessageBatch> Retrieve(BatchRetrieveParams parameters)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -52,6 +54,7 @@ public sealed class BatchService : IBatchService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<BetaMessageBatch>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
@@ -60,10 +63,10 @@ public sealed class BatchService : IBatchService
 
     public async Task<BatchListPageResponse> List(BatchListParams parameters)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -72,6 +75,7 @@ public sealed class BatchService : IBatchService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<BatchListPageResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
@@ -80,10 +84,10 @@ public sealed class BatchService : IBatchService
 
     public async Task<BetaDeletedMessageBatch> Delete(BatchDeleteParams parameters)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Delete, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        using HttpRequestMessage request = new(HttpMethod.Delete, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -92,6 +96,7 @@ public sealed class BatchService : IBatchService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<BetaDeletedMessageBatch>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
@@ -100,10 +105,10 @@ public sealed class BatchService : IBatchService
 
     public async Task<BetaMessageBatch> Cancel(BatchCancelParams parameters)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -112,18 +117,21 @@ public sealed class BatchService : IBatchService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<BetaMessageBatch>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 
-    public async Task<BetaMessageBatchIndividualResponse> Results(BatchResultsParams parameters)
+    public async IAsyncEnumerable<BetaMessageBatchIndividualResponse> ResultsStreaming(
+        BatchResultsParams parameters
+    )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -132,9 +140,13 @@ public sealed class BatchService : IBatchService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
-        return JsonSerializer.Deserialize<BetaMessageBatchIndividualResponse>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
+
+        await foreach (var message in SseMessage.GetEnumerable(response))
+        {
+            yield return JsonSerializer.Deserialize<BetaMessageBatchIndividualResponse>(
+                message.Data,
                 ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
+        }
     }
 }

@@ -91,14 +91,7 @@ public class BatchServiceTest : TestBase
     [Fact]
     public async Task List_Works()
     {
-        var page = await this.client.Messages.Batches.List(
-            new()
-            {
-                AfterID = "after_id",
-                BeforeID = "before_id",
-                Limit = 1,
-            }
-        );
+        var page = await this.client.Messages.Batches.List(new());
         page.Validate();
     }
 
@@ -121,11 +114,15 @@ public class BatchServiceTest : TestBase
     }
 
     [Fact]
-    public async Task Results_Works()
+    public async Task ResultsStreaming_Works()
     {
-        var messageBatchIndividualResponse = await this.client.Messages.Batches.Results(
+        var stream = this.client.Messages.Batches.ResultsStreaming(
             new() { MessageBatchID = "message_batch_id" }
         );
-        messageBatchIndividualResponse.Validate();
+
+        await foreach (var messageBatchIndividualResponse in stream)
+        {
+            messageBatchIndividualResponse.Validate();
+        }
     }
 }

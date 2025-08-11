@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Anthropic.Models.Messages.Batches;
 
@@ -65,5 +66,7 @@ public interface IBatchService
     ///
     /// Learn more about the Message Batches API in our [user guide](/en/docs/build-with-claude/batch-processing)
     /// </summary>
-    Task<MessageBatchIndividualResponse> Results(BatchResultsParams parameters);
+    IAsyncEnumerable<MessageBatchIndividualResponse> ResultsStreaming(
+        BatchResultsParams parameters
+    );
 }
