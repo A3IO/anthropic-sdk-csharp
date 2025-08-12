@@ -43,6 +43,8 @@ public sealed record class AnthropicBeta(string value) : IEnum<AnthropicBeta, st
         "extended-cache-ttl-2025-04-11"
     );
 
+    public static readonly AnthropicBeta Context1m2025_08_07 = new("context-1m-2025-08-07");
+
     readonly string _value = value;
 
     public enum Value
@@ -61,6 +63,7 @@ public sealed record class AnthropicBeta(string value) : IEnum<AnthropicBeta, st
         InterleavedThinking2025_05_14,
         CodeExecution2025_05_22,
         ExtendedCacheTTL2025_04_11,
+        Context1m2025_08_07,
     }
 
     public Value Known() =>
@@ -80,6 +83,7 @@ public sealed record class AnthropicBeta(string value) : IEnum<AnthropicBeta, st
             "interleaved-thinking-2025-05-14" => Value.InterleavedThinking2025_05_14,
             "code-execution-2025-05-22" => Value.CodeExecution2025_05_22,
             "extended-cache-ttl-2025-04-11" => Value.ExtendedCacheTTL2025_04_11,
+            "context-1m-2025-08-07" => Value.Context1m2025_08_07,
             _ => throw new global::System.ArgumentOutOfRangeException(nameof(_value)),
         };
 
