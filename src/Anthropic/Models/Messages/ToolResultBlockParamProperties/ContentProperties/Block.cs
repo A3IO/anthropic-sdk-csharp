@@ -84,7 +84,7 @@ sealed class BlockConverter : JsonConverter<Block>
 {
     public override Block? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

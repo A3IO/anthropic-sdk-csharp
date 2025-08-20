@@ -285,7 +285,7 @@ sealed class BetaContentBlockParamConverter : JsonConverter<BetaContentBlockPara
 {
     public override BetaContentBlockParam? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

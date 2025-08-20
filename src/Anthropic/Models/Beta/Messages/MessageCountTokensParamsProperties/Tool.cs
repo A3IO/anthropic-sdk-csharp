@@ -222,7 +222,7 @@ sealed class ToolConverter : JsonConverter<Tool>
 {
     public override Tool? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

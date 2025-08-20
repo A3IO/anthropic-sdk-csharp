@@ -14,7 +14,7 @@ sealed class TypeConverter : JsonConverter<Type>
 {
     public override Type Read(
         ref Utf8JsonReader reader,
-        System::Type _typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

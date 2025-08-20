@@ -22,7 +22,7 @@ sealed class TTLConverter : JsonConverter<TTL>
 {
     public override TTL Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

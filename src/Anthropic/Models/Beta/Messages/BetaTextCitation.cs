@@ -128,7 +128,7 @@ sealed class BetaTextCitationConverter : JsonConverter<BetaTextCitation>
 {
     public override BetaTextCitation? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

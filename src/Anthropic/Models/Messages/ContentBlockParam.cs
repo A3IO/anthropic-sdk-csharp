@@ -201,7 +201,7 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
 {
     public override ContentBlockParam? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

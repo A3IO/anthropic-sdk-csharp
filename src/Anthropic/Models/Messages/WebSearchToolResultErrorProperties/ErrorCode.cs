@@ -18,7 +18,7 @@ sealed class ErrorCodeConverter : JsonConverter<ErrorCode>
 {
     public override ErrorCode Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

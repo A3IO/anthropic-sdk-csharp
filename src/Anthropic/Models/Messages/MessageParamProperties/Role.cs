@@ -15,7 +15,7 @@ sealed class RoleConverter : JsonConverter<Role>
 {
     public override Role Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

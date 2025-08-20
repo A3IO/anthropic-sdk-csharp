@@ -207,7 +207,7 @@ sealed class ContentBlockConverter : JsonConverter<ContentBlock>
 {
     public override ContentBlock? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

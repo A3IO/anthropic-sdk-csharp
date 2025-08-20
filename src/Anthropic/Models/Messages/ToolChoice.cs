@@ -102,7 +102,7 @@ sealed class ToolChoiceConverter : JsonConverter<ToolChoice>
 {
     public override ToolChoice? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

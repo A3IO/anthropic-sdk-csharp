@@ -113,7 +113,7 @@ sealed class BetaRawContentBlockDeltaConverter : JsonConverter<BetaRawContentBlo
 {
     public override BetaRawContentBlockDelta? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

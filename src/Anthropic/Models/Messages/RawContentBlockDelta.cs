@@ -113,7 +113,7 @@ sealed class RawContentBlockDeltaConverter : JsonConverter<RawContentBlockDelta>
 {
     public override RawContentBlockDelta? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

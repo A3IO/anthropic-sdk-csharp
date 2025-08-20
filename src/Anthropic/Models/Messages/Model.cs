@@ -97,7 +97,7 @@ sealed class ModelConverter1 : JsonConverter<Model>
 {
     public override Model Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

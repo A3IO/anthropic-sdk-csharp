@@ -82,7 +82,7 @@ sealed class BetaThinkingConfigParamConverter : JsonConverter<BetaThinkingConfig
 {
     public override BetaThinkingConfigParam? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

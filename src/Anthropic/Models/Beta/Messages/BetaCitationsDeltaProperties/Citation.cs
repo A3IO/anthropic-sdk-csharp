@@ -128,7 +128,7 @@ sealed class CitationConverter : JsonConverter<Citation>
 {
     public override Citation? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

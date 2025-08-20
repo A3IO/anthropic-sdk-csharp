@@ -128,7 +128,7 @@ sealed class TextCitationParamConverter : JsonConverter<TextCitationParam>
 {
     public override TextCitationParam? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

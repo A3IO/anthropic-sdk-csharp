@@ -102,7 +102,7 @@ sealed class BetaToolChoiceConverter : JsonConverter<BetaToolChoice>
 {
     public override BetaToolChoice? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

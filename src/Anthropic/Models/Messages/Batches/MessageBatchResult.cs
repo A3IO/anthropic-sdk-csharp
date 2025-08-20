@@ -113,7 +113,7 @@ sealed class MessageBatchResultConverter : JsonConverter<MessageBatchResult>
 {
     public override MessageBatchResult? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

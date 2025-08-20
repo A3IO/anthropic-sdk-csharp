@@ -19,7 +19,7 @@ sealed class BetaWebSearchToolResultErrorCodeConverter
 {
     public override BetaWebSearchToolResultErrorCode Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

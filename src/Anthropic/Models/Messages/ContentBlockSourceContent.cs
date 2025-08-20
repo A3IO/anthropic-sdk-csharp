@@ -68,7 +68,7 @@ sealed class ContentBlockSourceContentConverter : JsonConverter<ContentBlockSour
 {
     public override ContentBlockSourceContent? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

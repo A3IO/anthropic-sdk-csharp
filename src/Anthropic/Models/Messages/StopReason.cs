@@ -19,7 +19,7 @@ sealed class StopReasonConverter : JsonConverter<StopReason>
 {
     public override StopReason Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

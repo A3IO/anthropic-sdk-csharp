@@ -69,7 +69,7 @@ sealed class ContentConverter : JsonConverter<Content>
 {
     public override Content? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

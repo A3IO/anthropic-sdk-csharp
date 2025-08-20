@@ -78,7 +78,7 @@ sealed class BetaCodeExecutionToolResultBlockParamContentConverter
 {
     public override BetaCodeExecutionToolResultBlockParamContent? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

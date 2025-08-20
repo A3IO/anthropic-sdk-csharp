@@ -75,7 +75,7 @@ sealed class WebSearchToolResultBlockParamContentConverter
 {
     public override WebSearchToolResultBlockParamContent? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

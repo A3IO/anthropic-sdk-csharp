@@ -28,7 +28,7 @@ sealed class AnthropicBetaConverter : JsonConverter<AnthropicBeta>
 {
     public override AnthropicBeta Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

@@ -121,7 +121,7 @@ sealed class SourceConverter : JsonConverter<Source>
 {
     public override Source? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

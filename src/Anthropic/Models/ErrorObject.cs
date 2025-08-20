@@ -179,7 +179,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
 {
     public override ErrorObject? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

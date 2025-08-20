@@ -135,7 +135,7 @@ sealed class MessageCountTokensToolConverter : JsonConverter<MessageCountTokensT
 {
     public override MessageCountTokensTool? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

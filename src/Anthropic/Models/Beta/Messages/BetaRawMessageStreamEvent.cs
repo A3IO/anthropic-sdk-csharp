@@ -142,7 +142,7 @@ sealed class BetaRawMessageStreamEventConverter : JsonConverter<BetaRawMessageSt
 {
     public override BetaRawMessageStreamEvent? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

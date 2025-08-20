@@ -19,7 +19,7 @@ sealed class ProcessingStatusConverter : JsonConverter<ProcessingStatus>
 {
     public override ProcessingStatus Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

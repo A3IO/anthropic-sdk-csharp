@@ -140,7 +140,7 @@ sealed class RawMessageStreamEventConverter : JsonConverter<RawMessageStreamEven
 {
     public override RawMessageStreamEvent? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {
