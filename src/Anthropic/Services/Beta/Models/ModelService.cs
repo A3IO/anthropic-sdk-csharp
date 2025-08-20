@@ -36,8 +36,10 @@ public sealed class ModelService : IModelService
             ) ?? throw new NullReferenceException();
     }
 
-    public async Task<ModelListPageResponse> List(ModelListParams parameters)
+    public async Task<ModelListPageResponse> List(ModelListParams? parameters = null)
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
         parameters.AddHeadersToRequest(request, this._client);
         using HttpResponseMessage response = await this

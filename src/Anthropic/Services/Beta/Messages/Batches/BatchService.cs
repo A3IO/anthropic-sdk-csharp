@@ -61,8 +61,10 @@ public sealed class BatchService : IBatchService
             ) ?? throw new NullReferenceException();
     }
 
-    public async Task<BatchListPageResponse> List(BatchListParams parameters)
+    public async Task<BatchListPageResponse> List(BatchListParams? parameters = null)
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
         parameters.AddHeadersToRequest(request, this._client);
         using HttpResponseMessage response = await this

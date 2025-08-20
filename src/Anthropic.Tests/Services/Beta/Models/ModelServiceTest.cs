@@ -14,7 +14,7 @@ public class ModelServiceTest : TestBase
     [Fact]
     public async Task List_Works()
     {
-        var page = await this.client.Beta.Models.List(new());
+        var page = await this.client.Beta.Models.List();
         page.Validate();
     }
 }

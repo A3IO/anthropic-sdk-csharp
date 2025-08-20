@@ -108,7 +108,7 @@ public class BatchServiceTest : TestBase
     [Fact]
     public async Task List_Works()
     {
-        var page = await this.client.Beta.Messages.Batches.List(new());
+        var page = await this.client.Beta.Messages.Batches.List();
         page.Validate();
     }
 

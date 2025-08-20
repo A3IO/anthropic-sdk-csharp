@@ -8,7 +8,7 @@ public interface IFileService
     /// <summary>
     /// List Files
     /// </summary>
-    Task<FileListPageResponse> List(FileListParams parameters);
+    Task<FileListPageResponse> List(FileListParams? parameters = null);
 
     /// <summary>
     /// Delete File

@@ -32,7 +32,7 @@ public interface IBatchService
     ///
     /// Learn more about the Message Batches API in our [user guide](/en/docs/build-with-claude/batch-processing)
     /// </summary>
-    Task<BatchListPageResponse> List(BatchListParams parameters);
+    Task<BatchListPageResponse> List(BatchListParams? parameters = null);
 
     /// <summary>
     /// Delete a Message Batch.
