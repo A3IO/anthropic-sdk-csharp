@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaContentBlockSourceContentVariants;
 
-public sealed record class BetaTextBlockParamVariant(BetaTextBlockParam Value)
-    : BetaContentBlockSourceContent,
-        IVariant<BetaTextBlockParamVariant, BetaTextBlockParam>
+public sealed record class BetaTextBlockParam(Messages::BetaTextBlockParam Value)
+    : Messages::BetaContentBlockSourceContent,
+        IVariant<BetaTextBlockParam, Messages::BetaTextBlockParam>
 {
-    public static BetaTextBlockParamVariant From(BetaTextBlockParam value)
+    public static BetaTextBlockParam From(Messages::BetaTextBlockParam value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class BetaTextBlockParamVariant(BetaTextBlockParam Value)
     }
 }
 
-public sealed record class BetaImageBlockParamVariant(BetaImageBlockParam Value)
-    : BetaContentBlockSourceContent,
-        IVariant<BetaImageBlockParamVariant, BetaImageBlockParam>
+public sealed record class BetaImageBlockParam(Messages::BetaImageBlockParam Value)
+    : Messages::BetaContentBlockSourceContent,
+        IVariant<BetaImageBlockParam, Messages::BetaImageBlockParam>
 {
-    public static BetaImageBlockParamVariant From(BetaImageBlockParam value)
+    public static BetaImageBlockParam From(Messages::BetaImageBlockParam value)
     {
         return new(value);
     }

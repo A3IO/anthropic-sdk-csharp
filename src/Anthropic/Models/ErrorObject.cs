@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.ErrorObjectVariants;
+using ErrorObjectVariants = Anthropic.Models.ErrorObjectVariants;
 
 namespace Anthropic.Models;
 
@@ -13,131 +13,125 @@ public abstract record class ErrorObject
     internal ErrorObject() { }
 
     public static implicit operator ErrorObject(InvalidRequestError value) =>
-        new InvalidRequestErrorVariant(value);
+        new ErrorObjectVariants::InvalidRequestError(value);
 
     public static implicit operator ErrorObject(AuthenticationError value) =>
-        new AuthenticationErrorVariant(value);
+        new ErrorObjectVariants::AuthenticationError(value);
 
     public static implicit operator ErrorObject(BillingError value) =>
-        new BillingErrorVariant(value);
+        new ErrorObjectVariants::BillingError(value);
 
     public static implicit operator ErrorObject(PermissionError value) =>
-        new PermissionErrorVariant(value);
+        new ErrorObjectVariants::PermissionError(value);
 
     public static implicit operator ErrorObject(NotFoundError value) =>
-        new NotFoundErrorVariant(value);
+        new ErrorObjectVariants::NotFoundError(value);
 
     public static implicit operator ErrorObject(RateLimitError value) =>
-        new RateLimitErrorVariant(value);
+        new ErrorObjectVariants::RateLimitError(value);
 
     public static implicit operator ErrorObject(GatewayTimeoutError value) =>
-        new GatewayTimeoutErrorVariant(value);
+        new ErrorObjectVariants::GatewayTimeoutError(value);
 
     public static implicit operator ErrorObject(APIErrorObject value) =>
-        new APIErrorObjectVariant(value);
+        new ErrorObjectVariants::APIErrorObject(value);
 
     public static implicit operator ErrorObject(OverloadedError value) =>
-        new OverloadedErrorVariant(value);
+        new ErrorObjectVariants::OverloadedError(value);
 
-    public bool TryPickInvalidRequestErrorVariant(
-        [NotNullWhen(true)] out InvalidRequestError? value
-    )
+    public bool TryPickInvalidRequestError([NotNullWhen(true)] out InvalidRequestError? value)
     {
-        value = (this as InvalidRequestErrorVariant)?.Value;
+        value = (this as ErrorObjectVariants::InvalidRequestError)?.Value;
         return value != null;
     }
 
-    public bool TryPickAuthenticationErrorVariant(
-        [NotNullWhen(true)] out AuthenticationError? value
-    )
+    public bool TryPickAuthenticationError([NotNullWhen(true)] out AuthenticationError? value)
     {
-        value = (this as AuthenticationErrorVariant)?.Value;
+        value = (this as ErrorObjectVariants::AuthenticationError)?.Value;
         return value != null;
     }
 
-    public bool TryPickBillingErrorVariant([NotNullWhen(true)] out BillingError? value)
+    public bool TryPickBillingError([NotNullWhen(true)] out BillingError? value)
     {
-        value = (this as BillingErrorVariant)?.Value;
+        value = (this as ErrorObjectVariants::BillingError)?.Value;
         return value != null;
     }
 
-    public bool TryPickPermissionErrorVariant([NotNullWhen(true)] out PermissionError? value)
+    public bool TryPickPermissionError([NotNullWhen(true)] out PermissionError? value)
     {
-        value = (this as PermissionErrorVariant)?.Value;
+        value = (this as ErrorObjectVariants::PermissionError)?.Value;
         return value != null;
     }
 
-    public bool TryPickNotFoundErrorVariant([NotNullWhen(true)] out NotFoundError? value)
+    public bool TryPickNotFoundError([NotNullWhen(true)] out NotFoundError? value)
     {
-        value = (this as NotFoundErrorVariant)?.Value;
+        value = (this as ErrorObjectVariants::NotFoundError)?.Value;
         return value != null;
     }
 
-    public bool TryPickRateLimitErrorVariant([NotNullWhen(true)] out RateLimitError? value)
+    public bool TryPickRateLimitError([NotNullWhen(true)] out RateLimitError? value)
     {
-        value = (this as RateLimitErrorVariant)?.Value;
+        value = (this as ErrorObjectVariants::RateLimitError)?.Value;
         return value != null;
     }
 
-    public bool TryPickGatewayTimeoutErrorVariant(
-        [NotNullWhen(true)] out GatewayTimeoutError? value
-    )
+    public bool TryPickGatewayTimeoutError([NotNullWhen(true)] out GatewayTimeoutError? value)
     {
-        value = (this as GatewayTimeoutErrorVariant)?.Value;
+        value = (this as ErrorObjectVariants::GatewayTimeoutError)?.Value;
         return value != null;
     }
 
-    public bool TryPickAPIErrorObjectVariant([NotNullWhen(true)] out APIErrorObject? value)
+    public bool TryPickAPIErrorObject([NotNullWhen(true)] out APIErrorObject? value)
     {
-        value = (this as APIErrorObjectVariant)?.Value;
+        value = (this as ErrorObjectVariants::APIErrorObject)?.Value;
         return value != null;
     }
 
-    public bool TryPickOverloadedErrorVariant([NotNullWhen(true)] out OverloadedError? value)
+    public bool TryPickOverloadedError([NotNullWhen(true)] out OverloadedError? value)
     {
-        value = (this as OverloadedErrorVariant)?.Value;
+        value = (this as ErrorObjectVariants::OverloadedError)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<InvalidRequestErrorVariant> invalidRequestError,
-        Action<AuthenticationErrorVariant> authenticationError,
-        Action<BillingErrorVariant> billingError,
-        Action<PermissionErrorVariant> permissionError,
-        Action<NotFoundErrorVariant> notFoundError,
-        Action<RateLimitErrorVariant> rateLimitError,
-        Action<GatewayTimeoutErrorVariant> gatewayTimeoutError,
-        Action<APIErrorObjectVariant> apiErrorObject,
-        Action<OverloadedErrorVariant> overloadedError
+        Action<ErrorObjectVariants::InvalidRequestError> invalidRequestError,
+        Action<ErrorObjectVariants::AuthenticationError> authenticationError,
+        Action<ErrorObjectVariants::BillingError> billingError,
+        Action<ErrorObjectVariants::PermissionError> permissionError,
+        Action<ErrorObjectVariants::NotFoundError> notFoundError,
+        Action<ErrorObjectVariants::RateLimitError> rateLimitError,
+        Action<ErrorObjectVariants::GatewayTimeoutError> gatewayTimeoutError,
+        Action<ErrorObjectVariants::APIErrorObject> apiErrorObject,
+        Action<ErrorObjectVariants::OverloadedError> overloadedError
     )
     {
         switch (this)
         {
-            case InvalidRequestErrorVariant inner:
+            case ErrorObjectVariants::InvalidRequestError inner:
                 invalidRequestError(inner);
                 break;
-            case AuthenticationErrorVariant inner:
+            case ErrorObjectVariants::AuthenticationError inner:
                 authenticationError(inner);
                 break;
-            case BillingErrorVariant inner:
+            case ErrorObjectVariants::BillingError inner:
                 billingError(inner);
                 break;
-            case PermissionErrorVariant inner:
+            case ErrorObjectVariants::PermissionError inner:
                 permissionError(inner);
                 break;
-            case NotFoundErrorVariant inner:
+            case ErrorObjectVariants::NotFoundError inner:
                 notFoundError(inner);
                 break;
-            case RateLimitErrorVariant inner:
+            case ErrorObjectVariants::RateLimitError inner:
                 rateLimitError(inner);
                 break;
-            case GatewayTimeoutErrorVariant inner:
+            case ErrorObjectVariants::GatewayTimeoutError inner:
                 gatewayTimeoutError(inner);
                 break;
-            case APIErrorObjectVariant inner:
+            case ErrorObjectVariants::APIErrorObject inner:
                 apiErrorObject(inner);
                 break;
-            case OverloadedErrorVariant inner:
+            case ErrorObjectVariants::OverloadedError inner:
                 overloadedError(inner);
                 break;
             default:
@@ -146,28 +140,28 @@ public abstract record class ErrorObject
     }
 
     public T Match<T>(
-        Func<InvalidRequestErrorVariant, T> invalidRequestError,
-        Func<AuthenticationErrorVariant, T> authenticationError,
-        Func<BillingErrorVariant, T> billingError,
-        Func<PermissionErrorVariant, T> permissionError,
-        Func<NotFoundErrorVariant, T> notFoundError,
-        Func<RateLimitErrorVariant, T> rateLimitError,
-        Func<GatewayTimeoutErrorVariant, T> gatewayTimeoutError,
-        Func<APIErrorObjectVariant, T> apiErrorObject,
-        Func<OverloadedErrorVariant, T> overloadedError
+        Func<ErrorObjectVariants::InvalidRequestError, T> invalidRequestError,
+        Func<ErrorObjectVariants::AuthenticationError, T> authenticationError,
+        Func<ErrorObjectVariants::BillingError, T> billingError,
+        Func<ErrorObjectVariants::PermissionError, T> permissionError,
+        Func<ErrorObjectVariants::NotFoundError, T> notFoundError,
+        Func<ErrorObjectVariants::RateLimitError, T> rateLimitError,
+        Func<ErrorObjectVariants::GatewayTimeoutError, T> gatewayTimeoutError,
+        Func<ErrorObjectVariants::APIErrorObject, T> apiErrorObject,
+        Func<ErrorObjectVariants::OverloadedError, T> overloadedError
     )
     {
         return this switch
         {
-            InvalidRequestErrorVariant inner => invalidRequestError(inner),
-            AuthenticationErrorVariant inner => authenticationError(inner),
-            BillingErrorVariant inner => billingError(inner),
-            PermissionErrorVariant inner => permissionError(inner),
-            NotFoundErrorVariant inner => notFoundError(inner),
-            RateLimitErrorVariant inner => rateLimitError(inner),
-            GatewayTimeoutErrorVariant inner => gatewayTimeoutError(inner),
-            APIErrorObjectVariant inner => apiErrorObject(inner),
-            OverloadedErrorVariant inner => overloadedError(inner),
+            ErrorObjectVariants::InvalidRequestError inner => invalidRequestError(inner),
+            ErrorObjectVariants::AuthenticationError inner => authenticationError(inner),
+            ErrorObjectVariants::BillingError inner => billingError(inner),
+            ErrorObjectVariants::PermissionError inner => permissionError(inner),
+            ErrorObjectVariants::NotFoundError inner => notFoundError(inner),
+            ErrorObjectVariants::RateLimitError inner => rateLimitError(inner),
+            ErrorObjectVariants::GatewayTimeoutError inner => gatewayTimeoutError(inner),
+            ErrorObjectVariants::APIErrorObject inner => apiErrorObject(inner),
+            ErrorObjectVariants::OverloadedError inner => overloadedError(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -208,7 +202,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
                     );
                     if (deserialized != null)
                     {
-                        return new InvalidRequestErrorVariant(deserialized);
+                        return new ErrorObjectVariants::InvalidRequestError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -230,7 +224,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
                     );
                     if (deserialized != null)
                     {
-                        return new AuthenticationErrorVariant(deserialized);
+                        return new ErrorObjectVariants::AuthenticationError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -249,7 +243,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
                     var deserialized = JsonSerializer.Deserialize<BillingError>(json, options);
                     if (deserialized != null)
                     {
-                        return new BillingErrorVariant(deserialized);
+                        return new ErrorObjectVariants::BillingError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -268,7 +262,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
                     var deserialized = JsonSerializer.Deserialize<PermissionError>(json, options);
                     if (deserialized != null)
                     {
-                        return new PermissionErrorVariant(deserialized);
+                        return new ErrorObjectVariants::PermissionError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -287,7 +281,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
                     var deserialized = JsonSerializer.Deserialize<NotFoundError>(json, options);
                     if (deserialized != null)
                     {
-                        return new NotFoundErrorVariant(deserialized);
+                        return new ErrorObjectVariants::NotFoundError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -306,7 +300,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
                     var deserialized = JsonSerializer.Deserialize<RateLimitError>(json, options);
                     if (deserialized != null)
                     {
-                        return new RateLimitErrorVariant(deserialized);
+                        return new ErrorObjectVariants::RateLimitError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -328,7 +322,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
                     );
                     if (deserialized != null)
                     {
-                        return new GatewayTimeoutErrorVariant(deserialized);
+                        return new ErrorObjectVariants::GatewayTimeoutError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -347,7 +341,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
                     var deserialized = JsonSerializer.Deserialize<APIErrorObject>(json, options);
                     if (deserialized != null)
                     {
-                        return new APIErrorObjectVariant(deserialized);
+                        return new ErrorObjectVariants::APIErrorObject(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -366,7 +360,7 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
                     var deserialized = JsonSerializer.Deserialize<OverloadedError>(json, options);
                     if (deserialized != null)
                     {
-                        return new OverloadedErrorVariant(deserialized);
+                        return new ErrorObjectVariants::OverloadedError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -391,15 +385,18 @@ sealed class ErrorObjectConverter : JsonConverter<ErrorObject>
     {
         object variant = value switch
         {
-            InvalidRequestErrorVariant(var invalidRequestError) => invalidRequestError,
-            AuthenticationErrorVariant(var authenticationError) => authenticationError,
-            BillingErrorVariant(var billingError) => billingError,
-            PermissionErrorVariant(var permissionError) => permissionError,
-            NotFoundErrorVariant(var notFoundError) => notFoundError,
-            RateLimitErrorVariant(var rateLimitError) => rateLimitError,
-            GatewayTimeoutErrorVariant(var gatewayTimeoutError) => gatewayTimeoutError,
-            APIErrorObjectVariant(var apiErrorObject) => apiErrorObject,
-            OverloadedErrorVariant(var overloadedError) => overloadedError,
+            ErrorObjectVariants::InvalidRequestError(var invalidRequestError) =>
+                invalidRequestError,
+            ErrorObjectVariants::AuthenticationError(var authenticationError) =>
+                authenticationError,
+            ErrorObjectVariants::BillingError(var billingError) => billingError,
+            ErrorObjectVariants::PermissionError(var permissionError) => permissionError,
+            ErrorObjectVariants::NotFoundError(var notFoundError) => notFoundError,
+            ErrorObjectVariants::RateLimitError(var rateLimitError) => rateLimitError,
+            ErrorObjectVariants::GatewayTimeoutError(var gatewayTimeoutError) =>
+                gatewayTimeoutError,
+            ErrorObjectVariants::APIErrorObject(var apiErrorObject) => apiErrorObject,
+            ErrorObjectVariants::OverloadedError(var overloadedError) => overloadedError,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

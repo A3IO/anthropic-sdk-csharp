@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.RawContentBlockStartEventProperties;
+using RawContentBlockStartEventProperties = Anthropic.Models.Messages.RawContentBlockStartEventProperties;
 
 namespace Anthropic.Models.Messages;
 
@@ -12,14 +12,14 @@ public sealed record class RawContentBlockStartEvent
     : ModelBase,
         IFromRaw<RawContentBlockStartEvent>
 {
-    public required ContentBlockModel ContentBlock
+    public required RawContentBlockStartEventProperties::ContentBlock ContentBlock
     {
         get
         {
             if (!this.Properties.TryGetValue("content_block", out JsonElement element))
                 throw new ArgumentOutOfRangeException("content_block", "Missing required argument");
 
-            return JsonSerializer.Deserialize<ContentBlockModel>(
+            return JsonSerializer.Deserialize<RawContentBlockStartEventProperties::ContentBlock>(
                     element,
                     ModelBase.SerializerOptions
                 ) ?? throw new ArgumentNullException("content_block");

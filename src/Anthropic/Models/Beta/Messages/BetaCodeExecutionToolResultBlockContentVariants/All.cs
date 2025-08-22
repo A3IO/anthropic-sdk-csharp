@@ -1,13 +1,15 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaCodeExecutionToolResultBlockContentVariants;
 
-public sealed record class BetaCodeExecutionToolResultErrorVariant(
-    BetaCodeExecutionToolResultError Value
+public sealed record class BetaCodeExecutionToolResultError(
+    Messages::BetaCodeExecutionToolResultError Value
 )
-    : BetaCodeExecutionToolResultBlockContent,
-        IVariant<BetaCodeExecutionToolResultErrorVariant, BetaCodeExecutionToolResultError>
+    : Messages::BetaCodeExecutionToolResultBlockContent,
+        IVariant<BetaCodeExecutionToolResultError, Messages::BetaCodeExecutionToolResultError>
 {
-    public static BetaCodeExecutionToolResultErrorVariant From(
-        BetaCodeExecutionToolResultError value
+    public static BetaCodeExecutionToolResultError From(
+        Messages::BetaCodeExecutionToolResultError value
     )
     {
         return new(value);
@@ -19,11 +21,13 @@ public sealed record class BetaCodeExecutionToolResultErrorVariant(
     }
 }
 
-public sealed record class BetaCodeExecutionResultBlockVariant(BetaCodeExecutionResultBlock Value)
-    : BetaCodeExecutionToolResultBlockContent,
-        IVariant<BetaCodeExecutionResultBlockVariant, BetaCodeExecutionResultBlock>
+public sealed record class BetaCodeExecutionResultBlock(
+    Messages::BetaCodeExecutionResultBlock Value
+)
+    : Messages::BetaCodeExecutionToolResultBlockContent,
+        IVariant<BetaCodeExecutionResultBlock, Messages::BetaCodeExecutionResultBlock>
 {
-    public static BetaCodeExecutionResultBlockVariant From(BetaCodeExecutionResultBlock value)
+    public static BetaCodeExecutionResultBlock From(Messages::BetaCodeExecutionResultBlock value)
     {
         return new(value);
     }

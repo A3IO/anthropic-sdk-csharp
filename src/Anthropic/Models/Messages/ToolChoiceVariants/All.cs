@@ -1,13 +1,15 @@
+using Messages = Anthropic.Models.Messages;
+
 namespace Anthropic.Models.Messages.ToolChoiceVariants;
 
 /// <summary>
 /// The model will automatically decide whether to use tools.
 /// </summary>
-public sealed record class ToolChoiceAutoVariant(ToolChoiceAuto Value)
-    : ToolChoice,
-        IVariant<ToolChoiceAutoVariant, ToolChoiceAuto>
+public sealed record class ToolChoiceAuto(Messages::ToolChoiceAuto Value)
+    : Messages::ToolChoice,
+        IVariant<ToolChoiceAuto, Messages::ToolChoiceAuto>
 {
-    public static ToolChoiceAutoVariant From(ToolChoiceAuto value)
+    public static ToolChoiceAuto From(Messages::ToolChoiceAuto value)
     {
         return new(value);
     }
@@ -21,11 +23,11 @@ public sealed record class ToolChoiceAutoVariant(ToolChoiceAuto Value)
 /// <summary>
 /// The model will use any available tools.
 /// </summary>
-public sealed record class ToolChoiceAnyVariant(ToolChoiceAny Value)
-    : ToolChoice,
-        IVariant<ToolChoiceAnyVariant, ToolChoiceAny>
+public sealed record class ToolChoiceAny(Messages::ToolChoiceAny Value)
+    : Messages::ToolChoice,
+        IVariant<ToolChoiceAny, Messages::ToolChoiceAny>
 {
-    public static ToolChoiceAnyVariant From(ToolChoiceAny value)
+    public static ToolChoiceAny From(Messages::ToolChoiceAny value)
     {
         return new(value);
     }
@@ -39,11 +41,11 @@ public sealed record class ToolChoiceAnyVariant(ToolChoiceAny Value)
 /// <summary>
 /// The model will use the specified tool with `tool_choice.name`.
 /// </summary>
-public sealed record class ToolChoiceToolVariant(ToolChoiceTool Value)
-    : ToolChoice,
-        IVariant<ToolChoiceToolVariant, ToolChoiceTool>
+public sealed record class ToolChoiceTool(Messages::ToolChoiceTool Value)
+    : Messages::ToolChoice,
+        IVariant<ToolChoiceTool, Messages::ToolChoiceTool>
 {
-    public static ToolChoiceToolVariant From(ToolChoiceTool value)
+    public static ToolChoiceTool From(Messages::ToolChoiceTool value)
     {
         return new(value);
     }
@@ -57,11 +59,11 @@ public sealed record class ToolChoiceToolVariant(ToolChoiceTool Value)
 /// <summary>
 /// The model will not be allowed to use tools.
 /// </summary>
-public sealed record class ToolChoiceNoneVariant(ToolChoiceNone Value)
-    : ToolChoice,
-        IVariant<ToolChoiceNoneVariant, ToolChoiceNone>
+public sealed record class ToolChoiceNone(Messages::ToolChoiceNone Value)
+    : Messages::ToolChoice,
+        IVariant<ToolChoiceNone, Messages::ToolChoiceNone>
 {
-    public static ToolChoiceNoneVariant From(ToolChoiceNone value)
+    public static ToolChoiceNone From(Messages::ToolChoiceNone value)
     {
         return new(value);
     }

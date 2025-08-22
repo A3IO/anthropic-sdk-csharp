@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaCitationsDeltaProperties.CitationVariants;
 
-public sealed record class BetaCitationCharLocationVariant(BetaCitationCharLocation Value)
+public sealed record class BetaCitationCharLocation(Messages::BetaCitationCharLocation Value)
     : Citation,
-        IVariant<BetaCitationCharLocationVariant, BetaCitationCharLocation>
+        IVariant<BetaCitationCharLocation, Messages::BetaCitationCharLocation>
 {
-    public static BetaCitationCharLocationVariant From(BetaCitationCharLocation value)
+    public static BetaCitationCharLocation From(Messages::BetaCitationCharLocation value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class BetaCitationCharLocationVariant(BetaCitationCharLocat
     }
 }
 
-public sealed record class BetaCitationPageLocationVariant(BetaCitationPageLocation Value)
+public sealed record class BetaCitationPageLocation(Messages::BetaCitationPageLocation Value)
     : Citation,
-        IVariant<BetaCitationPageLocationVariant, BetaCitationPageLocation>
+        IVariant<BetaCitationPageLocation, Messages::BetaCitationPageLocation>
 {
-    public static BetaCitationPageLocationVariant From(BetaCitationPageLocation value)
+    public static BetaCitationPageLocation From(Messages::BetaCitationPageLocation value)
     {
         return new(value);
     }
@@ -30,12 +32,12 @@ public sealed record class BetaCitationPageLocationVariant(BetaCitationPageLocat
     }
 }
 
-public sealed record class BetaCitationContentBlockLocationVariant(
-    BetaCitationContentBlockLocation Value
-) : Citation, IVariant<BetaCitationContentBlockLocationVariant, BetaCitationContentBlockLocation>
+public sealed record class BetaCitationContentBlockLocation(
+    Messages::BetaCitationContentBlockLocation Value
+) : Citation, IVariant<BetaCitationContentBlockLocation, Messages::BetaCitationContentBlockLocation>
 {
-    public static BetaCitationContentBlockLocationVariant From(
-        BetaCitationContentBlockLocation value
+    public static BetaCitationContentBlockLocation From(
+        Messages::BetaCitationContentBlockLocation value
     )
     {
         return new(value);
@@ -47,14 +49,17 @@ public sealed record class BetaCitationContentBlockLocationVariant(
     }
 }
 
-public sealed record class BetaCitationsWebSearchResultLocationVariant(
-    BetaCitationsWebSearchResultLocation Value
+public sealed record class BetaCitationsWebSearchResultLocation(
+    Messages::BetaCitationsWebSearchResultLocation Value
 )
     : Citation,
-        IVariant<BetaCitationsWebSearchResultLocationVariant, BetaCitationsWebSearchResultLocation>
+        IVariant<
+            BetaCitationsWebSearchResultLocation,
+            Messages::BetaCitationsWebSearchResultLocation
+        >
 {
-    public static BetaCitationsWebSearchResultLocationVariant From(
-        BetaCitationsWebSearchResultLocation value
+    public static BetaCitationsWebSearchResultLocation From(
+        Messages::BetaCitationsWebSearchResultLocation value
     )
     {
         return new(value);
@@ -66,12 +71,12 @@ public sealed record class BetaCitationsWebSearchResultLocationVariant(
     }
 }
 
-public sealed record class BetaCitationSearchResultLocationVariant(
-    BetaCitationSearchResultLocation Value
-) : Citation, IVariant<BetaCitationSearchResultLocationVariant, BetaCitationSearchResultLocation>
+public sealed record class BetaCitationSearchResultLocation(
+    Messages::BetaCitationSearchResultLocation Value
+) : Citation, IVariant<BetaCitationSearchResultLocation, Messages::BetaCitationSearchResultLocation>
 {
-    public static BetaCitationSearchResultLocationVariant From(
-        BetaCitationSearchResultLocation value
+    public static BetaCitationSearchResultLocation From(
+        Messages::BetaCitationSearchResultLocation value
     )
     {
         return new(value);

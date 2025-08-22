@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaContentBlockSourceContentVariants;
+using BetaContentBlockSourceContentVariants = Anthropic.Models.Beta.Messages.BetaContentBlockSourceContentVariants;
 
 namespace Anthropic.Models.Beta.Messages;
 
@@ -13,36 +13,34 @@ public abstract record class BetaContentBlockSourceContent
     internal BetaContentBlockSourceContent() { }
 
     public static implicit operator BetaContentBlockSourceContent(BetaTextBlockParam value) =>
-        new BetaTextBlockParamVariant(value);
+        new BetaContentBlockSourceContentVariants::BetaTextBlockParam(value);
 
     public static implicit operator BetaContentBlockSourceContent(BetaImageBlockParam value) =>
-        new BetaImageBlockParamVariant(value);
+        new BetaContentBlockSourceContentVariants::BetaImageBlockParam(value);
 
-    public bool TryPickBetaTextBlockParamVariant([NotNullWhen(true)] out BetaTextBlockParam? value)
+    public bool TryPickBetaTextBlockParam([NotNullWhen(true)] out BetaTextBlockParam? value)
     {
-        value = (this as BetaTextBlockParamVariant)?.Value;
+        value = (this as BetaContentBlockSourceContentVariants::BetaTextBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaImageBlockParamVariant(
-        [NotNullWhen(true)] out BetaImageBlockParam? value
-    )
+    public bool TryPickBetaImageBlockParam([NotNullWhen(true)] out BetaImageBlockParam? value)
     {
-        value = (this as BetaImageBlockParamVariant)?.Value;
+        value = (this as BetaContentBlockSourceContentVariants::BetaImageBlockParam)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaTextBlockParamVariant> betaTextBlockParam,
-        Action<BetaImageBlockParamVariant> betaImageBlockParam
+        Action<BetaContentBlockSourceContentVariants::BetaTextBlockParam> betaTextBlockParam,
+        Action<BetaContentBlockSourceContentVariants::BetaImageBlockParam> betaImageBlockParam
     )
     {
         switch (this)
         {
-            case BetaTextBlockParamVariant inner:
+            case BetaContentBlockSourceContentVariants::BetaTextBlockParam inner:
                 betaTextBlockParam(inner);
                 break;
-            case BetaImageBlockParamVariant inner:
+            case BetaContentBlockSourceContentVariants::BetaImageBlockParam inner:
                 betaImageBlockParam(inner);
                 break;
             default:
@@ -51,14 +49,18 @@ public abstract record class BetaContentBlockSourceContent
     }
 
     public T Match<T>(
-        Func<BetaTextBlockParamVariant, T> betaTextBlockParam,
-        Func<BetaImageBlockParamVariant, T> betaImageBlockParam
+        Func<BetaContentBlockSourceContentVariants::BetaTextBlockParam, T> betaTextBlockParam,
+        Func<BetaContentBlockSourceContentVariants::BetaImageBlockParam, T> betaImageBlockParam
     )
     {
         return this switch
         {
-            BetaTextBlockParamVariant inner => betaTextBlockParam(inner),
-            BetaImageBlockParamVariant inner => betaImageBlockParam(inner),
+            BetaContentBlockSourceContentVariants::BetaTextBlockParam inner => betaTextBlockParam(
+                inner
+            ),
+            BetaContentBlockSourceContentVariants::BetaImageBlockParam inner => betaImageBlockParam(
+                inner
+            ),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -99,7 +101,9 @@ sealed class BetaContentBlockSourceContentConverter : JsonConverter<BetaContentB
                     );
                     if (deserialized != null)
                     {
-                        return new BetaTextBlockParamVariant(deserialized);
+                        return new BetaContentBlockSourceContentVariants::BetaTextBlockParam(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -121,7 +125,9 @@ sealed class BetaContentBlockSourceContentConverter : JsonConverter<BetaContentB
                     );
                     if (deserialized != null)
                     {
-                        return new BetaImageBlockParamVariant(deserialized);
+                        return new BetaContentBlockSourceContentVariants::BetaImageBlockParam(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -146,8 +152,10 @@ sealed class BetaContentBlockSourceContentConverter : JsonConverter<BetaContentB
     {
         object variant = value switch
         {
-            BetaTextBlockParamVariant(var betaTextBlockParam) => betaTextBlockParam,
-            BetaImageBlockParamVariant(var betaImageBlockParam) => betaImageBlockParam,
+            BetaContentBlockSourceContentVariants::BetaTextBlockParam(var betaTextBlockParam) =>
+                betaTextBlockParam,
+            BetaContentBlockSourceContentVariants::BetaImageBlockParam(var betaImageBlockParam) =>
+                betaImageBlockParam,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

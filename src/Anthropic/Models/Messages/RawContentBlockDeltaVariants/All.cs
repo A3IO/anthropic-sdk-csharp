@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Messages;
+
 namespace Anthropic.Models.Messages.RawContentBlockDeltaVariants;
 
-public sealed record class TextDeltaVariant(TextDelta Value)
-    : RawContentBlockDelta,
-        IVariant<TextDeltaVariant, TextDelta>
+public sealed record class TextDelta(Messages::TextDelta Value)
+    : Messages::RawContentBlockDelta,
+        IVariant<TextDelta, Messages::TextDelta>
 {
-    public static TextDeltaVariant From(TextDelta value)
+    public static TextDelta From(Messages::TextDelta value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class TextDeltaVariant(TextDelta Value)
     }
 }
 
-public sealed record class InputJSONDeltaVariant(InputJSONDelta Value)
-    : RawContentBlockDelta,
-        IVariant<InputJSONDeltaVariant, InputJSONDelta>
+public sealed record class InputJSONDelta(Messages::InputJSONDelta Value)
+    : Messages::RawContentBlockDelta,
+        IVariant<InputJSONDelta, Messages::InputJSONDelta>
 {
-    public static InputJSONDeltaVariant From(InputJSONDelta value)
+    public static InputJSONDelta From(Messages::InputJSONDelta value)
     {
         return new(value);
     }
@@ -30,11 +32,11 @@ public sealed record class InputJSONDeltaVariant(InputJSONDelta Value)
     }
 }
 
-public sealed record class CitationsDeltaVariant(CitationsDelta Value)
-    : RawContentBlockDelta,
-        IVariant<CitationsDeltaVariant, CitationsDelta>
+public sealed record class CitationsDelta(Messages::CitationsDelta Value)
+    : Messages::RawContentBlockDelta,
+        IVariant<CitationsDelta, Messages::CitationsDelta>
 {
-    public static CitationsDeltaVariant From(CitationsDelta value)
+    public static CitationsDelta From(Messages::CitationsDelta value)
     {
         return new(value);
     }
@@ -45,11 +47,11 @@ public sealed record class CitationsDeltaVariant(CitationsDelta Value)
     }
 }
 
-public sealed record class ThinkingDeltaVariant(ThinkingDelta Value)
-    : RawContentBlockDelta,
-        IVariant<ThinkingDeltaVariant, ThinkingDelta>
+public sealed record class ThinkingDelta(Messages::ThinkingDelta Value)
+    : Messages::RawContentBlockDelta,
+        IVariant<ThinkingDelta, Messages::ThinkingDelta>
 {
-    public static ThinkingDeltaVariant From(ThinkingDelta value)
+    public static ThinkingDelta From(Messages::ThinkingDelta value)
     {
         return new(value);
     }
@@ -60,11 +62,11 @@ public sealed record class ThinkingDeltaVariant(ThinkingDelta Value)
     }
 }
 
-public sealed record class SignatureDeltaVariant(SignatureDelta Value)
-    : RawContentBlockDelta,
-        IVariant<SignatureDeltaVariant, SignatureDelta>
+public sealed record class SignatureDelta(Messages::SignatureDelta Value)
+    : Messages::RawContentBlockDelta,
+        IVariant<SignatureDelta, Messages::SignatureDelta>
 {
-    public static SignatureDeltaVariant From(SignatureDelta value)
+    public static SignatureDelta From(Messages::SignatureDelta value)
     {
         return new(value);
     }

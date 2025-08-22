@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Messages;
+
 namespace Anthropic.Models.Messages.CitationsDeltaProperties.CitationVariants;
 
-public sealed record class CitationCharLocationVariant(CitationCharLocation Value)
+public sealed record class CitationCharLocation(Messages::CitationCharLocation Value)
     : Citation,
-        IVariant<CitationCharLocationVariant, CitationCharLocation>
+        IVariant<CitationCharLocation, Messages::CitationCharLocation>
 {
-    public static CitationCharLocationVariant From(CitationCharLocation value)
+    public static CitationCharLocation From(Messages::CitationCharLocation value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class CitationCharLocationVariant(CitationCharLocation Valu
     }
 }
 
-public sealed record class CitationPageLocationVariant(CitationPageLocation Value)
+public sealed record class CitationPageLocation(Messages::CitationPageLocation Value)
     : Citation,
-        IVariant<CitationPageLocationVariant, CitationPageLocation>
+        IVariant<CitationPageLocation, Messages::CitationPageLocation>
 {
-    public static CitationPageLocationVariant From(CitationPageLocation value)
+    public static CitationPageLocation From(Messages::CitationPageLocation value)
     {
         return new(value);
     }
@@ -30,11 +32,11 @@ public sealed record class CitationPageLocationVariant(CitationPageLocation Valu
     }
 }
 
-public sealed record class CitationContentBlockLocationVariant(CitationContentBlockLocation Value)
-    : Citation,
-        IVariant<CitationContentBlockLocationVariant, CitationContentBlockLocation>
+public sealed record class CitationContentBlockLocation(
+    Messages::CitationContentBlockLocation Value
+) : Citation, IVariant<CitationContentBlockLocation, Messages::CitationContentBlockLocation>
 {
-    public static CitationContentBlockLocationVariant From(CitationContentBlockLocation value)
+    public static CitationContentBlockLocation From(Messages::CitationContentBlockLocation value)
     {
         return new(value);
     }
@@ -45,12 +47,12 @@ public sealed record class CitationContentBlockLocationVariant(CitationContentBl
     }
 }
 
-public sealed record class CitationsWebSearchResultLocationVariant(
-    CitationsWebSearchResultLocation Value
-) : Citation, IVariant<CitationsWebSearchResultLocationVariant, CitationsWebSearchResultLocation>
+public sealed record class CitationsWebSearchResultLocation(
+    Messages::CitationsWebSearchResultLocation Value
+) : Citation, IVariant<CitationsWebSearchResultLocation, Messages::CitationsWebSearchResultLocation>
 {
-    public static CitationsWebSearchResultLocationVariant From(
-        CitationsWebSearchResultLocation value
+    public static CitationsWebSearchResultLocation From(
+        Messages::CitationsWebSearchResultLocation value
     )
     {
         return new(value);
@@ -62,11 +64,11 @@ public sealed record class CitationsWebSearchResultLocationVariant(
     }
 }
 
-public sealed record class CitationsSearchResultLocationVariant(CitationsSearchResultLocation Value)
-    : Citation,
-        IVariant<CitationsSearchResultLocationVariant, CitationsSearchResultLocation>
+public sealed record class CitationsSearchResultLocation(
+    Messages::CitationsSearchResultLocation Value
+) : Citation, IVariant<CitationsSearchResultLocation, Messages::CitationsSearchResultLocation>
 {
-    public static CitationsSearchResultLocationVariant From(CitationsSearchResultLocation value)
+    public static CitationsSearchResultLocation From(Messages::CitationsSearchResultLocation value)
     {
         return new(value);
     }

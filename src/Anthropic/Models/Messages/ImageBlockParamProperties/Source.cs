@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.ImageBlockParamProperties.SourceVariants;
+using SourceVariants = Anthropic.Models.Messages.ImageBlockParamProperties.SourceVariants;
 
 namespace Anthropic.Models.Messages.ImageBlockParamProperties;
 
@@ -13,34 +13,34 @@ public abstract record class Source
     internal Source() { }
 
     public static implicit operator Source(Base64ImageSource value) =>
-        new Base64ImageSourceVariant(value);
+        new SourceVariants::Base64ImageSource(value);
 
     public static implicit operator Source(URLImageSource value) =>
-        new URLImageSourceVariant(value);
+        new SourceVariants::URLImageSource(value);
 
-    public bool TryPickBase64ImageSourceVariant([NotNullWhen(true)] out Base64ImageSource? value)
+    public bool TryPickBase64ImageSource([NotNullWhen(true)] out Base64ImageSource? value)
     {
-        value = (this as Base64ImageSourceVariant)?.Value;
+        value = (this as SourceVariants::Base64ImageSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickURLImageSourceVariant([NotNullWhen(true)] out URLImageSource? value)
+    public bool TryPickURLImageSource([NotNullWhen(true)] out URLImageSource? value)
     {
-        value = (this as URLImageSourceVariant)?.Value;
+        value = (this as SourceVariants::URLImageSource)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<Base64ImageSourceVariant> base64ImageSource,
-        Action<URLImageSourceVariant> urlImageSource
+        Action<SourceVariants::Base64ImageSource> base64ImageSource,
+        Action<SourceVariants::URLImageSource> urlImageSource
     )
     {
         switch (this)
         {
-            case Base64ImageSourceVariant inner:
+            case SourceVariants::Base64ImageSource inner:
                 base64ImageSource(inner);
                 break;
-            case URLImageSourceVariant inner:
+            case SourceVariants::URLImageSource inner:
                 urlImageSource(inner);
                 break;
             default:
@@ -49,14 +49,14 @@ public abstract record class Source
     }
 
     public T Match<T>(
-        Func<Base64ImageSourceVariant, T> base64ImageSource,
-        Func<URLImageSourceVariant, T> urlImageSource
+        Func<SourceVariants::Base64ImageSource, T> base64ImageSource,
+        Func<SourceVariants::URLImageSource, T> urlImageSource
     )
     {
         return this switch
         {
-            Base64ImageSourceVariant inner => base64ImageSource(inner),
-            URLImageSourceVariant inner => urlImageSource(inner),
+            SourceVariants::Base64ImageSource inner => base64ImageSource(inner),
+            SourceVariants::URLImageSource inner => urlImageSource(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -94,7 +94,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     var deserialized = JsonSerializer.Deserialize<Base64ImageSource>(json, options);
                     if (deserialized != null)
                     {
-                        return new Base64ImageSourceVariant(deserialized);
+                        return new SourceVariants::Base64ImageSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -113,7 +113,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     var deserialized = JsonSerializer.Deserialize<URLImageSource>(json, options);
                     if (deserialized != null)
                     {
-                        return new URLImageSourceVariant(deserialized);
+                        return new SourceVariants::URLImageSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -134,8 +134,8 @@ sealed class SourceConverter : JsonConverter<Source>
     {
         object variant = value switch
         {
-            Base64ImageSourceVariant(var base64ImageSource) => base64ImageSource,
-            URLImageSourceVariant(var urlImageSource) => urlImageSource,
+            SourceVariants::Base64ImageSource(var base64ImageSource) => base64ImageSource,
+            SourceVariants::URLImageSource(var urlImageSource) => urlImageSource,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

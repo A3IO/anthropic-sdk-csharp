@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Messages;
+
 namespace Anthropic.Models.Messages.TextCitationVariants;
 
-public sealed record class CitationCharLocationVariant(CitationCharLocation Value)
-    : TextCitation,
-        IVariant<CitationCharLocationVariant, CitationCharLocation>
+public sealed record class CitationCharLocation(Messages::CitationCharLocation Value)
+    : Messages::TextCitation,
+        IVariant<CitationCharLocation, Messages::CitationCharLocation>
 {
-    public static CitationCharLocationVariant From(CitationCharLocation value)
+    public static CitationCharLocation From(Messages::CitationCharLocation value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class CitationCharLocationVariant(CitationCharLocation Valu
     }
 }
 
-public sealed record class CitationPageLocationVariant(CitationPageLocation Value)
-    : TextCitation,
-        IVariant<CitationPageLocationVariant, CitationPageLocation>
+public sealed record class CitationPageLocation(Messages::CitationPageLocation Value)
+    : Messages::TextCitation,
+        IVariant<CitationPageLocation, Messages::CitationPageLocation>
 {
-    public static CitationPageLocationVariant From(CitationPageLocation value)
+    public static CitationPageLocation From(Messages::CitationPageLocation value)
     {
         return new(value);
     }
@@ -30,29 +32,31 @@ public sealed record class CitationPageLocationVariant(CitationPageLocation Valu
     }
 }
 
-public sealed record class CitationContentBlockLocationVariant(CitationContentBlockLocation Value)
-    : TextCitation,
-        IVariant<CitationContentBlockLocationVariant, CitationContentBlockLocation>
-{
-    public static CitationContentBlockLocationVariant From(CitationContentBlockLocation value)
-    {
-        return new(value);
-    }
-
-    public override void Validate()
-    {
-        this.Value.Validate();
-    }
-}
-
-public sealed record class CitationsWebSearchResultLocationVariant(
-    CitationsWebSearchResultLocation Value
+public sealed record class CitationContentBlockLocation(
+    Messages::CitationContentBlockLocation Value
 )
-    : TextCitation,
-        IVariant<CitationsWebSearchResultLocationVariant, CitationsWebSearchResultLocation>
+    : Messages::TextCitation,
+        IVariant<CitationContentBlockLocation, Messages::CitationContentBlockLocation>
 {
-    public static CitationsWebSearchResultLocationVariant From(
-        CitationsWebSearchResultLocation value
+    public static CitationContentBlockLocation From(Messages::CitationContentBlockLocation value)
+    {
+        return new(value);
+    }
+
+    public override void Validate()
+    {
+        this.Value.Validate();
+    }
+}
+
+public sealed record class CitationsWebSearchResultLocation(
+    Messages::CitationsWebSearchResultLocation Value
+)
+    : Messages::TextCitation,
+        IVariant<CitationsWebSearchResultLocation, Messages::CitationsWebSearchResultLocation>
+{
+    public static CitationsWebSearchResultLocation From(
+        Messages::CitationsWebSearchResultLocation value
     )
     {
         return new(value);
@@ -64,11 +68,13 @@ public sealed record class CitationsWebSearchResultLocationVariant(
     }
 }
 
-public sealed record class CitationsSearchResultLocationVariant(CitationsSearchResultLocation Value)
-    : TextCitation,
-        IVariant<CitationsSearchResultLocationVariant, CitationsSearchResultLocation>
+public sealed record class CitationsSearchResultLocation(
+    Messages::CitationsSearchResultLocation Value
+)
+    : Messages::TextCitation,
+        IVariant<CitationsSearchResultLocation, Messages::CitationsSearchResultLocation>
 {
-    public static CitationsSearchResultLocationVariant From(CitationsSearchResultLocation value)
+    public static CitationsSearchResultLocation From(Messages::CitationsSearchResultLocation value)
     {
         return new(value);
     }

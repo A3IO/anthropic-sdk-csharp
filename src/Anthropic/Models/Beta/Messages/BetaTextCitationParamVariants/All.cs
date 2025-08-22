@@ -1,46 +1,52 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaTextCitationParamVariants;
 
-public sealed record class BetaCitationCharLocationParamVariant(BetaCitationCharLocationParam Value)
-    : BetaTextCitationParam,
-        IVariant<BetaCitationCharLocationParamVariant, BetaCitationCharLocationParam>
-{
-    public static BetaCitationCharLocationParamVariant From(BetaCitationCharLocationParam value)
-    {
-        return new(value);
-    }
-
-    public override void Validate()
-    {
-        this.Value.Validate();
-    }
-}
-
-public sealed record class BetaCitationPageLocationParamVariant(BetaCitationPageLocationParam Value)
-    : BetaTextCitationParam,
-        IVariant<BetaCitationPageLocationParamVariant, BetaCitationPageLocationParam>
-{
-    public static BetaCitationPageLocationParamVariant From(BetaCitationPageLocationParam value)
-    {
-        return new(value);
-    }
-
-    public override void Validate()
-    {
-        this.Value.Validate();
-    }
-}
-
-public sealed record class BetaCitationContentBlockLocationParamVariant(
-    BetaCitationContentBlockLocationParam Value
+public sealed record class BetaCitationCharLocationParam(
+    Messages::BetaCitationCharLocationParam Value
 )
-    : BetaTextCitationParam,
+    : Messages::BetaTextCitationParam,
+        IVariant<BetaCitationCharLocationParam, Messages::BetaCitationCharLocationParam>
+{
+    public static BetaCitationCharLocationParam From(Messages::BetaCitationCharLocationParam value)
+    {
+        return new(value);
+    }
+
+    public override void Validate()
+    {
+        this.Value.Validate();
+    }
+}
+
+public sealed record class BetaCitationPageLocationParam(
+    Messages::BetaCitationPageLocationParam Value
+)
+    : Messages::BetaTextCitationParam,
+        IVariant<BetaCitationPageLocationParam, Messages::BetaCitationPageLocationParam>
+{
+    public static BetaCitationPageLocationParam From(Messages::BetaCitationPageLocationParam value)
+    {
+        return new(value);
+    }
+
+    public override void Validate()
+    {
+        this.Value.Validate();
+    }
+}
+
+public sealed record class BetaCitationContentBlockLocationParam(
+    Messages::BetaCitationContentBlockLocationParam Value
+)
+    : Messages::BetaTextCitationParam,
         IVariant<
-            BetaCitationContentBlockLocationParamVariant,
-            BetaCitationContentBlockLocationParam
+            BetaCitationContentBlockLocationParam,
+            Messages::BetaCitationContentBlockLocationParam
         >
 {
-    public static BetaCitationContentBlockLocationParamVariant From(
-        BetaCitationContentBlockLocationParam value
+    public static BetaCitationContentBlockLocationParam From(
+        Messages::BetaCitationContentBlockLocationParam value
     )
     {
         return new(value);
@@ -52,17 +58,17 @@ public sealed record class BetaCitationContentBlockLocationParamVariant(
     }
 }
 
-public sealed record class BetaCitationWebSearchResultLocationParamVariant(
-    BetaCitationWebSearchResultLocationParam Value
+public sealed record class BetaCitationWebSearchResultLocationParam(
+    Messages::BetaCitationWebSearchResultLocationParam Value
 )
-    : BetaTextCitationParam,
+    : Messages::BetaTextCitationParam,
         IVariant<
-            BetaCitationWebSearchResultLocationParamVariant,
-            BetaCitationWebSearchResultLocationParam
+            BetaCitationWebSearchResultLocationParam,
+            Messages::BetaCitationWebSearchResultLocationParam
         >
 {
-    public static BetaCitationWebSearchResultLocationParamVariant From(
-        BetaCitationWebSearchResultLocationParam value
+    public static BetaCitationWebSearchResultLocationParam From(
+        Messages::BetaCitationWebSearchResultLocationParam value
     )
     {
         return new(value);
@@ -74,17 +80,17 @@ public sealed record class BetaCitationWebSearchResultLocationParamVariant(
     }
 }
 
-public sealed record class BetaCitationSearchResultLocationParamVariant(
-    BetaCitationSearchResultLocationParam Value
+public sealed record class BetaCitationSearchResultLocationParam(
+    Messages::BetaCitationSearchResultLocationParam Value
 )
-    : BetaTextCitationParam,
+    : Messages::BetaTextCitationParam,
         IVariant<
-            BetaCitationSearchResultLocationParamVariant,
-            BetaCitationSearchResultLocationParam
+            BetaCitationSearchResultLocationParam,
+            Messages::BetaCitationSearchResultLocationParam
         >
 {
-    public static BetaCitationSearchResultLocationParamVariant From(
-        BetaCitationSearchResultLocationParam value
+    public static BetaCitationSearchResultLocationParam From(
+        Messages::BetaCitationSearchResultLocationParam value
     )
     {
         return new(value);

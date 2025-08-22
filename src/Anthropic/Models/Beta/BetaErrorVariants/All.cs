@@ -1,10 +1,12 @@
+using Beta = Anthropic.Models.Beta;
+
 namespace Anthropic.Models.Beta.BetaErrorVariants;
 
-public sealed record class BetaInvalidRequestErrorVariant(BetaInvalidRequestError Value)
-    : BetaError,
-        IVariant<BetaInvalidRequestErrorVariant, BetaInvalidRequestError>
+public sealed record class BetaInvalidRequestError(Beta::BetaInvalidRequestError Value)
+    : Beta::BetaError,
+        IVariant<BetaInvalidRequestError, Beta::BetaInvalidRequestError>
 {
-    public static BetaInvalidRequestErrorVariant From(BetaInvalidRequestError value)
+    public static BetaInvalidRequestError From(Beta::BetaInvalidRequestError value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class BetaInvalidRequestErrorVariant(BetaInvalidRequestErro
     }
 }
 
-public sealed record class BetaAuthenticationErrorVariant(BetaAuthenticationError Value)
-    : BetaError,
-        IVariant<BetaAuthenticationErrorVariant, BetaAuthenticationError>
+public sealed record class BetaAuthenticationError(Beta::BetaAuthenticationError Value)
+    : Beta::BetaError,
+        IVariant<BetaAuthenticationError, Beta::BetaAuthenticationError>
 {
-    public static BetaAuthenticationErrorVariant From(BetaAuthenticationError value)
+    public static BetaAuthenticationError From(Beta::BetaAuthenticationError value)
     {
         return new(value);
     }
@@ -30,11 +32,11 @@ public sealed record class BetaAuthenticationErrorVariant(BetaAuthenticationErro
     }
 }
 
-public sealed record class BetaBillingErrorVariant(BetaBillingError Value)
-    : BetaError,
-        IVariant<BetaBillingErrorVariant, BetaBillingError>
+public sealed record class BetaBillingError(Beta::BetaBillingError Value)
+    : Beta::BetaError,
+        IVariant<BetaBillingError, Beta::BetaBillingError>
 {
-    public static BetaBillingErrorVariant From(BetaBillingError value)
+    public static BetaBillingError From(Beta::BetaBillingError value)
     {
         return new(value);
     }
@@ -45,11 +47,11 @@ public sealed record class BetaBillingErrorVariant(BetaBillingError Value)
     }
 }
 
-public sealed record class BetaPermissionErrorVariant(BetaPermissionError Value)
-    : BetaError,
-        IVariant<BetaPermissionErrorVariant, BetaPermissionError>
+public sealed record class BetaPermissionError(Beta::BetaPermissionError Value)
+    : Beta::BetaError,
+        IVariant<BetaPermissionError, Beta::BetaPermissionError>
 {
-    public static BetaPermissionErrorVariant From(BetaPermissionError value)
+    public static BetaPermissionError From(Beta::BetaPermissionError value)
     {
         return new(value);
     }
@@ -60,11 +62,11 @@ public sealed record class BetaPermissionErrorVariant(BetaPermissionError Value)
     }
 }
 
-public sealed record class BetaNotFoundErrorVariant(BetaNotFoundError Value)
-    : BetaError,
-        IVariant<BetaNotFoundErrorVariant, BetaNotFoundError>
+public sealed record class BetaNotFoundError(Beta::BetaNotFoundError Value)
+    : Beta::BetaError,
+        IVariant<BetaNotFoundError, Beta::BetaNotFoundError>
 {
-    public static BetaNotFoundErrorVariant From(BetaNotFoundError value)
+    public static BetaNotFoundError From(Beta::BetaNotFoundError value)
     {
         return new(value);
     }
@@ -75,11 +77,11 @@ public sealed record class BetaNotFoundErrorVariant(BetaNotFoundError Value)
     }
 }
 
-public sealed record class BetaRateLimitErrorVariant(BetaRateLimitError Value)
-    : BetaError,
-        IVariant<BetaRateLimitErrorVariant, BetaRateLimitError>
+public sealed record class BetaRateLimitError(Beta::BetaRateLimitError Value)
+    : Beta::BetaError,
+        IVariant<BetaRateLimitError, Beta::BetaRateLimitError>
 {
-    public static BetaRateLimitErrorVariant From(BetaRateLimitError value)
+    public static BetaRateLimitError From(Beta::BetaRateLimitError value)
     {
         return new(value);
     }
@@ -90,11 +92,11 @@ public sealed record class BetaRateLimitErrorVariant(BetaRateLimitError Value)
     }
 }
 
-public sealed record class BetaGatewayTimeoutErrorVariant(BetaGatewayTimeoutError Value)
-    : BetaError,
-        IVariant<BetaGatewayTimeoutErrorVariant, BetaGatewayTimeoutError>
+public sealed record class BetaGatewayTimeoutError(Beta::BetaGatewayTimeoutError Value)
+    : Beta::BetaError,
+        IVariant<BetaGatewayTimeoutError, Beta::BetaGatewayTimeoutError>
 {
-    public static BetaGatewayTimeoutErrorVariant From(BetaGatewayTimeoutError value)
+    public static BetaGatewayTimeoutError From(Beta::BetaGatewayTimeoutError value)
     {
         return new(value);
     }
@@ -105,11 +107,11 @@ public sealed record class BetaGatewayTimeoutErrorVariant(BetaGatewayTimeoutErro
     }
 }
 
-public sealed record class BetaAPIErrorVariant(BetaAPIError Value)
-    : BetaError,
-        IVariant<BetaAPIErrorVariant, BetaAPIError>
+public sealed record class BetaAPIError(Beta::BetaAPIError Value)
+    : Beta::BetaError,
+        IVariant<BetaAPIError, Beta::BetaAPIError>
 {
-    public static BetaAPIErrorVariant From(BetaAPIError value)
+    public static BetaAPIError From(Beta::BetaAPIError value)
     {
         return new(value);
     }
@@ -120,11 +122,11 @@ public sealed record class BetaAPIErrorVariant(BetaAPIError Value)
     }
 }
 
-public sealed record class BetaOverloadedErrorVariant(BetaOverloadedError Value)
-    : BetaError,
-        IVariant<BetaOverloadedErrorVariant, BetaOverloadedError>
+public sealed record class BetaOverloadedError(Beta::BetaOverloadedError Value)
+    : Beta::BetaError,
+        IVariant<BetaOverloadedError, Beta::BetaOverloadedError>
 {
-    public static BetaOverloadedErrorVariant From(BetaOverloadedError value)
+    public static BetaOverloadedError From(Beta::BetaOverloadedError value)
     {
         return new(value);
     }

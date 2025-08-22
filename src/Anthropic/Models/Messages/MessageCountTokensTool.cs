@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.MessageCountTokensToolVariants;
+using MessageCountTokensToolVariants = Anthropic.Models.Messages.MessageCountTokensToolVariants;
 
 namespace Anthropic.Models.Messages;
 
@@ -12,94 +12,87 @@ public abstract record class MessageCountTokensTool
 {
     internal MessageCountTokensTool() { }
 
-    public static implicit operator MessageCountTokensTool(Tool value) => new ToolVariant(value);
+    public static implicit operator MessageCountTokensTool(Tool value) =>
+        new MessageCountTokensToolVariants::Tool(value);
 
     public static implicit operator MessageCountTokensTool(ToolBash20250124 value) =>
-        new ToolBash20250124Variant(value);
+        new MessageCountTokensToolVariants::ToolBash20250124(value);
 
     public static implicit operator MessageCountTokensTool(ToolTextEditor20250124 value) =>
-        new ToolTextEditor20250124Variant(value);
+        new MessageCountTokensToolVariants::ToolTextEditor20250124(value);
 
     public static implicit operator MessageCountTokensTool(ToolTextEditor20250429 value) =>
-        new ToolTextEditor20250429Variant(value);
+        new MessageCountTokensToolVariants::ToolTextEditor20250429(value);
 
     public static implicit operator MessageCountTokensTool(ToolTextEditor20250728 value) =>
-        new ToolTextEditor20250728Variant(value);
+        new MessageCountTokensToolVariants::ToolTextEditor20250728(value);
 
     public static implicit operator MessageCountTokensTool(WebSearchTool20250305 value) =>
-        new WebSearchTool20250305Variant(value);
+        new MessageCountTokensToolVariants::WebSearchTool20250305(value);
 
-    public bool TryPickToolVariant([NotNullWhen(true)] out Tool? value)
+    public bool TryPickTool([NotNullWhen(true)] out Tool? value)
     {
-        value = (this as ToolVariant)?.Value;
+        value = (this as MessageCountTokensToolVariants::Tool)?.Value;
         return value != null;
     }
 
-    public bool TryPickToolBash20250124Variant([NotNullWhen(true)] out ToolBash20250124? value)
+    public bool TryPickToolBash20250124([NotNullWhen(true)] out ToolBash20250124? value)
     {
-        value = (this as ToolBash20250124Variant)?.Value;
+        value = (this as MessageCountTokensToolVariants::ToolBash20250124)?.Value;
         return value != null;
     }
 
-    public bool TryPickToolTextEditor20250124Variant(
-        [NotNullWhen(true)] out ToolTextEditor20250124? value
-    )
+    public bool TryPickToolTextEditor20250124([NotNullWhen(true)] out ToolTextEditor20250124? value)
     {
-        value = (this as ToolTextEditor20250124Variant)?.Value;
+        value = (this as MessageCountTokensToolVariants::ToolTextEditor20250124)?.Value;
         return value != null;
     }
 
-    public bool TryPickToolTextEditor20250429Variant(
-        [NotNullWhen(true)] out ToolTextEditor20250429? value
-    )
+    public bool TryPickToolTextEditor20250429([NotNullWhen(true)] out ToolTextEditor20250429? value)
     {
-        value = (this as ToolTextEditor20250429Variant)?.Value;
+        value = (this as MessageCountTokensToolVariants::ToolTextEditor20250429)?.Value;
         return value != null;
     }
 
-    public bool TryPickToolTextEditor20250728Variant(
-        [NotNullWhen(true)] out ToolTextEditor20250728? value
-    )
+    public bool TryPickToolTextEditor20250728([NotNullWhen(true)] out ToolTextEditor20250728? value)
     {
-        value = (this as ToolTextEditor20250728Variant)?.Value;
+        value = (this as MessageCountTokensToolVariants::ToolTextEditor20250728)?.Value;
         return value != null;
     }
 
-    public bool TryPickWebSearchTool20250305Variant(
-        [NotNullWhen(true)] out WebSearchTool20250305? value
-    )
+    public bool TryPickWebSearchTool20250305([NotNullWhen(true)] out WebSearchTool20250305? value)
     {
-        value = (this as WebSearchTool20250305Variant)?.Value;
+        value = (this as MessageCountTokensToolVariants::WebSearchTool20250305)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<ToolVariant> tool,
-        Action<ToolBash20250124Variant> toolBash20250124,
-        Action<ToolTextEditor20250124Variant> toolTextEditor20250124,
-        Action<ToolTextEditor20250429Variant> toolTextEditor20250429,
-        Action<ToolTextEditor20250728Variant> toolTextEditor20250728,
-        Action<WebSearchTool20250305Variant> webSearchTool20250305
+        Action<MessageCountTokensToolVariants::Tool> tool,
+        Action<MessageCountTokensToolVariants::ToolBash20250124> toolBash20250124,
+        Action<MessageCountTokensToolVariants::ToolTextEditor20250124> toolTextEditor20250124,
+        Action<MessageCountTokensToolVariants::ToolTextEditor20250429> toolTextEditor20250429,
+        Action<MessageCountTokensToolVariants::ToolTextEditor20250728> toolTextEditor20250728,
+        Action<MessageCountTokensToolVariants::WebSearchTool20250305> webSearchTool20250305
     )
     {
         switch (this)
         {
-            case ToolVariant inner:
+            case MessageCountTokensToolVariants::Tool inner:
                 tool(inner);
                 break;
-            case ToolBash20250124Variant inner:
+            case MessageCountTokensToolVariants::ToolBash20250124 inner:
                 toolBash20250124(inner);
                 break;
-            case ToolTextEditor20250124Variant inner:
+            case MessageCountTokensToolVariants::ToolTextEditor20250124 inner:
                 toolTextEditor20250124(inner);
                 break;
-            case ToolTextEditor20250429Variant inner:
+            case MessageCountTokensToolVariants::ToolTextEditor20250429 inner:
                 toolTextEditor20250429(inner);
                 break;
-            case ToolTextEditor20250728Variant inner:
+            case MessageCountTokensToolVariants::ToolTextEditor20250728 inner:
                 toolTextEditor20250728(inner);
                 break;
-            case WebSearchTool20250305Variant inner:
+            case MessageCountTokensToolVariants::WebSearchTool20250305 inner:
                 webSearchTool20250305(inner);
                 break;
             default:
@@ -108,22 +101,30 @@ public abstract record class MessageCountTokensTool
     }
 
     public T Match<T>(
-        Func<ToolVariant, T> tool,
-        Func<ToolBash20250124Variant, T> toolBash20250124,
-        Func<ToolTextEditor20250124Variant, T> toolTextEditor20250124,
-        Func<ToolTextEditor20250429Variant, T> toolTextEditor20250429,
-        Func<ToolTextEditor20250728Variant, T> toolTextEditor20250728,
-        Func<WebSearchTool20250305Variant, T> webSearchTool20250305
+        Func<MessageCountTokensToolVariants::Tool, T> tool,
+        Func<MessageCountTokensToolVariants::ToolBash20250124, T> toolBash20250124,
+        Func<MessageCountTokensToolVariants::ToolTextEditor20250124, T> toolTextEditor20250124,
+        Func<MessageCountTokensToolVariants::ToolTextEditor20250429, T> toolTextEditor20250429,
+        Func<MessageCountTokensToolVariants::ToolTextEditor20250728, T> toolTextEditor20250728,
+        Func<MessageCountTokensToolVariants::WebSearchTool20250305, T> webSearchTool20250305
     )
     {
         return this switch
         {
-            ToolVariant inner => tool(inner),
-            ToolBash20250124Variant inner => toolBash20250124(inner),
-            ToolTextEditor20250124Variant inner => toolTextEditor20250124(inner),
-            ToolTextEditor20250429Variant inner => toolTextEditor20250429(inner),
-            ToolTextEditor20250728Variant inner => toolTextEditor20250728(inner),
-            WebSearchTool20250305Variant inner => webSearchTool20250305(inner),
+            MessageCountTokensToolVariants::Tool inner => tool(inner),
+            MessageCountTokensToolVariants::ToolBash20250124 inner => toolBash20250124(inner),
+            MessageCountTokensToolVariants::ToolTextEditor20250124 inner => toolTextEditor20250124(
+                inner
+            ),
+            MessageCountTokensToolVariants::ToolTextEditor20250429 inner => toolTextEditor20250429(
+                inner
+            ),
+            MessageCountTokensToolVariants::ToolTextEditor20250728 inner => toolTextEditor20250728(
+                inner
+            ),
+            MessageCountTokensToolVariants::WebSearchTool20250305 inner => webSearchTool20250305(
+                inner
+            ),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -146,7 +147,7 @@ sealed class MessageCountTokensToolConverter : JsonConverter<MessageCountTokensT
             var deserialized = JsonSerializer.Deserialize<Tool>(ref reader, options);
             if (deserialized != null)
             {
-                return new ToolVariant(deserialized);
+                return new MessageCountTokensToolVariants::Tool(deserialized);
             }
         }
         catch (JsonException e)
@@ -159,7 +160,7 @@ sealed class MessageCountTokensToolConverter : JsonConverter<MessageCountTokensT
             var deserialized = JsonSerializer.Deserialize<ToolBash20250124>(ref reader, options);
             if (deserialized != null)
             {
-                return new ToolBash20250124Variant(deserialized);
+                return new MessageCountTokensToolVariants::ToolBash20250124(deserialized);
             }
         }
         catch (JsonException e)
@@ -175,7 +176,7 @@ sealed class MessageCountTokensToolConverter : JsonConverter<MessageCountTokensT
             );
             if (deserialized != null)
             {
-                return new ToolTextEditor20250124Variant(deserialized);
+                return new MessageCountTokensToolVariants::ToolTextEditor20250124(deserialized);
             }
         }
         catch (JsonException e)
@@ -191,7 +192,7 @@ sealed class MessageCountTokensToolConverter : JsonConverter<MessageCountTokensT
             );
             if (deserialized != null)
             {
-                return new ToolTextEditor20250429Variant(deserialized);
+                return new MessageCountTokensToolVariants::ToolTextEditor20250429(deserialized);
             }
         }
         catch (JsonException e)
@@ -207,7 +208,7 @@ sealed class MessageCountTokensToolConverter : JsonConverter<MessageCountTokensT
             );
             if (deserialized != null)
             {
-                return new ToolTextEditor20250728Variant(deserialized);
+                return new MessageCountTokensToolVariants::ToolTextEditor20250728(deserialized);
             }
         }
         catch (JsonException e)
@@ -223,7 +224,7 @@ sealed class MessageCountTokensToolConverter : JsonConverter<MessageCountTokensT
             );
             if (deserialized != null)
             {
-                return new WebSearchTool20250305Variant(deserialized);
+                return new MessageCountTokensToolVariants::WebSearchTool20250305(deserialized);
             }
         }
         catch (JsonException e)
@@ -242,12 +243,17 @@ sealed class MessageCountTokensToolConverter : JsonConverter<MessageCountTokensT
     {
         object variant = value switch
         {
-            ToolVariant(var tool) => tool,
-            ToolBash20250124Variant(var toolBash20250124) => toolBash20250124,
-            ToolTextEditor20250124Variant(var toolTextEditor20250124) => toolTextEditor20250124,
-            ToolTextEditor20250429Variant(var toolTextEditor20250429) => toolTextEditor20250429,
-            ToolTextEditor20250728Variant(var toolTextEditor20250728) => toolTextEditor20250728,
-            WebSearchTool20250305Variant(var webSearchTool20250305) => webSearchTool20250305,
+            MessageCountTokensToolVariants::Tool(var tool) => tool,
+            MessageCountTokensToolVariants::ToolBash20250124(var toolBash20250124) =>
+                toolBash20250124,
+            MessageCountTokensToolVariants::ToolTextEditor20250124(var toolTextEditor20250124) =>
+                toolTextEditor20250124,
+            MessageCountTokensToolVariants::ToolTextEditor20250429(var toolTextEditor20250429) =>
+                toolTextEditor20250429,
+            MessageCountTokensToolVariants::ToolTextEditor20250728(var toolTextEditor20250728) =>
+                toolTextEditor20250728,
+            MessageCountTokensToolVariants::WebSearchTool20250305(var webSearchTool20250305) =>
+                webSearchTool20250305,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

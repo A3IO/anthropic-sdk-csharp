@@ -1,10 +1,12 @@
+using Batches = Anthropic.Models.Messages.Batches;
+
 namespace Anthropic.Models.Messages.Batches.MessageBatchResultVariants;
 
-public sealed record class MessageBatchSucceededResultVariant(MessageBatchSucceededResult Value)
-    : MessageBatchResult,
-        IVariant<MessageBatchSucceededResultVariant, MessageBatchSucceededResult>
+public sealed record class MessageBatchSucceededResult(Batches::MessageBatchSucceededResult Value)
+    : Batches::MessageBatchResult,
+        IVariant<MessageBatchSucceededResult, Batches::MessageBatchSucceededResult>
 {
-    public static MessageBatchSucceededResultVariant From(MessageBatchSucceededResult value)
+    public static MessageBatchSucceededResult From(Batches::MessageBatchSucceededResult value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class MessageBatchSucceededResultVariant(MessageBatchSuccee
     }
 }
 
-public sealed record class MessageBatchErroredResultVariant(MessageBatchErroredResult Value)
-    : MessageBatchResult,
-        IVariant<MessageBatchErroredResultVariant, MessageBatchErroredResult>
+public sealed record class MessageBatchErroredResult(Batches::MessageBatchErroredResult Value)
+    : Batches::MessageBatchResult,
+        IVariant<MessageBatchErroredResult, Batches::MessageBatchErroredResult>
 {
-    public static MessageBatchErroredResultVariant From(MessageBatchErroredResult value)
+    public static MessageBatchErroredResult From(Batches::MessageBatchErroredResult value)
     {
         return new(value);
     }
@@ -30,11 +32,11 @@ public sealed record class MessageBatchErroredResultVariant(MessageBatchErroredR
     }
 }
 
-public sealed record class MessageBatchCanceledResultVariant(MessageBatchCanceledResult Value)
-    : MessageBatchResult,
-        IVariant<MessageBatchCanceledResultVariant, MessageBatchCanceledResult>
+public sealed record class MessageBatchCanceledResult(Batches::MessageBatchCanceledResult Value)
+    : Batches::MessageBatchResult,
+        IVariant<MessageBatchCanceledResult, Batches::MessageBatchCanceledResult>
 {
-    public static MessageBatchCanceledResultVariant From(MessageBatchCanceledResult value)
+    public static MessageBatchCanceledResult From(Batches::MessageBatchCanceledResult value)
     {
         return new(value);
     }
@@ -45,11 +47,11 @@ public sealed record class MessageBatchCanceledResultVariant(MessageBatchCancele
     }
 }
 
-public sealed record class MessageBatchExpiredResultVariant(MessageBatchExpiredResult Value)
-    : MessageBatchResult,
-        IVariant<MessageBatchExpiredResultVariant, MessageBatchExpiredResult>
+public sealed record class MessageBatchExpiredResult(Batches::MessageBatchExpiredResult Value)
+    : Batches::MessageBatchResult,
+        IVariant<MessageBatchExpiredResult, Batches::MessageBatchExpiredResult>
 {
-    public static MessageBatchExpiredResultVariant From(MessageBatchExpiredResult value)
+    public static MessageBatchExpiredResult From(Batches::MessageBatchExpiredResult value)
     {
         return new(value);
     }

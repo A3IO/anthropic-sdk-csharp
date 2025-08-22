@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaContentBlockVariants;
+using BetaContentBlockVariants = Anthropic.Models.Beta.Messages.BetaContentBlockVariants;
 
 namespace Anthropic.Models.Beta.Messages;
 
@@ -16,152 +16,146 @@ public abstract record class BetaContentBlock
     internal BetaContentBlock() { }
 
     public static implicit operator BetaContentBlock(BetaTextBlock value) =>
-        new BetaTextBlockVariant(value);
+        new BetaContentBlockVariants::BetaTextBlock(value);
 
     public static implicit operator BetaContentBlock(BetaThinkingBlock value) =>
-        new BetaThinkingBlockVariant(value);
+        new BetaContentBlockVariants::BetaThinkingBlock(value);
 
     public static implicit operator BetaContentBlock(BetaRedactedThinkingBlock value) =>
-        new BetaRedactedThinkingBlockVariant(value);
+        new BetaContentBlockVariants::BetaRedactedThinkingBlock(value);
 
     public static implicit operator BetaContentBlock(BetaToolUseBlock value) =>
-        new BetaToolUseBlockVariant(value);
+        new BetaContentBlockVariants::BetaToolUseBlock(value);
 
     public static implicit operator BetaContentBlock(BetaServerToolUseBlock value) =>
-        new BetaServerToolUseBlockVariant(value);
+        new BetaContentBlockVariants::BetaServerToolUseBlock(value);
 
     public static implicit operator BetaContentBlock(BetaWebSearchToolResultBlock value) =>
-        new BetaWebSearchToolResultBlockVariant(value);
+        new BetaContentBlockVariants::BetaWebSearchToolResultBlock(value);
 
     public static implicit operator BetaContentBlock(BetaCodeExecutionToolResultBlock value) =>
-        new BetaCodeExecutionToolResultBlockVariant(value);
+        new BetaContentBlockVariants::BetaCodeExecutionToolResultBlock(value);
 
     public static implicit operator BetaContentBlock(BetaMCPToolUseBlock value) =>
-        new BetaMCPToolUseBlockVariant(value);
+        new BetaContentBlockVariants::BetaMCPToolUseBlock(value);
 
     public static implicit operator BetaContentBlock(BetaMCPToolResultBlock value) =>
-        new BetaMCPToolResultBlockVariant(value);
+        new BetaContentBlockVariants::BetaMCPToolResultBlock(value);
 
     public static implicit operator BetaContentBlock(BetaContainerUploadBlock value) =>
-        new BetaContainerUploadBlockVariant(value);
+        new BetaContentBlockVariants::BetaContainerUploadBlock(value);
 
-    public bool TryPickBetaTextBlockVariant([NotNullWhen(true)] out BetaTextBlock? value)
+    public bool TryPickBetaTextBlock([NotNullWhen(true)] out BetaTextBlock? value)
     {
-        value = (this as BetaTextBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaTextBlock)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaThinkingBlockVariant([NotNullWhen(true)] out BetaThinkingBlock? value)
+    public bool TryPickBetaThinkingBlock([NotNullWhen(true)] out BetaThinkingBlock? value)
     {
-        value = (this as BetaThinkingBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaThinkingBlock)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaRedactedThinkingBlockVariant(
+    public bool TryPickBetaRedactedThinkingBlock(
         [NotNullWhen(true)] out BetaRedactedThinkingBlock? value
     )
     {
-        value = (this as BetaRedactedThinkingBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaRedactedThinkingBlock)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolUseBlockVariant([NotNullWhen(true)] out BetaToolUseBlock? value)
+    public bool TryPickBetaToolUseBlock([NotNullWhen(true)] out BetaToolUseBlock? value)
     {
-        value = (this as BetaToolUseBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaToolUseBlock)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaServerToolUseBlockVariant(
-        [NotNullWhen(true)] out BetaServerToolUseBlock? value
-    )
+    public bool TryPickBetaServerToolUseBlock([NotNullWhen(true)] out BetaServerToolUseBlock? value)
     {
-        value = (this as BetaServerToolUseBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaServerToolUseBlock)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaWebSearchToolResultBlockVariant(
+    public bool TryPickBetaWebSearchToolResultBlock(
         [NotNullWhen(true)] out BetaWebSearchToolResultBlock? value
     )
     {
-        value = (this as BetaWebSearchToolResultBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaWebSearchToolResultBlock)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaCodeExecutionToolResultBlockVariant(
+    public bool TryPickBetaCodeExecutionToolResultBlock(
         [NotNullWhen(true)] out BetaCodeExecutionToolResultBlock? value
     )
     {
-        value = (this as BetaCodeExecutionToolResultBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaCodeExecutionToolResultBlock)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaMCPToolUseBlockVariant(
-        [NotNullWhen(true)] out BetaMCPToolUseBlock? value
-    )
+    public bool TryPickBetaMCPToolUseBlock([NotNullWhen(true)] out BetaMCPToolUseBlock? value)
     {
-        value = (this as BetaMCPToolUseBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaMCPToolUseBlock)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaMCPToolResultBlockVariant(
-        [NotNullWhen(true)] out BetaMCPToolResultBlock? value
-    )
+    public bool TryPickBetaMCPToolResultBlock([NotNullWhen(true)] out BetaMCPToolResultBlock? value)
     {
-        value = (this as BetaMCPToolResultBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaMCPToolResultBlock)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaContainerUploadBlockVariant(
+    public bool TryPickBetaContainerUploadBlock(
         [NotNullWhen(true)] out BetaContainerUploadBlock? value
     )
     {
-        value = (this as BetaContainerUploadBlockVariant)?.Value;
+        value = (this as BetaContentBlockVariants::BetaContainerUploadBlock)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaTextBlockVariant> betaTextBlock,
-        Action<BetaThinkingBlockVariant> betaThinkingBlock,
-        Action<BetaRedactedThinkingBlockVariant> betaRedactedThinkingBlock,
-        Action<BetaToolUseBlockVariant> betaToolUseBlock,
-        Action<BetaServerToolUseBlockVariant> betaServerToolUseBlock,
-        Action<BetaWebSearchToolResultBlockVariant> betaWebSearchToolResultBlock,
-        Action<BetaCodeExecutionToolResultBlockVariant> betaCodeExecutionToolResultBlock,
-        Action<BetaMCPToolUseBlockVariant> betaMCPToolUseBlock,
-        Action<BetaMCPToolResultBlockVariant> betaMCPToolResultBlock,
-        Action<BetaContainerUploadBlockVariant> betaContainerUploadBlock
+        Action<BetaContentBlockVariants::BetaTextBlock> betaTextBlock,
+        Action<BetaContentBlockVariants::BetaThinkingBlock> betaThinkingBlock,
+        Action<BetaContentBlockVariants::BetaRedactedThinkingBlock> betaRedactedThinkingBlock,
+        Action<BetaContentBlockVariants::BetaToolUseBlock> betaToolUseBlock,
+        Action<BetaContentBlockVariants::BetaServerToolUseBlock> betaServerToolUseBlock,
+        Action<BetaContentBlockVariants::BetaWebSearchToolResultBlock> betaWebSearchToolResultBlock,
+        Action<BetaContentBlockVariants::BetaCodeExecutionToolResultBlock> betaCodeExecutionToolResultBlock,
+        Action<BetaContentBlockVariants::BetaMCPToolUseBlock> betaMCPToolUseBlock,
+        Action<BetaContentBlockVariants::BetaMCPToolResultBlock> betaMCPToolResultBlock,
+        Action<BetaContentBlockVariants::BetaContainerUploadBlock> betaContainerUploadBlock
     )
     {
         switch (this)
         {
-            case BetaTextBlockVariant inner:
+            case BetaContentBlockVariants::BetaTextBlock inner:
                 betaTextBlock(inner);
                 break;
-            case BetaThinkingBlockVariant inner:
+            case BetaContentBlockVariants::BetaThinkingBlock inner:
                 betaThinkingBlock(inner);
                 break;
-            case BetaRedactedThinkingBlockVariant inner:
+            case BetaContentBlockVariants::BetaRedactedThinkingBlock inner:
                 betaRedactedThinkingBlock(inner);
                 break;
-            case BetaToolUseBlockVariant inner:
+            case BetaContentBlockVariants::BetaToolUseBlock inner:
                 betaToolUseBlock(inner);
                 break;
-            case BetaServerToolUseBlockVariant inner:
+            case BetaContentBlockVariants::BetaServerToolUseBlock inner:
                 betaServerToolUseBlock(inner);
                 break;
-            case BetaWebSearchToolResultBlockVariant inner:
+            case BetaContentBlockVariants::BetaWebSearchToolResultBlock inner:
                 betaWebSearchToolResultBlock(inner);
                 break;
-            case BetaCodeExecutionToolResultBlockVariant inner:
+            case BetaContentBlockVariants::BetaCodeExecutionToolResultBlock inner:
                 betaCodeExecutionToolResultBlock(inner);
                 break;
-            case BetaMCPToolUseBlockVariant inner:
+            case BetaContentBlockVariants::BetaMCPToolUseBlock inner:
                 betaMCPToolUseBlock(inner);
                 break;
-            case BetaMCPToolResultBlockVariant inner:
+            case BetaContentBlockVariants::BetaMCPToolResultBlock inner:
                 betaMCPToolResultBlock(inner);
                 break;
-            case BetaContainerUploadBlockVariant inner:
+            case BetaContentBlockVariants::BetaContainerUploadBlock inner:
                 betaContainerUploadBlock(inner);
                 break;
             default:
@@ -170,32 +164,42 @@ public abstract record class BetaContentBlock
     }
 
     public T Match<T>(
-        Func<BetaTextBlockVariant, T> betaTextBlock,
-        Func<BetaThinkingBlockVariant, T> betaThinkingBlock,
-        Func<BetaRedactedThinkingBlockVariant, T> betaRedactedThinkingBlock,
-        Func<BetaToolUseBlockVariant, T> betaToolUseBlock,
-        Func<BetaServerToolUseBlockVariant, T> betaServerToolUseBlock,
-        Func<BetaWebSearchToolResultBlockVariant, T> betaWebSearchToolResultBlock,
-        Func<BetaCodeExecutionToolResultBlockVariant, T> betaCodeExecutionToolResultBlock,
-        Func<BetaMCPToolUseBlockVariant, T> betaMCPToolUseBlock,
-        Func<BetaMCPToolResultBlockVariant, T> betaMCPToolResultBlock,
-        Func<BetaContainerUploadBlockVariant, T> betaContainerUploadBlock
+        Func<BetaContentBlockVariants::BetaTextBlock, T> betaTextBlock,
+        Func<BetaContentBlockVariants::BetaThinkingBlock, T> betaThinkingBlock,
+        Func<BetaContentBlockVariants::BetaRedactedThinkingBlock, T> betaRedactedThinkingBlock,
+        Func<BetaContentBlockVariants::BetaToolUseBlock, T> betaToolUseBlock,
+        Func<BetaContentBlockVariants::BetaServerToolUseBlock, T> betaServerToolUseBlock,
+        Func<
+            BetaContentBlockVariants::BetaWebSearchToolResultBlock,
+            T
+        > betaWebSearchToolResultBlock,
+        Func<
+            BetaContentBlockVariants::BetaCodeExecutionToolResultBlock,
+            T
+        > betaCodeExecutionToolResultBlock,
+        Func<BetaContentBlockVariants::BetaMCPToolUseBlock, T> betaMCPToolUseBlock,
+        Func<BetaContentBlockVariants::BetaMCPToolResultBlock, T> betaMCPToolResultBlock,
+        Func<BetaContentBlockVariants::BetaContainerUploadBlock, T> betaContainerUploadBlock
     )
     {
         return this switch
         {
-            BetaTextBlockVariant inner => betaTextBlock(inner),
-            BetaThinkingBlockVariant inner => betaThinkingBlock(inner),
-            BetaRedactedThinkingBlockVariant inner => betaRedactedThinkingBlock(inner),
-            BetaToolUseBlockVariant inner => betaToolUseBlock(inner),
-            BetaServerToolUseBlockVariant inner => betaServerToolUseBlock(inner),
-            BetaWebSearchToolResultBlockVariant inner => betaWebSearchToolResultBlock(inner),
-            BetaCodeExecutionToolResultBlockVariant inner => betaCodeExecutionToolResultBlock(
+            BetaContentBlockVariants::BetaTextBlock inner => betaTextBlock(inner),
+            BetaContentBlockVariants::BetaThinkingBlock inner => betaThinkingBlock(inner),
+            BetaContentBlockVariants::BetaRedactedThinkingBlock inner => betaRedactedThinkingBlock(
                 inner
             ),
-            BetaMCPToolUseBlockVariant inner => betaMCPToolUseBlock(inner),
-            BetaMCPToolResultBlockVariant inner => betaMCPToolResultBlock(inner),
-            BetaContainerUploadBlockVariant inner => betaContainerUploadBlock(inner),
+            BetaContentBlockVariants::BetaToolUseBlock inner => betaToolUseBlock(inner),
+            BetaContentBlockVariants::BetaServerToolUseBlock inner => betaServerToolUseBlock(inner),
+            BetaContentBlockVariants::BetaWebSearchToolResultBlock inner =>
+                betaWebSearchToolResultBlock(inner),
+            BetaContentBlockVariants::BetaCodeExecutionToolResultBlock inner =>
+                betaCodeExecutionToolResultBlock(inner),
+            BetaContentBlockVariants::BetaMCPToolUseBlock inner => betaMCPToolUseBlock(inner),
+            BetaContentBlockVariants::BetaMCPToolResultBlock inner => betaMCPToolResultBlock(inner),
+            BetaContentBlockVariants::BetaContainerUploadBlock inner => betaContainerUploadBlock(
+                inner
+            ),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -233,7 +237,7 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     var deserialized = JsonSerializer.Deserialize<BetaTextBlock>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaTextBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaTextBlock(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -252,7 +256,7 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     var deserialized = JsonSerializer.Deserialize<BetaThinkingBlock>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaThinkingBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaThinkingBlock(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -274,7 +278,9 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaRedactedThinkingBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaRedactedThinkingBlock(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -293,7 +299,7 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     var deserialized = JsonSerializer.Deserialize<BetaToolUseBlock>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaToolUseBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaToolUseBlock(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -315,7 +321,7 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaServerToolUseBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaServerToolUseBlock(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -337,7 +343,9 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaWebSearchToolResultBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaWebSearchToolResultBlock(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -359,7 +367,9 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaCodeExecutionToolResultBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaCodeExecutionToolResultBlock(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -381,7 +391,7 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaMCPToolUseBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaMCPToolUseBlock(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -403,7 +413,7 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaMCPToolResultBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaMCPToolResultBlock(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -425,7 +435,7 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaContainerUploadBlockVariant(deserialized);
+                        return new BetaContentBlockVariants::BetaContainerUploadBlock(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -450,19 +460,24 @@ sealed class BetaContentBlockConverter : JsonConverter<BetaContentBlock>
     {
         object variant = value switch
         {
-            BetaTextBlockVariant(var betaTextBlock) => betaTextBlock,
-            BetaThinkingBlockVariant(var betaThinkingBlock) => betaThinkingBlock,
-            BetaRedactedThinkingBlockVariant(var betaRedactedThinkingBlock) =>
+            BetaContentBlockVariants::BetaTextBlock(var betaTextBlock) => betaTextBlock,
+            BetaContentBlockVariants::BetaThinkingBlock(var betaThinkingBlock) => betaThinkingBlock,
+            BetaContentBlockVariants::BetaRedactedThinkingBlock(var betaRedactedThinkingBlock) =>
                 betaRedactedThinkingBlock,
-            BetaToolUseBlockVariant(var betaToolUseBlock) => betaToolUseBlock,
-            BetaServerToolUseBlockVariant(var betaServerToolUseBlock) => betaServerToolUseBlock,
-            BetaWebSearchToolResultBlockVariant(var betaWebSearchToolResultBlock) =>
-                betaWebSearchToolResultBlock,
-            BetaCodeExecutionToolResultBlockVariant(var betaCodeExecutionToolResultBlock) =>
-                betaCodeExecutionToolResultBlock,
-            BetaMCPToolUseBlockVariant(var betaMCPToolUseBlock) => betaMCPToolUseBlock,
-            BetaMCPToolResultBlockVariant(var betaMCPToolResultBlock) => betaMCPToolResultBlock,
-            BetaContainerUploadBlockVariant(var betaContainerUploadBlock) =>
+            BetaContentBlockVariants::BetaToolUseBlock(var betaToolUseBlock) => betaToolUseBlock,
+            BetaContentBlockVariants::BetaServerToolUseBlock(var betaServerToolUseBlock) =>
+                betaServerToolUseBlock,
+            BetaContentBlockVariants::BetaWebSearchToolResultBlock(
+                var betaWebSearchToolResultBlock
+            ) => betaWebSearchToolResultBlock,
+            BetaContentBlockVariants::BetaCodeExecutionToolResultBlock(
+                var betaCodeExecutionToolResultBlock
+            ) => betaCodeExecutionToolResultBlock,
+            BetaContentBlockVariants::BetaMCPToolUseBlock(var betaMCPToolUseBlock) =>
+                betaMCPToolUseBlock,
+            BetaContentBlockVariants::BetaMCPToolResultBlock(var betaMCPToolResultBlock) =>
+                betaMCPToolResultBlock,
+            BetaContentBlockVariants::BetaContainerUploadBlock(var betaContainerUploadBlock) =>
                 betaContainerUploadBlock,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };

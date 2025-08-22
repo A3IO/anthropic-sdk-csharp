@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaImageBlockParamProperties.SourceVariants;
+using SourceVariants = Anthropic.Models.Beta.Messages.BetaImageBlockParamProperties.SourceVariants;
 
 namespace Anthropic.Models.Beta.Messages.BetaImageBlockParamProperties;
 
@@ -13,51 +13,47 @@ public abstract record class Source
     internal Source() { }
 
     public static implicit operator Source(BetaBase64ImageSource value) =>
-        new BetaBase64ImageSourceVariant(value);
+        new SourceVariants::BetaBase64ImageSource(value);
 
     public static implicit operator Source(BetaURLImageSource value) =>
-        new BetaURLImageSourceVariant(value);
+        new SourceVariants::BetaURLImageSource(value);
 
     public static implicit operator Source(BetaFileImageSource value) =>
-        new BetaFileImageSourceVariant(value);
+        new SourceVariants::BetaFileImageSource(value);
 
-    public bool TryPickBetaBase64ImageSourceVariant(
-        [NotNullWhen(true)] out BetaBase64ImageSource? value
-    )
+    public bool TryPickBetaBase64ImageSource([NotNullWhen(true)] out BetaBase64ImageSource? value)
     {
-        value = (this as BetaBase64ImageSourceVariant)?.Value;
+        value = (this as SourceVariants::BetaBase64ImageSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaURLImageSourceVariant([NotNullWhen(true)] out BetaURLImageSource? value)
+    public bool TryPickBetaURLImageSource([NotNullWhen(true)] out BetaURLImageSource? value)
     {
-        value = (this as BetaURLImageSourceVariant)?.Value;
+        value = (this as SourceVariants::BetaURLImageSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaFileImageSourceVariant(
-        [NotNullWhen(true)] out BetaFileImageSource? value
-    )
+    public bool TryPickBetaFileImageSource([NotNullWhen(true)] out BetaFileImageSource? value)
     {
-        value = (this as BetaFileImageSourceVariant)?.Value;
+        value = (this as SourceVariants::BetaFileImageSource)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaBase64ImageSourceVariant> betaBase64ImageSource,
-        Action<BetaURLImageSourceVariant> betaURLImageSource,
-        Action<BetaFileImageSourceVariant> betaFileImageSource
+        Action<SourceVariants::BetaBase64ImageSource> betaBase64ImageSource,
+        Action<SourceVariants::BetaURLImageSource> betaURLImageSource,
+        Action<SourceVariants::BetaFileImageSource> betaFileImageSource
     )
     {
         switch (this)
         {
-            case BetaBase64ImageSourceVariant inner:
+            case SourceVariants::BetaBase64ImageSource inner:
                 betaBase64ImageSource(inner);
                 break;
-            case BetaURLImageSourceVariant inner:
+            case SourceVariants::BetaURLImageSource inner:
                 betaURLImageSource(inner);
                 break;
-            case BetaFileImageSourceVariant inner:
+            case SourceVariants::BetaFileImageSource inner:
                 betaFileImageSource(inner);
                 break;
             default:
@@ -66,16 +62,16 @@ public abstract record class Source
     }
 
     public T Match<T>(
-        Func<BetaBase64ImageSourceVariant, T> betaBase64ImageSource,
-        Func<BetaURLImageSourceVariant, T> betaURLImageSource,
-        Func<BetaFileImageSourceVariant, T> betaFileImageSource
+        Func<SourceVariants::BetaBase64ImageSource, T> betaBase64ImageSource,
+        Func<SourceVariants::BetaURLImageSource, T> betaURLImageSource,
+        Func<SourceVariants::BetaFileImageSource, T> betaFileImageSource
     )
     {
         return this switch
         {
-            BetaBase64ImageSourceVariant inner => betaBase64ImageSource(inner),
-            BetaURLImageSourceVariant inner => betaURLImageSource(inner),
-            BetaFileImageSourceVariant inner => betaFileImageSource(inner),
+            SourceVariants::BetaBase64ImageSource inner => betaBase64ImageSource(inner),
+            SourceVariants::BetaURLImageSource inner => betaURLImageSource(inner),
+            SourceVariants::BetaFileImageSource inner => betaFileImageSource(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -116,7 +112,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaBase64ImageSourceVariant(deserialized);
+                        return new SourceVariants::BetaBase64ImageSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -138,7 +134,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaURLImageSourceVariant(deserialized);
+                        return new SourceVariants::BetaURLImageSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -160,7 +156,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaFileImageSourceVariant(deserialized);
+                        return new SourceVariants::BetaFileImageSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -181,9 +177,10 @@ sealed class SourceConverter : JsonConverter<Source>
     {
         object variant = value switch
         {
-            BetaBase64ImageSourceVariant(var betaBase64ImageSource) => betaBase64ImageSource,
-            BetaURLImageSourceVariant(var betaURLImageSource) => betaURLImageSource,
-            BetaFileImageSourceVariant(var betaFileImageSource) => betaFileImageSource,
+            SourceVariants::BetaBase64ImageSource(var betaBase64ImageSource) =>
+                betaBase64ImageSource,
+            SourceVariants::BetaURLImageSource(var betaURLImageSource) => betaURLImageSource,
+            SourceVariants::BetaFileImageSource(var betaFileImageSource) => betaFileImageSource,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.WebSearchToolResultBlockParamContentVariants;
+using WebSearchToolResultBlockParamContentVariants = Anthropic.Models.Messages.WebSearchToolResultBlockParamContentVariants;
 
 namespace Anthropic.Models.Messages;
 
@@ -14,39 +14,43 @@ public abstract record class WebSearchToolResultBlockParamContent
 
     public static implicit operator WebSearchToolResultBlockParamContent(
         List<WebSearchResultBlockParam> value
-    ) => new WebSearchToolResultBlockItem(value);
+    ) => new WebSearchToolResultBlockParamContentVariants::WebSearchToolResultBlockItem(value);
 
     public static implicit operator WebSearchToolResultBlockParamContent(
         WebSearchToolRequestError value
-    ) => new WebSearchToolRequestErrorVariant(value);
+    ) => new WebSearchToolResultBlockParamContentVariants::WebSearchToolRequestError(value);
 
     public bool TryPickWebSearchToolResultBlockItem(
         [NotNullWhen(true)] out List<WebSearchResultBlockParam>? value
     )
     {
-        value = (this as WebSearchToolResultBlockItem)?.Value;
+        value = (
+            this as WebSearchToolResultBlockParamContentVariants::WebSearchToolResultBlockItem
+        )?.Value;
         return value != null;
     }
 
-    public bool TryPickWebSearchToolRequestErrorVariant(
+    public bool TryPickWebSearchToolRequestError(
         [NotNullWhen(true)] out WebSearchToolRequestError? value
     )
     {
-        value = (this as WebSearchToolRequestErrorVariant)?.Value;
+        value = (
+            this as WebSearchToolResultBlockParamContentVariants::WebSearchToolRequestError
+        )?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<WebSearchToolResultBlockItem> webSearchToolResultBlockItem,
-        Action<WebSearchToolRequestErrorVariant> webSearchToolRequestError
+        Action<WebSearchToolResultBlockParamContentVariants::WebSearchToolResultBlockItem> webSearchToolResultBlockItem,
+        Action<WebSearchToolResultBlockParamContentVariants::WebSearchToolRequestError> webSearchToolRequestError
     )
     {
         switch (this)
         {
-            case WebSearchToolResultBlockItem inner:
+            case WebSearchToolResultBlockParamContentVariants::WebSearchToolResultBlockItem inner:
                 webSearchToolResultBlockItem(inner);
                 break;
-            case WebSearchToolRequestErrorVariant inner:
+            case WebSearchToolResultBlockParamContentVariants::WebSearchToolRequestError inner:
                 webSearchToolRequestError(inner);
                 break;
             default:
@@ -55,14 +59,22 @@ public abstract record class WebSearchToolResultBlockParamContent
     }
 
     public T Match<T>(
-        Func<WebSearchToolResultBlockItem, T> webSearchToolResultBlockItem,
-        Func<WebSearchToolRequestErrorVariant, T> webSearchToolRequestError
+        Func<
+            WebSearchToolResultBlockParamContentVariants::WebSearchToolResultBlockItem,
+            T
+        > webSearchToolResultBlockItem,
+        Func<
+            WebSearchToolResultBlockParamContentVariants::WebSearchToolRequestError,
+            T
+        > webSearchToolRequestError
     )
     {
         return this switch
         {
-            WebSearchToolResultBlockItem inner => webSearchToolResultBlockItem(inner),
-            WebSearchToolRequestErrorVariant inner => webSearchToolRequestError(inner),
+            WebSearchToolResultBlockParamContentVariants::WebSearchToolResultBlockItem inner =>
+                webSearchToolResultBlockItem(inner),
+            WebSearchToolResultBlockParamContentVariants::WebSearchToolRequestError inner =>
+                webSearchToolRequestError(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -89,7 +101,9 @@ sealed class WebSearchToolResultBlockParamContentConverter
             );
             if (deserialized != null)
             {
-                return new WebSearchToolRequestErrorVariant(deserialized);
+                return new WebSearchToolResultBlockParamContentVariants::WebSearchToolRequestError(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -105,7 +119,9 @@ sealed class WebSearchToolResultBlockParamContentConverter
             );
             if (deserialized != null)
             {
-                return new WebSearchToolResultBlockItem(deserialized);
+                return new WebSearchToolResultBlockParamContentVariants::WebSearchToolResultBlockItem(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -124,10 +140,12 @@ sealed class WebSearchToolResultBlockParamContentConverter
     {
         object variant = value switch
         {
-            WebSearchToolResultBlockItem(var webSearchToolResultBlockItem) =>
-                webSearchToolResultBlockItem,
-            WebSearchToolRequestErrorVariant(var webSearchToolRequestError) =>
-                webSearchToolRequestError,
+            WebSearchToolResultBlockParamContentVariants::WebSearchToolResultBlockItem(
+                var webSearchToolResultBlockItem
+            ) => webSearchToolResultBlockItem,
+            WebSearchToolResultBlockParamContentVariants::WebSearchToolRequestError(
+                var webSearchToolRequestError
+            ) => webSearchToolRequestError,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaWebSearchToolResultBlockContentVariants;
+using BetaWebSearchToolResultBlockContentVariants = Anthropic.Models.Beta.Messages.BetaWebSearchToolResultBlockContentVariants;
 
 namespace Anthropic.Models.Beta.Messages;
 
@@ -14,17 +14,19 @@ public abstract record class BetaWebSearchToolResultBlockContent
 
     public static implicit operator BetaWebSearchToolResultBlockContent(
         BetaWebSearchToolResultError value
-    ) => new BetaWebSearchToolResultErrorVariant(value);
+    ) => new BetaWebSearchToolResultBlockContentVariants::BetaWebSearchToolResultError(value);
 
     public static implicit operator BetaWebSearchToolResultBlockContent(
         List<BetaWebSearchResultBlock> value
-    ) => new BetaWebSearchResultBlocks(value);
+    ) => new BetaWebSearchToolResultBlockContentVariants::BetaWebSearchResultBlocks(value);
 
-    public bool TryPickBetaWebSearchToolResultErrorVariant(
+    public bool TryPickBetaWebSearchToolResultError(
         [NotNullWhen(true)] out BetaWebSearchToolResultError? value
     )
     {
-        value = (this as BetaWebSearchToolResultErrorVariant)?.Value;
+        value = (
+            this as BetaWebSearchToolResultBlockContentVariants::BetaWebSearchToolResultError
+        )?.Value;
         return value != null;
     }
 
@@ -32,21 +34,23 @@ public abstract record class BetaWebSearchToolResultBlockContent
         [NotNullWhen(true)] out List<BetaWebSearchResultBlock>? value
     )
     {
-        value = (this as BetaWebSearchResultBlocks)?.Value;
+        value = (
+            this as BetaWebSearchToolResultBlockContentVariants::BetaWebSearchResultBlocks
+        )?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaWebSearchToolResultErrorVariant> betaWebSearchToolResultError,
-        Action<BetaWebSearchResultBlocks> betaWebSearchResultBlocks
+        Action<BetaWebSearchToolResultBlockContentVariants::BetaWebSearchToolResultError> betaWebSearchToolResultError,
+        Action<BetaWebSearchToolResultBlockContentVariants::BetaWebSearchResultBlocks> betaWebSearchResultBlocks
     )
     {
         switch (this)
         {
-            case BetaWebSearchToolResultErrorVariant inner:
+            case BetaWebSearchToolResultBlockContentVariants::BetaWebSearchToolResultError inner:
                 betaWebSearchToolResultError(inner);
                 break;
-            case BetaWebSearchResultBlocks inner:
+            case BetaWebSearchToolResultBlockContentVariants::BetaWebSearchResultBlocks inner:
                 betaWebSearchResultBlocks(inner);
                 break;
             default:
@@ -55,14 +59,22 @@ public abstract record class BetaWebSearchToolResultBlockContent
     }
 
     public T Match<T>(
-        Func<BetaWebSearchToolResultErrorVariant, T> betaWebSearchToolResultError,
-        Func<BetaWebSearchResultBlocks, T> betaWebSearchResultBlocks
+        Func<
+            BetaWebSearchToolResultBlockContentVariants::BetaWebSearchToolResultError,
+            T
+        > betaWebSearchToolResultError,
+        Func<
+            BetaWebSearchToolResultBlockContentVariants::BetaWebSearchResultBlocks,
+            T
+        > betaWebSearchResultBlocks
     )
     {
         return this switch
         {
-            BetaWebSearchToolResultErrorVariant inner => betaWebSearchToolResultError(inner),
-            BetaWebSearchResultBlocks inner => betaWebSearchResultBlocks(inner),
+            BetaWebSearchToolResultBlockContentVariants::BetaWebSearchToolResultError inner =>
+                betaWebSearchToolResultError(inner),
+            BetaWebSearchToolResultBlockContentVariants::BetaWebSearchResultBlocks inner =>
+                betaWebSearchResultBlocks(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -89,7 +101,9 @@ sealed class BetaWebSearchToolResultBlockContentConverter
             );
             if (deserialized != null)
             {
-                return new BetaWebSearchToolResultErrorVariant(deserialized);
+                return new BetaWebSearchToolResultBlockContentVariants::BetaWebSearchToolResultError(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -105,7 +119,9 @@ sealed class BetaWebSearchToolResultBlockContentConverter
             );
             if (deserialized != null)
             {
-                return new BetaWebSearchResultBlocks(deserialized);
+                return new BetaWebSearchToolResultBlockContentVariants::BetaWebSearchResultBlocks(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -124,9 +140,12 @@ sealed class BetaWebSearchToolResultBlockContentConverter
     {
         object variant = value switch
         {
-            BetaWebSearchToolResultErrorVariant(var betaWebSearchToolResultError) =>
-                betaWebSearchToolResultError,
-            BetaWebSearchResultBlocks(var betaWebSearchResultBlocks) => betaWebSearchResultBlocks,
+            BetaWebSearchToolResultBlockContentVariants::BetaWebSearchToolResultError(
+                var betaWebSearchToolResultError
+            ) => betaWebSearchToolResultError,
+            BetaWebSearchToolResultBlockContentVariants::BetaWebSearchResultBlocks(
+                var betaWebSearchResultBlocks
+            ) => betaWebSearchResultBlocks,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

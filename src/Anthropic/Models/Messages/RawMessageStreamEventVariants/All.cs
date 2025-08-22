@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Messages;
+
 namespace Anthropic.Models.Messages.RawMessageStreamEventVariants;
 
-public sealed record class RawMessageStartEventVariant(RawMessageStartEvent Value)
-    : RawMessageStreamEvent,
-        IVariant<RawMessageStartEventVariant, RawMessageStartEvent>
+public sealed record class RawMessageStartEvent(Messages::RawMessageStartEvent Value)
+    : Messages::RawMessageStreamEvent,
+        IVariant<RawMessageStartEvent, Messages::RawMessageStartEvent>
 {
-    public static RawMessageStartEventVariant From(RawMessageStartEvent value)
+    public static RawMessageStartEvent From(Messages::RawMessageStartEvent value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class RawMessageStartEventVariant(RawMessageStartEvent Valu
     }
 }
 
-public sealed record class RawMessageDeltaEventVariant(RawMessageDeltaEvent Value)
-    : RawMessageStreamEvent,
-        IVariant<RawMessageDeltaEventVariant, RawMessageDeltaEvent>
+public sealed record class RawMessageDeltaEvent(Messages::RawMessageDeltaEvent Value)
+    : Messages::RawMessageStreamEvent,
+        IVariant<RawMessageDeltaEvent, Messages::RawMessageDeltaEvent>
 {
-    public static RawMessageDeltaEventVariant From(RawMessageDeltaEvent value)
+    public static RawMessageDeltaEvent From(Messages::RawMessageDeltaEvent value)
     {
         return new(value);
     }
@@ -30,11 +32,11 @@ public sealed record class RawMessageDeltaEventVariant(RawMessageDeltaEvent Valu
     }
 }
 
-public sealed record class RawMessageStopEventVariant(RawMessageStopEvent Value)
-    : RawMessageStreamEvent,
-        IVariant<RawMessageStopEventVariant, RawMessageStopEvent>
+public sealed record class RawMessageStopEvent(Messages::RawMessageStopEvent Value)
+    : Messages::RawMessageStreamEvent,
+        IVariant<RawMessageStopEvent, Messages::RawMessageStopEvent>
 {
-    public static RawMessageStopEventVariant From(RawMessageStopEvent value)
+    public static RawMessageStopEvent From(Messages::RawMessageStopEvent value)
     {
         return new(value);
     }
@@ -45,11 +47,11 @@ public sealed record class RawMessageStopEventVariant(RawMessageStopEvent Value)
     }
 }
 
-public sealed record class RawContentBlockStartEventVariant(RawContentBlockStartEvent Value)
-    : RawMessageStreamEvent,
-        IVariant<RawContentBlockStartEventVariant, RawContentBlockStartEvent>
+public sealed record class RawContentBlockStartEvent(Messages::RawContentBlockStartEvent Value)
+    : Messages::RawMessageStreamEvent,
+        IVariant<RawContentBlockStartEvent, Messages::RawContentBlockStartEvent>
 {
-    public static RawContentBlockStartEventVariant From(RawContentBlockStartEvent value)
+    public static RawContentBlockStartEvent From(Messages::RawContentBlockStartEvent value)
     {
         return new(value);
     }
@@ -60,11 +62,11 @@ public sealed record class RawContentBlockStartEventVariant(RawContentBlockStart
     }
 }
 
-public sealed record class RawContentBlockDeltaEventVariant(RawContentBlockDeltaEvent Value)
-    : RawMessageStreamEvent,
-        IVariant<RawContentBlockDeltaEventVariant, RawContentBlockDeltaEvent>
+public sealed record class RawContentBlockDeltaEvent(Messages::RawContentBlockDeltaEvent Value)
+    : Messages::RawMessageStreamEvent,
+        IVariant<RawContentBlockDeltaEvent, Messages::RawContentBlockDeltaEvent>
 {
-    public static RawContentBlockDeltaEventVariant From(RawContentBlockDeltaEvent value)
+    public static RawContentBlockDeltaEvent From(Messages::RawContentBlockDeltaEvent value)
     {
         return new(value);
     }
@@ -75,11 +77,11 @@ public sealed record class RawContentBlockDeltaEventVariant(RawContentBlockDelta
     }
 }
 
-public sealed record class RawContentBlockStopEventVariant(RawContentBlockStopEvent Value)
-    : RawMessageStreamEvent,
-        IVariant<RawContentBlockStopEventVariant, RawContentBlockStopEvent>
+public sealed record class RawContentBlockStopEvent(Messages::RawContentBlockStopEvent Value)
+    : Messages::RawMessageStreamEvent,
+        IVariant<RawContentBlockStopEvent, Messages::RawContentBlockStopEvent>
 {
-    public static RawContentBlockStopEventVariant From(RawContentBlockStopEvent value)
+    public static RawContentBlockStopEvent From(Messages::RawContentBlockStopEvent value)
     {
         return new(value);
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.ToolChoiceVariants;
+using ToolChoiceVariants = Anthropic.Models.Messages.ToolChoiceVariants;
 
 namespace Anthropic.Models.Messages;
 
@@ -17,60 +17,60 @@ public abstract record class ToolChoice
     internal ToolChoice() { }
 
     public static implicit operator ToolChoice(ToolChoiceAuto value) =>
-        new ToolChoiceAutoVariant(value);
+        new ToolChoiceVariants::ToolChoiceAuto(value);
 
     public static implicit operator ToolChoice(ToolChoiceAny value) =>
-        new ToolChoiceAnyVariant(value);
+        new ToolChoiceVariants::ToolChoiceAny(value);
 
     public static implicit operator ToolChoice(ToolChoiceTool value) =>
-        new ToolChoiceToolVariant(value);
+        new ToolChoiceVariants::ToolChoiceTool(value);
 
     public static implicit operator ToolChoice(ToolChoiceNone value) =>
-        new ToolChoiceNoneVariant(value);
+        new ToolChoiceVariants::ToolChoiceNone(value);
 
-    public bool TryPickToolChoiceAutoVariant([NotNullWhen(true)] out ToolChoiceAuto? value)
+    public bool TryPickToolChoiceAuto([NotNullWhen(true)] out ToolChoiceAuto? value)
     {
-        value = (this as ToolChoiceAutoVariant)?.Value;
+        value = (this as ToolChoiceVariants::ToolChoiceAuto)?.Value;
         return value != null;
     }
 
-    public bool TryPickToolChoiceAnyVariant([NotNullWhen(true)] out ToolChoiceAny? value)
+    public bool TryPickToolChoiceAny([NotNullWhen(true)] out ToolChoiceAny? value)
     {
-        value = (this as ToolChoiceAnyVariant)?.Value;
+        value = (this as ToolChoiceVariants::ToolChoiceAny)?.Value;
         return value != null;
     }
 
-    public bool TryPickToolChoiceToolVariant([NotNullWhen(true)] out ToolChoiceTool? value)
+    public bool TryPickToolChoiceTool([NotNullWhen(true)] out ToolChoiceTool? value)
     {
-        value = (this as ToolChoiceToolVariant)?.Value;
+        value = (this as ToolChoiceVariants::ToolChoiceTool)?.Value;
         return value != null;
     }
 
-    public bool TryPickToolChoiceNoneVariant([NotNullWhen(true)] out ToolChoiceNone? value)
+    public bool TryPickToolChoiceNone([NotNullWhen(true)] out ToolChoiceNone? value)
     {
-        value = (this as ToolChoiceNoneVariant)?.Value;
+        value = (this as ToolChoiceVariants::ToolChoiceNone)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<ToolChoiceAutoVariant> toolChoiceAuto,
-        Action<ToolChoiceAnyVariant> toolChoiceAny,
-        Action<ToolChoiceToolVariant> toolChoiceTool,
-        Action<ToolChoiceNoneVariant> toolChoiceNone
+        Action<ToolChoiceVariants::ToolChoiceAuto> toolChoiceAuto,
+        Action<ToolChoiceVariants::ToolChoiceAny> toolChoiceAny,
+        Action<ToolChoiceVariants::ToolChoiceTool> toolChoiceTool,
+        Action<ToolChoiceVariants::ToolChoiceNone> toolChoiceNone
     )
     {
         switch (this)
         {
-            case ToolChoiceAutoVariant inner:
+            case ToolChoiceVariants::ToolChoiceAuto inner:
                 toolChoiceAuto(inner);
                 break;
-            case ToolChoiceAnyVariant inner:
+            case ToolChoiceVariants::ToolChoiceAny inner:
                 toolChoiceAny(inner);
                 break;
-            case ToolChoiceToolVariant inner:
+            case ToolChoiceVariants::ToolChoiceTool inner:
                 toolChoiceTool(inner);
                 break;
-            case ToolChoiceNoneVariant inner:
+            case ToolChoiceVariants::ToolChoiceNone inner:
                 toolChoiceNone(inner);
                 break;
             default:
@@ -79,18 +79,18 @@ public abstract record class ToolChoice
     }
 
     public T Match<T>(
-        Func<ToolChoiceAutoVariant, T> toolChoiceAuto,
-        Func<ToolChoiceAnyVariant, T> toolChoiceAny,
-        Func<ToolChoiceToolVariant, T> toolChoiceTool,
-        Func<ToolChoiceNoneVariant, T> toolChoiceNone
+        Func<ToolChoiceVariants::ToolChoiceAuto, T> toolChoiceAuto,
+        Func<ToolChoiceVariants::ToolChoiceAny, T> toolChoiceAny,
+        Func<ToolChoiceVariants::ToolChoiceTool, T> toolChoiceTool,
+        Func<ToolChoiceVariants::ToolChoiceNone, T> toolChoiceNone
     )
     {
         return this switch
         {
-            ToolChoiceAutoVariant inner => toolChoiceAuto(inner),
-            ToolChoiceAnyVariant inner => toolChoiceAny(inner),
-            ToolChoiceToolVariant inner => toolChoiceTool(inner),
-            ToolChoiceNoneVariant inner => toolChoiceNone(inner),
+            ToolChoiceVariants::ToolChoiceAuto inner => toolChoiceAuto(inner),
+            ToolChoiceVariants::ToolChoiceAny inner => toolChoiceAny(inner),
+            ToolChoiceVariants::ToolChoiceTool inner => toolChoiceTool(inner),
+            ToolChoiceVariants::ToolChoiceNone inner => toolChoiceNone(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -128,7 +128,7 @@ sealed class ToolChoiceConverter : JsonConverter<ToolChoice>
                     var deserialized = JsonSerializer.Deserialize<ToolChoiceAuto>(json, options);
                     if (deserialized != null)
                     {
-                        return new ToolChoiceAutoVariant(deserialized);
+                        return new ToolChoiceVariants::ToolChoiceAuto(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -147,7 +147,7 @@ sealed class ToolChoiceConverter : JsonConverter<ToolChoice>
                     var deserialized = JsonSerializer.Deserialize<ToolChoiceAny>(json, options);
                     if (deserialized != null)
                     {
-                        return new ToolChoiceAnyVariant(deserialized);
+                        return new ToolChoiceVariants::ToolChoiceAny(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -166,7 +166,7 @@ sealed class ToolChoiceConverter : JsonConverter<ToolChoice>
                     var deserialized = JsonSerializer.Deserialize<ToolChoiceTool>(json, options);
                     if (deserialized != null)
                     {
-                        return new ToolChoiceToolVariant(deserialized);
+                        return new ToolChoiceVariants::ToolChoiceTool(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -185,7 +185,7 @@ sealed class ToolChoiceConverter : JsonConverter<ToolChoice>
                     var deserialized = JsonSerializer.Deserialize<ToolChoiceNone>(json, options);
                     if (deserialized != null)
                     {
-                        return new ToolChoiceNoneVariant(deserialized);
+                        return new ToolChoiceVariants::ToolChoiceNone(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -210,10 +210,10 @@ sealed class ToolChoiceConverter : JsonConverter<ToolChoice>
     {
         object variant = value switch
         {
-            ToolChoiceAutoVariant(var toolChoiceAuto) => toolChoiceAuto,
-            ToolChoiceAnyVariant(var toolChoiceAny) => toolChoiceAny,
-            ToolChoiceToolVariant(var toolChoiceTool) => toolChoiceTool,
-            ToolChoiceNoneVariant(var toolChoiceNone) => toolChoiceNone,
+            ToolChoiceVariants::ToolChoiceAuto(var toolChoiceAuto) => toolChoiceAuto,
+            ToolChoiceVariants::ToolChoiceAny(var toolChoiceAny) => toolChoiceAny,
+            ToolChoiceVariants::ToolChoiceTool(var toolChoiceTool) => toolChoiceTool,
+            ToolChoiceVariants::ToolChoiceNone(var toolChoiceNone) => toolChoiceNone,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

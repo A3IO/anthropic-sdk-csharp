@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Messages;
+
 namespace Anthropic.Models.Messages.DocumentBlockParamProperties.SourceVariants;
 
-public sealed record class Base64PDFSourceVariant(Base64PDFSource Value)
+public sealed record class Base64PDFSource(Messages::Base64PDFSource Value)
     : Source,
-        IVariant<Base64PDFSourceVariant, Base64PDFSource>
+        IVariant<Base64PDFSource, Messages::Base64PDFSource>
 {
-    public static Base64PDFSourceVariant From(Base64PDFSource value)
+    public static Base64PDFSource From(Messages::Base64PDFSource value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class Base64PDFSourceVariant(Base64PDFSource Value)
     }
 }
 
-public sealed record class PlainTextSourceVariant(PlainTextSource Value)
+public sealed record class PlainTextSource(Messages::PlainTextSource Value)
     : Source,
-        IVariant<PlainTextSourceVariant, PlainTextSource>
+        IVariant<PlainTextSource, Messages::PlainTextSource>
 {
-    public static PlainTextSourceVariant From(PlainTextSource value)
+    public static PlainTextSource From(Messages::PlainTextSource value)
     {
         return new(value);
     }
@@ -30,11 +32,11 @@ public sealed record class PlainTextSourceVariant(PlainTextSource Value)
     }
 }
 
-public sealed record class ContentBlockSourceVariant(ContentBlockSource Value)
+public sealed record class ContentBlockSource(Messages::ContentBlockSource Value)
     : Source,
-        IVariant<ContentBlockSourceVariant, ContentBlockSource>
+        IVariant<ContentBlockSource, Messages::ContentBlockSource>
 {
-    public static ContentBlockSourceVariant From(ContentBlockSource value)
+    public static ContentBlockSource From(Messages::ContentBlockSource value)
     {
         return new(value);
     }
@@ -45,11 +47,11 @@ public sealed record class ContentBlockSourceVariant(ContentBlockSource Value)
     }
 }
 
-public sealed record class URLPDFSourceVariant(URLPDFSource Value)
+public sealed record class URLPDFSource(Messages::URLPDFSource Value)
     : Source,
-        IVariant<URLPDFSourceVariant, URLPDFSource>
+        IVariant<URLPDFSource, Messages::URLPDFSource>
 {
-    public static URLPDFSourceVariant From(URLPDFSource value)
+    public static URLPDFSource From(Messages::URLPDFSource value)
     {
         return new(value);
     }

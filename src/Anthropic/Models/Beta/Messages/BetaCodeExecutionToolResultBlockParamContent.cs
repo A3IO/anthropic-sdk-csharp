@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaCodeExecutionToolResultBlockParamContentVariants;
+using BetaCodeExecutionToolResultBlockParamContentVariants = Anthropic.Models.Beta.Messages.BetaCodeExecutionToolResultBlockParamContentVariants;
 
 namespace Anthropic.Models.Beta.Messages;
 
@@ -14,39 +14,51 @@ public abstract record class BetaCodeExecutionToolResultBlockParamContent
 
     public static implicit operator BetaCodeExecutionToolResultBlockParamContent(
         BetaCodeExecutionToolResultErrorParam value
-    ) => new BetaCodeExecutionToolResultErrorParamVariant(value);
+    ) =>
+        new BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionToolResultErrorParam(
+            value
+        );
 
     public static implicit operator BetaCodeExecutionToolResultBlockParamContent(
         BetaCodeExecutionResultBlockParam value
-    ) => new BetaCodeExecutionResultBlockParamVariant(value);
+    ) =>
+        new BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionResultBlockParam(
+            value
+        );
 
-    public bool TryPickBetaCodeExecutionToolResultErrorParamVariant(
+    public bool TryPickBetaCodeExecutionToolResultErrorParam(
         [NotNullWhen(true)] out BetaCodeExecutionToolResultErrorParam? value
     )
     {
-        value = (this as BetaCodeExecutionToolResultErrorParamVariant)?.Value;
+        value = (
+            this
+            as BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionToolResultErrorParam
+        )?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaCodeExecutionResultBlockParamVariant(
+    public bool TryPickBetaCodeExecutionResultBlockParam(
         [NotNullWhen(true)] out BetaCodeExecutionResultBlockParam? value
     )
     {
-        value = (this as BetaCodeExecutionResultBlockParamVariant)?.Value;
+        value = (
+            this
+            as BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionResultBlockParam
+        )?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaCodeExecutionToolResultErrorParamVariant> betaCodeExecutionToolResultErrorParam,
-        Action<BetaCodeExecutionResultBlockParamVariant> betaCodeExecutionResultBlockParam
+        Action<BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionToolResultErrorParam> betaCodeExecutionToolResultErrorParam,
+        Action<BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionResultBlockParam> betaCodeExecutionResultBlockParam
     )
     {
         switch (this)
         {
-            case BetaCodeExecutionToolResultErrorParamVariant inner:
+            case BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionToolResultErrorParam inner:
                 betaCodeExecutionToolResultErrorParam(inner);
                 break;
-            case BetaCodeExecutionResultBlockParamVariant inner:
+            case BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionResultBlockParam inner:
                 betaCodeExecutionResultBlockParam(inner);
                 break;
             default:
@@ -55,17 +67,22 @@ public abstract record class BetaCodeExecutionToolResultBlockParamContent
     }
 
     public T Match<T>(
-        Func<BetaCodeExecutionToolResultErrorParamVariant, T> betaCodeExecutionToolResultErrorParam,
-        Func<BetaCodeExecutionResultBlockParamVariant, T> betaCodeExecutionResultBlockParam
+        Func<
+            BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionToolResultErrorParam,
+            T
+        > betaCodeExecutionToolResultErrorParam,
+        Func<
+            BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionResultBlockParam,
+            T
+        > betaCodeExecutionResultBlockParam
     )
     {
         return this switch
         {
-            BetaCodeExecutionToolResultErrorParamVariant inner =>
+            BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionToolResultErrorParam inner =>
                 betaCodeExecutionToolResultErrorParam(inner),
-            BetaCodeExecutionResultBlockParamVariant inner => betaCodeExecutionResultBlockParam(
-                inner
-            ),
+            BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionResultBlockParam inner =>
+                betaCodeExecutionResultBlockParam(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -92,7 +109,9 @@ sealed class BetaCodeExecutionToolResultBlockParamContentConverter
             );
             if (deserialized != null)
             {
-                return new BetaCodeExecutionToolResultErrorParamVariant(deserialized);
+                return new BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionToolResultErrorParam(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -108,7 +127,9 @@ sealed class BetaCodeExecutionToolResultBlockParamContentConverter
             );
             if (deserialized != null)
             {
-                return new BetaCodeExecutionResultBlockParamVariant(deserialized);
+                return new BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionResultBlockParam(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -127,11 +148,12 @@ sealed class BetaCodeExecutionToolResultBlockParamContentConverter
     {
         object variant = value switch
         {
-            BetaCodeExecutionToolResultErrorParamVariant(
+            BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionToolResultErrorParam(
                 var betaCodeExecutionToolResultErrorParam
             ) => betaCodeExecutionToolResultErrorParam,
-            BetaCodeExecutionResultBlockParamVariant(var betaCodeExecutionResultBlockParam) =>
-                betaCodeExecutionResultBlockParam,
+            BetaCodeExecutionToolResultBlockParamContentVariants::BetaCodeExecutionResultBlockParam(
+                var betaCodeExecutionResultBlockParam
+            ) => betaCodeExecutionResultBlockParam,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

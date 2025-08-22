@@ -15,7 +15,7 @@ public abstract record class Content
     public static implicit operator Content(string value) => new ContentVariants::String(value);
 
     public static implicit operator Content(List<ContentBlockSourceContent> value) =>
-        new ContentVariants::ContentBlockSourceContentVariant(value);
+        new ContentVariants::ContentBlockSourceContent(value);
 
     public bool TryPickString([NotNullWhen(true)] out string? value)
     {
@@ -23,17 +23,17 @@ public abstract record class Content
         return value != null;
     }
 
-    public bool TryPickContentBlockSourceContentVariant(
+    public bool TryPickContentBlockSourceContent(
         [NotNullWhen(true)] out List<ContentBlockSourceContent>? value
     )
     {
-        value = (this as ContentVariants::ContentBlockSourceContentVariant)?.Value;
+        value = (this as ContentVariants::ContentBlockSourceContent)?.Value;
         return value != null;
     }
 
     public void Switch(
         Action<ContentVariants::String> @string,
-        Action<ContentVariants::ContentBlockSourceContentVariant> contentBlockSourceContent
+        Action<ContentVariants::ContentBlockSourceContent> contentBlockSourceContent
     )
     {
         switch (this)
@@ -41,7 +41,7 @@ public abstract record class Content
             case ContentVariants::String inner:
                 @string(inner);
                 break;
-            case ContentVariants::ContentBlockSourceContentVariant inner:
+            case ContentVariants::ContentBlockSourceContent inner:
                 contentBlockSourceContent(inner);
                 break;
             default:
@@ -51,15 +51,13 @@ public abstract record class Content
 
     public T Match<T>(
         Func<ContentVariants::String, T> @string,
-        Func<ContentVariants::ContentBlockSourceContentVariant, T> contentBlockSourceContent
+        Func<ContentVariants::ContentBlockSourceContent, T> contentBlockSourceContent
     )
     {
         return this switch
         {
             ContentVariants::String inner => @string(inner),
-            ContentVariants::ContentBlockSourceContentVariant inner => contentBlockSourceContent(
-                inner
-            ),
+            ContentVariants::ContentBlockSourceContent inner => contentBlockSourceContent(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -98,7 +96,7 @@ sealed class ContentConverter : JsonConverter<Content>
             );
             if (deserialized != null)
             {
-                return new ContentVariants::ContentBlockSourceContentVariant(deserialized);
+                return new ContentVariants::ContentBlockSourceContent(deserialized);
             }
         }
         catch (JsonException e)
@@ -114,7 +112,7 @@ sealed class ContentConverter : JsonConverter<Content>
         object variant = value switch
         {
             ContentVariants::String(var @string) => @string,
-            ContentVariants::ContentBlockSourceContentVariant(var contentBlockSourceContent) =>
+            ContentVariants::ContentBlockSourceContent(var contentBlockSourceContent) =>
                 contentBlockSourceContent,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };

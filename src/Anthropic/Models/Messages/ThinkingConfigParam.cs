@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.ThinkingConfigParamVariants;
+using ThinkingConfigParamVariants = Anthropic.Models.Messages.ThinkingConfigParamVariants;
 
 namespace Anthropic.Models.Messages;
 
@@ -23,38 +23,34 @@ public abstract record class ThinkingConfigParam
     internal ThinkingConfigParam() { }
 
     public static implicit operator ThinkingConfigParam(ThinkingConfigEnabled value) =>
-        new ThinkingConfigEnabledVariant(value);
+        new ThinkingConfigParamVariants::ThinkingConfigEnabled(value);
 
     public static implicit operator ThinkingConfigParam(ThinkingConfigDisabled value) =>
-        new ThinkingConfigDisabledVariant(value);
+        new ThinkingConfigParamVariants::ThinkingConfigDisabled(value);
 
-    public bool TryPickThinkingConfigEnabledVariant(
-        [NotNullWhen(true)] out ThinkingConfigEnabled? value
-    )
+    public bool TryPickThinkingConfigEnabled([NotNullWhen(true)] out ThinkingConfigEnabled? value)
     {
-        value = (this as ThinkingConfigEnabledVariant)?.Value;
+        value = (this as ThinkingConfigParamVariants::ThinkingConfigEnabled)?.Value;
         return value != null;
     }
 
-    public bool TryPickThinkingConfigDisabledVariant(
-        [NotNullWhen(true)] out ThinkingConfigDisabled? value
-    )
+    public bool TryPickThinkingConfigDisabled([NotNullWhen(true)] out ThinkingConfigDisabled? value)
     {
-        value = (this as ThinkingConfigDisabledVariant)?.Value;
+        value = (this as ThinkingConfigParamVariants::ThinkingConfigDisabled)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<ThinkingConfigEnabledVariant> thinkingConfigEnabled,
-        Action<ThinkingConfigDisabledVariant> thinkingConfigDisabled
+        Action<ThinkingConfigParamVariants::ThinkingConfigEnabled> thinkingConfigEnabled,
+        Action<ThinkingConfigParamVariants::ThinkingConfigDisabled> thinkingConfigDisabled
     )
     {
         switch (this)
         {
-            case ThinkingConfigEnabledVariant inner:
+            case ThinkingConfigParamVariants::ThinkingConfigEnabled inner:
                 thinkingConfigEnabled(inner);
                 break;
-            case ThinkingConfigDisabledVariant inner:
+            case ThinkingConfigParamVariants::ThinkingConfigDisabled inner:
                 thinkingConfigDisabled(inner);
                 break;
             default:
@@ -63,14 +59,18 @@ public abstract record class ThinkingConfigParam
     }
 
     public T Match<T>(
-        Func<ThinkingConfigEnabledVariant, T> thinkingConfigEnabled,
-        Func<ThinkingConfigDisabledVariant, T> thinkingConfigDisabled
+        Func<ThinkingConfigParamVariants::ThinkingConfigEnabled, T> thinkingConfigEnabled,
+        Func<ThinkingConfigParamVariants::ThinkingConfigDisabled, T> thinkingConfigDisabled
     )
     {
         return this switch
         {
-            ThinkingConfigEnabledVariant inner => thinkingConfigEnabled(inner),
-            ThinkingConfigDisabledVariant inner => thinkingConfigDisabled(inner),
+            ThinkingConfigParamVariants::ThinkingConfigEnabled inner => thinkingConfigEnabled(
+                inner
+            ),
+            ThinkingConfigParamVariants::ThinkingConfigDisabled inner => thinkingConfigDisabled(
+                inner
+            ),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -111,7 +111,7 @@ sealed class ThinkingConfigParamConverter : JsonConverter<ThinkingConfigParam>
                     );
                     if (deserialized != null)
                     {
-                        return new ThinkingConfigEnabledVariant(deserialized);
+                        return new ThinkingConfigParamVariants::ThinkingConfigEnabled(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -133,7 +133,9 @@ sealed class ThinkingConfigParamConverter : JsonConverter<ThinkingConfigParam>
                     );
                     if (deserialized != null)
                     {
-                        return new ThinkingConfigDisabledVariant(deserialized);
+                        return new ThinkingConfigParamVariants::ThinkingConfigDisabled(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -158,8 +160,10 @@ sealed class ThinkingConfigParamConverter : JsonConverter<ThinkingConfigParam>
     {
         object variant = value switch
         {
-            ThinkingConfigEnabledVariant(var thinkingConfigEnabled) => thinkingConfigEnabled,
-            ThinkingConfigDisabledVariant(var thinkingConfigDisabled) => thinkingConfigDisabled,
+            ThinkingConfigParamVariants::ThinkingConfigEnabled(var thinkingConfigEnabled) =>
+                thinkingConfigEnabled,
+            ThinkingConfigParamVariants::ThinkingConfigDisabled(var thinkingConfigDisabled) =>
+                thinkingConfigDisabled,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaRawContentBlockDeltaVariants;
+using BetaRawContentBlockDeltaVariants = Anthropic.Models.Beta.Messages.BetaRawContentBlockDeltaVariants;
 
 namespace Anthropic.Models.Beta.Messages;
 
@@ -13,73 +13,73 @@ public abstract record class BetaRawContentBlockDelta
     internal BetaRawContentBlockDelta() { }
 
     public static implicit operator BetaRawContentBlockDelta(BetaTextDelta value) =>
-        new BetaTextDeltaVariant(value);
+        new BetaRawContentBlockDeltaVariants::BetaTextDelta(value);
 
     public static implicit operator BetaRawContentBlockDelta(BetaInputJSONDelta value) =>
-        new BetaInputJSONDeltaVariant(value);
+        new BetaRawContentBlockDeltaVariants::BetaInputJSONDelta(value);
 
     public static implicit operator BetaRawContentBlockDelta(BetaCitationsDelta value) =>
-        new BetaCitationsDeltaVariant(value);
+        new BetaRawContentBlockDeltaVariants::BetaCitationsDelta(value);
 
     public static implicit operator BetaRawContentBlockDelta(BetaThinkingDelta value) =>
-        new BetaThinkingDeltaVariant(value);
+        new BetaRawContentBlockDeltaVariants::BetaThinkingDelta(value);
 
     public static implicit operator BetaRawContentBlockDelta(BetaSignatureDelta value) =>
-        new BetaSignatureDeltaVariant(value);
+        new BetaRawContentBlockDeltaVariants::BetaSignatureDelta(value);
 
-    public bool TryPickBetaTextDeltaVariant([NotNullWhen(true)] out BetaTextDelta? value)
+    public bool TryPickBetaTextDelta([NotNullWhen(true)] out BetaTextDelta? value)
     {
-        value = (this as BetaTextDeltaVariant)?.Value;
+        value = (this as BetaRawContentBlockDeltaVariants::BetaTextDelta)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaInputJSONDeltaVariant([NotNullWhen(true)] out BetaInputJSONDelta? value)
+    public bool TryPickBetaInputJSONDelta([NotNullWhen(true)] out BetaInputJSONDelta? value)
     {
-        value = (this as BetaInputJSONDeltaVariant)?.Value;
+        value = (this as BetaRawContentBlockDeltaVariants::BetaInputJSONDelta)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaCitationsDeltaVariant([NotNullWhen(true)] out BetaCitationsDelta? value)
+    public bool TryPickBetaCitationsDelta([NotNullWhen(true)] out BetaCitationsDelta? value)
     {
-        value = (this as BetaCitationsDeltaVariant)?.Value;
+        value = (this as BetaRawContentBlockDeltaVariants::BetaCitationsDelta)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaThinkingDeltaVariant([NotNullWhen(true)] out BetaThinkingDelta? value)
+    public bool TryPickBetaThinkingDelta([NotNullWhen(true)] out BetaThinkingDelta? value)
     {
-        value = (this as BetaThinkingDeltaVariant)?.Value;
+        value = (this as BetaRawContentBlockDeltaVariants::BetaThinkingDelta)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaSignatureDeltaVariant([NotNullWhen(true)] out BetaSignatureDelta? value)
+    public bool TryPickBetaSignatureDelta([NotNullWhen(true)] out BetaSignatureDelta? value)
     {
-        value = (this as BetaSignatureDeltaVariant)?.Value;
+        value = (this as BetaRawContentBlockDeltaVariants::BetaSignatureDelta)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaTextDeltaVariant> betaTextDelta,
-        Action<BetaInputJSONDeltaVariant> betaInputJSONDelta,
-        Action<BetaCitationsDeltaVariant> betaCitationsDelta,
-        Action<BetaThinkingDeltaVariant> betaThinkingDelta,
-        Action<BetaSignatureDeltaVariant> betaSignatureDelta
+        Action<BetaRawContentBlockDeltaVariants::BetaTextDelta> betaTextDelta,
+        Action<BetaRawContentBlockDeltaVariants::BetaInputJSONDelta> betaInputJSONDelta,
+        Action<BetaRawContentBlockDeltaVariants::BetaCitationsDelta> betaCitationsDelta,
+        Action<BetaRawContentBlockDeltaVariants::BetaThinkingDelta> betaThinkingDelta,
+        Action<BetaRawContentBlockDeltaVariants::BetaSignatureDelta> betaSignatureDelta
     )
     {
         switch (this)
         {
-            case BetaTextDeltaVariant inner:
+            case BetaRawContentBlockDeltaVariants::BetaTextDelta inner:
                 betaTextDelta(inner);
                 break;
-            case BetaInputJSONDeltaVariant inner:
+            case BetaRawContentBlockDeltaVariants::BetaInputJSONDelta inner:
                 betaInputJSONDelta(inner);
                 break;
-            case BetaCitationsDeltaVariant inner:
+            case BetaRawContentBlockDeltaVariants::BetaCitationsDelta inner:
                 betaCitationsDelta(inner);
                 break;
-            case BetaThinkingDeltaVariant inner:
+            case BetaRawContentBlockDeltaVariants::BetaThinkingDelta inner:
                 betaThinkingDelta(inner);
                 break;
-            case BetaSignatureDeltaVariant inner:
+            case BetaRawContentBlockDeltaVariants::BetaSignatureDelta inner:
                 betaSignatureDelta(inner);
                 break;
             default:
@@ -88,20 +88,20 @@ public abstract record class BetaRawContentBlockDelta
     }
 
     public T Match<T>(
-        Func<BetaTextDeltaVariant, T> betaTextDelta,
-        Func<BetaInputJSONDeltaVariant, T> betaInputJSONDelta,
-        Func<BetaCitationsDeltaVariant, T> betaCitationsDelta,
-        Func<BetaThinkingDeltaVariant, T> betaThinkingDelta,
-        Func<BetaSignatureDeltaVariant, T> betaSignatureDelta
+        Func<BetaRawContentBlockDeltaVariants::BetaTextDelta, T> betaTextDelta,
+        Func<BetaRawContentBlockDeltaVariants::BetaInputJSONDelta, T> betaInputJSONDelta,
+        Func<BetaRawContentBlockDeltaVariants::BetaCitationsDelta, T> betaCitationsDelta,
+        Func<BetaRawContentBlockDeltaVariants::BetaThinkingDelta, T> betaThinkingDelta,
+        Func<BetaRawContentBlockDeltaVariants::BetaSignatureDelta, T> betaSignatureDelta
     )
     {
         return this switch
         {
-            BetaTextDeltaVariant inner => betaTextDelta(inner),
-            BetaInputJSONDeltaVariant inner => betaInputJSONDelta(inner),
-            BetaCitationsDeltaVariant inner => betaCitationsDelta(inner),
-            BetaThinkingDeltaVariant inner => betaThinkingDelta(inner),
-            BetaSignatureDeltaVariant inner => betaSignatureDelta(inner),
+            BetaRawContentBlockDeltaVariants::BetaTextDelta inner => betaTextDelta(inner),
+            BetaRawContentBlockDeltaVariants::BetaInputJSONDelta inner => betaInputJSONDelta(inner),
+            BetaRawContentBlockDeltaVariants::BetaCitationsDelta inner => betaCitationsDelta(inner),
+            BetaRawContentBlockDeltaVariants::BetaThinkingDelta inner => betaThinkingDelta(inner),
+            BetaRawContentBlockDeltaVariants::BetaSignatureDelta inner => betaSignatureDelta(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -139,7 +139,7 @@ sealed class BetaRawContentBlockDeltaConverter : JsonConverter<BetaRawContentBlo
                     var deserialized = JsonSerializer.Deserialize<BetaTextDelta>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaTextDeltaVariant(deserialized);
+                        return new BetaRawContentBlockDeltaVariants::BetaTextDelta(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -161,7 +161,9 @@ sealed class BetaRawContentBlockDeltaConverter : JsonConverter<BetaRawContentBlo
                     );
                     if (deserialized != null)
                     {
-                        return new BetaInputJSONDeltaVariant(deserialized);
+                        return new BetaRawContentBlockDeltaVariants::BetaInputJSONDelta(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -183,7 +185,9 @@ sealed class BetaRawContentBlockDeltaConverter : JsonConverter<BetaRawContentBlo
                     );
                     if (deserialized != null)
                     {
-                        return new BetaCitationsDeltaVariant(deserialized);
+                        return new BetaRawContentBlockDeltaVariants::BetaCitationsDelta(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -202,7 +206,9 @@ sealed class BetaRawContentBlockDeltaConverter : JsonConverter<BetaRawContentBlo
                     var deserialized = JsonSerializer.Deserialize<BetaThinkingDelta>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaThinkingDeltaVariant(deserialized);
+                        return new BetaRawContentBlockDeltaVariants::BetaThinkingDelta(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -224,7 +230,9 @@ sealed class BetaRawContentBlockDeltaConverter : JsonConverter<BetaRawContentBlo
                     );
                     if (deserialized != null)
                     {
-                        return new BetaSignatureDeltaVariant(deserialized);
+                        return new BetaRawContentBlockDeltaVariants::BetaSignatureDelta(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -249,11 +257,15 @@ sealed class BetaRawContentBlockDeltaConverter : JsonConverter<BetaRawContentBlo
     {
         object variant = value switch
         {
-            BetaTextDeltaVariant(var betaTextDelta) => betaTextDelta,
-            BetaInputJSONDeltaVariant(var betaInputJSONDelta) => betaInputJSONDelta,
-            BetaCitationsDeltaVariant(var betaCitationsDelta) => betaCitationsDelta,
-            BetaThinkingDeltaVariant(var betaThinkingDelta) => betaThinkingDelta,
-            BetaSignatureDeltaVariant(var betaSignatureDelta) => betaSignatureDelta,
+            BetaRawContentBlockDeltaVariants::BetaTextDelta(var betaTextDelta) => betaTextDelta,
+            BetaRawContentBlockDeltaVariants::BetaInputJSONDelta(var betaInputJSONDelta) =>
+                betaInputJSONDelta,
+            BetaRawContentBlockDeltaVariants::BetaCitationsDelta(var betaCitationsDelta) =>
+                betaCitationsDelta,
+            BetaRawContentBlockDeltaVariants::BetaThinkingDelta(var betaThinkingDelta) =>
+                betaThinkingDelta,
+            BetaRawContentBlockDeltaVariants::BetaSignatureDelta(var betaSignatureDelta) =>
+                betaSignatureDelta,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

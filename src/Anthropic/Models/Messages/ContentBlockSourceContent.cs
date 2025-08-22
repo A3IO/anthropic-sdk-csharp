@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.ContentBlockSourceContentVariants;
+using ContentBlockSourceContentVariants = Anthropic.Models.Messages.ContentBlockSourceContentVariants;
 
 namespace Anthropic.Models.Messages;
 
@@ -13,34 +13,34 @@ public abstract record class ContentBlockSourceContent
     internal ContentBlockSourceContent() { }
 
     public static implicit operator ContentBlockSourceContent(TextBlockParam value) =>
-        new TextBlockParamVariant(value);
+        new ContentBlockSourceContentVariants::TextBlockParam(value);
 
     public static implicit operator ContentBlockSourceContent(ImageBlockParam value) =>
-        new ImageBlockParamVariant(value);
+        new ContentBlockSourceContentVariants::ImageBlockParam(value);
 
-    public bool TryPickTextBlockParamVariant([NotNullWhen(true)] out TextBlockParam? value)
+    public bool TryPickTextBlockParam([NotNullWhen(true)] out TextBlockParam? value)
     {
-        value = (this as TextBlockParamVariant)?.Value;
+        value = (this as ContentBlockSourceContentVariants::TextBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickImageBlockParamVariant([NotNullWhen(true)] out ImageBlockParam? value)
+    public bool TryPickImageBlockParam([NotNullWhen(true)] out ImageBlockParam? value)
     {
-        value = (this as ImageBlockParamVariant)?.Value;
+        value = (this as ContentBlockSourceContentVariants::ImageBlockParam)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<TextBlockParamVariant> textBlockParam,
-        Action<ImageBlockParamVariant> imageBlockParam
+        Action<ContentBlockSourceContentVariants::TextBlockParam> textBlockParam,
+        Action<ContentBlockSourceContentVariants::ImageBlockParam> imageBlockParam
     )
     {
         switch (this)
         {
-            case TextBlockParamVariant inner:
+            case ContentBlockSourceContentVariants::TextBlockParam inner:
                 textBlockParam(inner);
                 break;
-            case ImageBlockParamVariant inner:
+            case ContentBlockSourceContentVariants::ImageBlockParam inner:
                 imageBlockParam(inner);
                 break;
             default:
@@ -49,14 +49,14 @@ public abstract record class ContentBlockSourceContent
     }
 
     public T Match<T>(
-        Func<TextBlockParamVariant, T> textBlockParam,
-        Func<ImageBlockParamVariant, T> imageBlockParam
+        Func<ContentBlockSourceContentVariants::TextBlockParam, T> textBlockParam,
+        Func<ContentBlockSourceContentVariants::ImageBlockParam, T> imageBlockParam
     )
     {
         return this switch
         {
-            TextBlockParamVariant inner => textBlockParam(inner),
-            ImageBlockParamVariant inner => imageBlockParam(inner),
+            ContentBlockSourceContentVariants::TextBlockParam inner => textBlockParam(inner),
+            ContentBlockSourceContentVariants::ImageBlockParam inner => imageBlockParam(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -94,7 +94,7 @@ sealed class ContentBlockSourceContentConverter : JsonConverter<ContentBlockSour
                     var deserialized = JsonSerializer.Deserialize<TextBlockParam>(json, options);
                     if (deserialized != null)
                     {
-                        return new TextBlockParamVariant(deserialized);
+                        return new ContentBlockSourceContentVariants::TextBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -113,7 +113,7 @@ sealed class ContentBlockSourceContentConverter : JsonConverter<ContentBlockSour
                     var deserialized = JsonSerializer.Deserialize<ImageBlockParam>(json, options);
                     if (deserialized != null)
                     {
-                        return new ImageBlockParamVariant(deserialized);
+                        return new ContentBlockSourceContentVariants::ImageBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -138,8 +138,9 @@ sealed class ContentBlockSourceContentConverter : JsonConverter<ContentBlockSour
     {
         object variant = value switch
         {
-            TextBlockParamVariant(var textBlockParam) => textBlockParam,
-            ImageBlockParamVariant(var imageBlockParam) => imageBlockParam,
+            ContentBlockSourceContentVariants::TextBlockParam(var textBlockParam) => textBlockParam,
+            ContentBlockSourceContentVariants::ImageBlockParam(var imageBlockParam) =>
+                imageBlockParam,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

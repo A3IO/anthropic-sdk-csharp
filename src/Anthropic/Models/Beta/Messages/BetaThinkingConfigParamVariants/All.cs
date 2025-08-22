@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaThinkingConfigParamVariants;
 
-public sealed record class BetaThinkingConfigEnabledVariant(BetaThinkingConfigEnabled Value)
-    : BetaThinkingConfigParam,
-        IVariant<BetaThinkingConfigEnabledVariant, BetaThinkingConfigEnabled>
+public sealed record class BetaThinkingConfigEnabled(Messages::BetaThinkingConfigEnabled Value)
+    : Messages::BetaThinkingConfigParam,
+        IVariant<BetaThinkingConfigEnabled, Messages::BetaThinkingConfigEnabled>
 {
-    public static BetaThinkingConfigEnabledVariant From(BetaThinkingConfigEnabled value)
+    public static BetaThinkingConfigEnabled From(Messages::BetaThinkingConfigEnabled value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class BetaThinkingConfigEnabledVariant(BetaThinkingConfigEn
     }
 }
 
-public sealed record class BetaThinkingConfigDisabledVariant(BetaThinkingConfigDisabled Value)
-    : BetaThinkingConfigParam,
-        IVariant<BetaThinkingConfigDisabledVariant, BetaThinkingConfigDisabled>
+public sealed record class BetaThinkingConfigDisabled(Messages::BetaThinkingConfigDisabled Value)
+    : Messages::BetaThinkingConfigParam,
+        IVariant<BetaThinkingConfigDisabled, Messages::BetaThinkingConfigDisabled>
 {
-    public static BetaThinkingConfigDisabledVariant From(BetaThinkingConfigDisabled value)
+    public static BetaThinkingConfigDisabled From(Messages::BetaThinkingConfigDisabled value)
     {
         return new(value);
     }

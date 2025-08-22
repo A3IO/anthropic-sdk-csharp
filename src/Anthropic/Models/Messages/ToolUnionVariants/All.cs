@@ -1,8 +1,12 @@
+using Messages = Anthropic.Models.Messages;
+
 namespace Anthropic.Models.Messages.ToolUnionVariants;
 
-public sealed record class ToolVariant(Tool Value) : ToolUnion, IVariant<ToolVariant, Tool>
+public sealed record class Tool(Messages::Tool Value)
+    : Messages::ToolUnion,
+        IVariant<Tool, Messages::Tool>
 {
-    public static ToolVariant From(Tool value)
+    public static Tool From(Messages::Tool value)
     {
         return new(value);
     }
@@ -13,11 +17,11 @@ public sealed record class ToolVariant(Tool Value) : ToolUnion, IVariant<ToolVar
     }
 }
 
-public sealed record class ToolBash20250124Variant(ToolBash20250124 Value)
-    : ToolUnion,
-        IVariant<ToolBash20250124Variant, ToolBash20250124>
+public sealed record class ToolBash20250124(Messages::ToolBash20250124 Value)
+    : Messages::ToolUnion,
+        IVariant<ToolBash20250124, Messages::ToolBash20250124>
 {
-    public static ToolBash20250124Variant From(ToolBash20250124 value)
+    public static ToolBash20250124 From(Messages::ToolBash20250124 value)
     {
         return new(value);
     }
@@ -28,11 +32,11 @@ public sealed record class ToolBash20250124Variant(ToolBash20250124 Value)
     }
 }
 
-public sealed record class ToolTextEditor20250124Variant(ToolTextEditor20250124 Value)
-    : ToolUnion,
-        IVariant<ToolTextEditor20250124Variant, ToolTextEditor20250124>
+public sealed record class ToolTextEditor20250124(Messages::ToolTextEditor20250124 Value)
+    : Messages::ToolUnion,
+        IVariant<ToolTextEditor20250124, Messages::ToolTextEditor20250124>
 {
-    public static ToolTextEditor20250124Variant From(ToolTextEditor20250124 value)
+    public static ToolTextEditor20250124 From(Messages::ToolTextEditor20250124 value)
     {
         return new(value);
     }
@@ -43,11 +47,11 @@ public sealed record class ToolTextEditor20250124Variant(ToolTextEditor20250124 
     }
 }
 
-public sealed record class ToolTextEditor20250429Variant(ToolTextEditor20250429 Value)
-    : ToolUnion,
-        IVariant<ToolTextEditor20250429Variant, ToolTextEditor20250429>
+public sealed record class ToolTextEditor20250429(Messages::ToolTextEditor20250429 Value)
+    : Messages::ToolUnion,
+        IVariant<ToolTextEditor20250429, Messages::ToolTextEditor20250429>
 {
-    public static ToolTextEditor20250429Variant From(ToolTextEditor20250429 value)
+    public static ToolTextEditor20250429 From(Messages::ToolTextEditor20250429 value)
     {
         return new(value);
     }
@@ -58,11 +62,11 @@ public sealed record class ToolTextEditor20250429Variant(ToolTextEditor20250429 
     }
 }
 
-public sealed record class ToolTextEditor20250728Variant(ToolTextEditor20250728 Value)
-    : ToolUnion,
-        IVariant<ToolTextEditor20250728Variant, ToolTextEditor20250728>
+public sealed record class ToolTextEditor20250728(Messages::ToolTextEditor20250728 Value)
+    : Messages::ToolUnion,
+        IVariant<ToolTextEditor20250728, Messages::ToolTextEditor20250728>
 {
-    public static ToolTextEditor20250728Variant From(ToolTextEditor20250728 value)
+    public static ToolTextEditor20250728 From(Messages::ToolTextEditor20250728 value)
     {
         return new(value);
     }
@@ -73,11 +77,11 @@ public sealed record class ToolTextEditor20250728Variant(ToolTextEditor20250728 
     }
 }
 
-public sealed record class WebSearchTool20250305Variant(WebSearchTool20250305 Value)
-    : ToolUnion,
-        IVariant<WebSearchTool20250305Variant, WebSearchTool20250305>
+public sealed record class WebSearchTool20250305(Messages::WebSearchTool20250305 Value)
+    : Messages::ToolUnion,
+        IVariant<WebSearchTool20250305, Messages::WebSearchTool20250305>
 {
-    public static WebSearchTool20250305Variant From(WebSearchTool20250305 value)
+    public static WebSearchTool20250305 From(Messages::WebSearchTool20250305 value)
     {
         return new(value);
     }

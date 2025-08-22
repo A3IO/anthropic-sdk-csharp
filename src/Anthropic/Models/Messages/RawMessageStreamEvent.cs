@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.RawMessageStreamEventVariants;
+using RawMessageStreamEventVariants = Anthropic.Models.Messages.RawMessageStreamEventVariants;
 
 namespace Anthropic.Models.Messages;
 
@@ -13,98 +13,92 @@ public abstract record class RawMessageStreamEvent
     internal RawMessageStreamEvent() { }
 
     public static implicit operator RawMessageStreamEvent(RawMessageStartEvent value) =>
-        new RawMessageStartEventVariant(value);
+        new RawMessageStreamEventVariants::RawMessageStartEvent(value);
 
     public static implicit operator RawMessageStreamEvent(RawMessageDeltaEvent value) =>
-        new RawMessageDeltaEventVariant(value);
+        new RawMessageStreamEventVariants::RawMessageDeltaEvent(value);
 
     public static implicit operator RawMessageStreamEvent(RawMessageStopEvent value) =>
-        new RawMessageStopEventVariant(value);
+        new RawMessageStreamEventVariants::RawMessageStopEvent(value);
 
     public static implicit operator RawMessageStreamEvent(RawContentBlockStartEvent value) =>
-        new RawContentBlockStartEventVariant(value);
+        new RawMessageStreamEventVariants::RawContentBlockStartEvent(value);
 
     public static implicit operator RawMessageStreamEvent(RawContentBlockDeltaEvent value) =>
-        new RawContentBlockDeltaEventVariant(value);
+        new RawMessageStreamEventVariants::RawContentBlockDeltaEvent(value);
 
     public static implicit operator RawMessageStreamEvent(RawContentBlockStopEvent value) =>
-        new RawContentBlockStopEventVariant(value);
+        new RawMessageStreamEventVariants::RawContentBlockStopEvent(value);
 
-    public bool TryPickRawMessageStartEventVariant(
-        [NotNullWhen(true)] out RawMessageStartEvent? value
-    )
+    public bool TryPickRawMessageStartEvent([NotNullWhen(true)] out RawMessageStartEvent? value)
     {
-        value = (this as RawMessageStartEventVariant)?.Value;
+        value = (this as RawMessageStreamEventVariants::RawMessageStartEvent)?.Value;
         return value != null;
     }
 
-    public bool TryPickRawMessageDeltaEventVariant(
-        [NotNullWhen(true)] out RawMessageDeltaEvent? value
-    )
+    public bool TryPickRawMessageDeltaEvent([NotNullWhen(true)] out RawMessageDeltaEvent? value)
     {
-        value = (this as RawMessageDeltaEventVariant)?.Value;
+        value = (this as RawMessageStreamEventVariants::RawMessageDeltaEvent)?.Value;
         return value != null;
     }
 
-    public bool TryPickRawMessageStopEventVariant(
-        [NotNullWhen(true)] out RawMessageStopEvent? value
-    )
+    public bool TryPickRawMessageStopEvent([NotNullWhen(true)] out RawMessageStopEvent? value)
     {
-        value = (this as RawMessageStopEventVariant)?.Value;
+        value = (this as RawMessageStreamEventVariants::RawMessageStopEvent)?.Value;
         return value != null;
     }
 
-    public bool TryPickRawContentBlockStartEventVariant(
+    public bool TryPickRawContentBlockStartEvent(
         [NotNullWhen(true)] out RawContentBlockStartEvent? value
     )
     {
-        value = (this as RawContentBlockStartEventVariant)?.Value;
+        value = (this as RawMessageStreamEventVariants::RawContentBlockStartEvent)?.Value;
         return value != null;
     }
 
-    public bool TryPickRawContentBlockDeltaEventVariant(
+    public bool TryPickRawContentBlockDeltaEvent(
         [NotNullWhen(true)] out RawContentBlockDeltaEvent? value
     )
     {
-        value = (this as RawContentBlockDeltaEventVariant)?.Value;
+        value = (this as RawMessageStreamEventVariants::RawContentBlockDeltaEvent)?.Value;
         return value != null;
     }
 
-    public bool TryPickRawContentBlockStopEventVariant(
+    public bool TryPickRawContentBlockStopEvent(
         [NotNullWhen(true)] out RawContentBlockStopEvent? value
     )
     {
-        value = (this as RawContentBlockStopEventVariant)?.Value;
+        value = (this as RawMessageStreamEventVariants::RawContentBlockStopEvent)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<RawMessageStartEventVariant> rawMessageStartEvent,
-        Action<RawMessageDeltaEventVariant> rawMessageDeltaEvent,
-        Action<RawMessageStopEventVariant> rawMessageStopEvent,
-        Action<RawContentBlockStartEventVariant> rawContentBlockStartEvent,
-        Action<RawContentBlockDeltaEventVariant> rawContentBlockDeltaEvent,
-        Action<RawContentBlockStopEventVariant> rawContentBlockStopEvent
+        Action<RawMessageStreamEventVariants::RawMessageStartEvent> rawMessageStartEvent,
+        Action<RawMessageStreamEventVariants::RawMessageDeltaEvent> rawMessageDeltaEvent,
+        Action<RawMessageStreamEventVariants::RawMessageStopEvent> rawMessageStopEvent,
+        Action<RawMessageStreamEventVariants::RawContentBlockStartEvent> rawContentBlockStartEvent,
+        Action<RawMessageStreamEventVariants::RawContentBlockDeltaEvent> rawContentBlockDeltaEvent,
+        Action<RawMessageStreamEventVariants::RawContentBlockStopEvent> rawContentBlockStopEvent
     )
     {
         switch (this)
         {
-            case RawMessageStartEventVariant inner:
+            case RawMessageStreamEventVariants::RawMessageStartEvent inner:
                 rawMessageStartEvent(inner);
                 break;
-            case RawMessageDeltaEventVariant inner:
+            case RawMessageStreamEventVariants::RawMessageDeltaEvent inner:
                 rawMessageDeltaEvent(inner);
                 break;
-            case RawMessageStopEventVariant inner:
+            case RawMessageStreamEventVariants::RawMessageStopEvent inner:
                 rawMessageStopEvent(inner);
                 break;
-            case RawContentBlockStartEventVariant inner:
+            case RawMessageStreamEventVariants::RawContentBlockStartEvent inner:
                 rawContentBlockStartEvent(inner);
                 break;
-            case RawContentBlockDeltaEventVariant inner:
+            case RawMessageStreamEventVariants::RawContentBlockDeltaEvent inner:
                 rawContentBlockDeltaEvent(inner);
                 break;
-            case RawContentBlockStopEventVariant inner:
+            case RawMessageStreamEventVariants::RawContentBlockStopEvent inner:
                 rawContentBlockStopEvent(inner);
                 break;
             default:
@@ -113,22 +107,29 @@ public abstract record class RawMessageStreamEvent
     }
 
     public T Match<T>(
-        Func<RawMessageStartEventVariant, T> rawMessageStartEvent,
-        Func<RawMessageDeltaEventVariant, T> rawMessageDeltaEvent,
-        Func<RawMessageStopEventVariant, T> rawMessageStopEvent,
-        Func<RawContentBlockStartEventVariant, T> rawContentBlockStartEvent,
-        Func<RawContentBlockDeltaEventVariant, T> rawContentBlockDeltaEvent,
-        Func<RawContentBlockStopEventVariant, T> rawContentBlockStopEvent
+        Func<RawMessageStreamEventVariants::RawMessageStartEvent, T> rawMessageStartEvent,
+        Func<RawMessageStreamEventVariants::RawMessageDeltaEvent, T> rawMessageDeltaEvent,
+        Func<RawMessageStreamEventVariants::RawMessageStopEvent, T> rawMessageStopEvent,
+        Func<RawMessageStreamEventVariants::RawContentBlockStartEvent, T> rawContentBlockStartEvent,
+        Func<RawMessageStreamEventVariants::RawContentBlockDeltaEvent, T> rawContentBlockDeltaEvent,
+        Func<RawMessageStreamEventVariants::RawContentBlockStopEvent, T> rawContentBlockStopEvent
     )
     {
         return this switch
         {
-            RawMessageStartEventVariant inner => rawMessageStartEvent(inner),
-            RawMessageDeltaEventVariant inner => rawMessageDeltaEvent(inner),
-            RawMessageStopEventVariant inner => rawMessageStopEvent(inner),
-            RawContentBlockStartEventVariant inner => rawContentBlockStartEvent(inner),
-            RawContentBlockDeltaEventVariant inner => rawContentBlockDeltaEvent(inner),
-            RawContentBlockStopEventVariant inner => rawContentBlockStopEvent(inner),
+            RawMessageStreamEventVariants::RawMessageStartEvent inner => rawMessageStartEvent(
+                inner
+            ),
+            RawMessageStreamEventVariants::RawMessageDeltaEvent inner => rawMessageDeltaEvent(
+                inner
+            ),
+            RawMessageStreamEventVariants::RawMessageStopEvent inner => rawMessageStopEvent(inner),
+            RawMessageStreamEventVariants::RawContentBlockStartEvent inner =>
+                rawContentBlockStartEvent(inner),
+            RawMessageStreamEventVariants::RawContentBlockDeltaEvent inner =>
+                rawContentBlockDeltaEvent(inner),
+            RawMessageStreamEventVariants::RawContentBlockStopEvent inner =>
+                rawContentBlockStopEvent(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -169,7 +170,9 @@ sealed class RawMessageStreamEventConverter : JsonConverter<RawMessageStreamEven
                     );
                     if (deserialized != null)
                     {
-                        return new RawMessageStartEventVariant(deserialized);
+                        return new RawMessageStreamEventVariants::RawMessageStartEvent(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -191,7 +194,9 @@ sealed class RawMessageStreamEventConverter : JsonConverter<RawMessageStreamEven
                     );
                     if (deserialized != null)
                     {
-                        return new RawMessageDeltaEventVariant(deserialized);
+                        return new RawMessageStreamEventVariants::RawMessageDeltaEvent(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -213,7 +218,7 @@ sealed class RawMessageStreamEventConverter : JsonConverter<RawMessageStreamEven
                     );
                     if (deserialized != null)
                     {
-                        return new RawMessageStopEventVariant(deserialized);
+                        return new RawMessageStreamEventVariants::RawMessageStopEvent(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -235,7 +240,9 @@ sealed class RawMessageStreamEventConverter : JsonConverter<RawMessageStreamEven
                     );
                     if (deserialized != null)
                     {
-                        return new RawContentBlockStartEventVariant(deserialized);
+                        return new RawMessageStreamEventVariants::RawContentBlockStartEvent(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -257,7 +264,9 @@ sealed class RawMessageStreamEventConverter : JsonConverter<RawMessageStreamEven
                     );
                     if (deserialized != null)
                     {
-                        return new RawContentBlockDeltaEventVariant(deserialized);
+                        return new RawMessageStreamEventVariants::RawContentBlockDeltaEvent(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -279,7 +288,9 @@ sealed class RawMessageStreamEventConverter : JsonConverter<RawMessageStreamEven
                     );
                     if (deserialized != null)
                     {
-                        return new RawContentBlockStopEventVariant(deserialized);
+                        return new RawMessageStreamEventVariants::RawContentBlockStopEvent(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -304,14 +315,19 @@ sealed class RawMessageStreamEventConverter : JsonConverter<RawMessageStreamEven
     {
         object variant = value switch
         {
-            RawMessageStartEventVariant(var rawMessageStartEvent) => rawMessageStartEvent,
-            RawMessageDeltaEventVariant(var rawMessageDeltaEvent) => rawMessageDeltaEvent,
-            RawMessageStopEventVariant(var rawMessageStopEvent) => rawMessageStopEvent,
-            RawContentBlockStartEventVariant(var rawContentBlockStartEvent) =>
-                rawContentBlockStartEvent,
-            RawContentBlockDeltaEventVariant(var rawContentBlockDeltaEvent) =>
-                rawContentBlockDeltaEvent,
-            RawContentBlockStopEventVariant(var rawContentBlockStopEvent) =>
+            RawMessageStreamEventVariants::RawMessageStartEvent(var rawMessageStartEvent) =>
+                rawMessageStartEvent,
+            RawMessageStreamEventVariants::RawMessageDeltaEvent(var rawMessageDeltaEvent) =>
+                rawMessageDeltaEvent,
+            RawMessageStreamEventVariants::RawMessageStopEvent(var rawMessageStopEvent) =>
+                rawMessageStopEvent,
+            RawMessageStreamEventVariants::RawContentBlockStartEvent(
+                var rawContentBlockStartEvent
+            ) => rawContentBlockStartEvent,
+            RawMessageStreamEventVariants::RawContentBlockDeltaEvent(
+                var rawContentBlockDeltaEvent
+            ) => rawContentBlockDeltaEvent,
+            RawMessageStreamEventVariants::RawContentBlockStopEvent(var rawContentBlockStopEvent) =>
                 rawContentBlockStopEvent,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };

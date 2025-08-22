@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.ContentBlockParamVariants;
+using ContentBlockParamVariants = Anthropic.Models.Messages.ContentBlockParamVariants;
 
 namespace Anthropic.Models.Messages;
 
@@ -16,148 +16,144 @@ public abstract record class ContentBlockParam
     internal ContentBlockParam() { }
 
     public static implicit operator ContentBlockParam(TextBlockParam value) =>
-        new TextBlockParamVariant(value);
+        new ContentBlockParamVariants::TextBlockParam(value);
 
     public static implicit operator ContentBlockParam(ImageBlockParam value) =>
-        new ImageBlockParamVariant(value);
+        new ContentBlockParamVariants::ImageBlockParam(value);
 
     public static implicit operator ContentBlockParam(DocumentBlockParam value) =>
-        new DocumentBlockParamVariant(value);
+        new ContentBlockParamVariants::DocumentBlockParam(value);
 
     public static implicit operator ContentBlockParam(SearchResultBlockParam value) =>
-        new SearchResultBlockParamVariant(value);
+        new ContentBlockParamVariants::SearchResultBlockParam(value);
 
     public static implicit operator ContentBlockParam(ThinkingBlockParam value) =>
-        new ThinkingBlockParamVariant(value);
+        new ContentBlockParamVariants::ThinkingBlockParam(value);
 
     public static implicit operator ContentBlockParam(RedactedThinkingBlockParam value) =>
-        new RedactedThinkingBlockParamVariant(value);
+        new ContentBlockParamVariants::RedactedThinkingBlockParam(value);
 
     public static implicit operator ContentBlockParam(ToolUseBlockParam value) =>
-        new ToolUseBlockParamVariant(value);
+        new ContentBlockParamVariants::ToolUseBlockParam(value);
 
     public static implicit operator ContentBlockParam(ToolResultBlockParam value) =>
-        new ToolResultBlockParamVariant(value);
+        new ContentBlockParamVariants::ToolResultBlockParam(value);
 
     public static implicit operator ContentBlockParam(ServerToolUseBlockParam value) =>
-        new ServerToolUseBlockParamVariant(value);
+        new ContentBlockParamVariants::ServerToolUseBlockParam(value);
 
     public static implicit operator ContentBlockParam(WebSearchToolResultBlockParam value) =>
-        new WebSearchToolResultBlockParamVariant(value);
+        new ContentBlockParamVariants::WebSearchToolResultBlockParam(value);
 
-    public bool TryPickTextBlockParamVariant([NotNullWhen(true)] out TextBlockParam? value)
+    public bool TryPickTextBlockParam([NotNullWhen(true)] out TextBlockParam? value)
     {
-        value = (this as TextBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::TextBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickImageBlockParamVariant([NotNullWhen(true)] out ImageBlockParam? value)
+    public bool TryPickImageBlockParam([NotNullWhen(true)] out ImageBlockParam? value)
     {
-        value = (this as ImageBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::ImageBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickDocumentBlockParamVariant([NotNullWhen(true)] out DocumentBlockParam? value)
+    public bool TryPickDocumentBlockParam([NotNullWhen(true)] out DocumentBlockParam? value)
     {
-        value = (this as DocumentBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::DocumentBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickSearchResultBlockParamVariant(
-        [NotNullWhen(true)] out SearchResultBlockParam? value
-    )
+    public bool TryPickSearchResultBlockParam([NotNullWhen(true)] out SearchResultBlockParam? value)
     {
-        value = (this as SearchResultBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::SearchResultBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickThinkingBlockParamVariant([NotNullWhen(true)] out ThinkingBlockParam? value)
+    public bool TryPickThinkingBlockParam([NotNullWhen(true)] out ThinkingBlockParam? value)
     {
-        value = (this as ThinkingBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::ThinkingBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickRedactedThinkingBlockParamVariant(
+    public bool TryPickRedactedThinkingBlockParam(
         [NotNullWhen(true)] out RedactedThinkingBlockParam? value
     )
     {
-        value = (this as RedactedThinkingBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::RedactedThinkingBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickToolUseBlockParamVariant([NotNullWhen(true)] out ToolUseBlockParam? value)
+    public bool TryPickToolUseBlockParam([NotNullWhen(true)] out ToolUseBlockParam? value)
     {
-        value = (this as ToolUseBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::ToolUseBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickToolResultBlockParamVariant(
-        [NotNullWhen(true)] out ToolResultBlockParam? value
-    )
+    public bool TryPickToolResultBlockParam([NotNullWhen(true)] out ToolResultBlockParam? value)
     {
-        value = (this as ToolResultBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::ToolResultBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickServerToolUseBlockParamVariant(
+    public bool TryPickServerToolUseBlockParam(
         [NotNullWhen(true)] out ServerToolUseBlockParam? value
     )
     {
-        value = (this as ServerToolUseBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::ServerToolUseBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickWebSearchToolResultBlockParamVariant(
+    public bool TryPickWebSearchToolResultBlockParam(
         [NotNullWhen(true)] out WebSearchToolResultBlockParam? value
     )
     {
-        value = (this as WebSearchToolResultBlockParamVariant)?.Value;
+        value = (this as ContentBlockParamVariants::WebSearchToolResultBlockParam)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<TextBlockParamVariant> textBlockParam,
-        Action<ImageBlockParamVariant> imageBlockParam,
-        Action<DocumentBlockParamVariant> documentBlockParam,
-        Action<SearchResultBlockParamVariant> searchResultBlockParam,
-        Action<ThinkingBlockParamVariant> thinkingBlockParam,
-        Action<RedactedThinkingBlockParamVariant> redactedThinkingBlockParam,
-        Action<ToolUseBlockParamVariant> toolUseBlockParam,
-        Action<ToolResultBlockParamVariant> toolResultBlockParam,
-        Action<ServerToolUseBlockParamVariant> serverToolUseBlockParam,
-        Action<WebSearchToolResultBlockParamVariant> webSearchToolResultBlockParam
+        Action<ContentBlockParamVariants::TextBlockParam> textBlockParam,
+        Action<ContentBlockParamVariants::ImageBlockParam> imageBlockParam,
+        Action<ContentBlockParamVariants::DocumentBlockParam> documentBlockParam,
+        Action<ContentBlockParamVariants::SearchResultBlockParam> searchResultBlockParam,
+        Action<ContentBlockParamVariants::ThinkingBlockParam> thinkingBlockParam,
+        Action<ContentBlockParamVariants::RedactedThinkingBlockParam> redactedThinkingBlockParam,
+        Action<ContentBlockParamVariants::ToolUseBlockParam> toolUseBlockParam,
+        Action<ContentBlockParamVariants::ToolResultBlockParam> toolResultBlockParam,
+        Action<ContentBlockParamVariants::ServerToolUseBlockParam> serverToolUseBlockParam,
+        Action<ContentBlockParamVariants::WebSearchToolResultBlockParam> webSearchToolResultBlockParam
     )
     {
         switch (this)
         {
-            case TextBlockParamVariant inner:
+            case ContentBlockParamVariants::TextBlockParam inner:
                 textBlockParam(inner);
                 break;
-            case ImageBlockParamVariant inner:
+            case ContentBlockParamVariants::ImageBlockParam inner:
                 imageBlockParam(inner);
                 break;
-            case DocumentBlockParamVariant inner:
+            case ContentBlockParamVariants::DocumentBlockParam inner:
                 documentBlockParam(inner);
                 break;
-            case SearchResultBlockParamVariant inner:
+            case ContentBlockParamVariants::SearchResultBlockParam inner:
                 searchResultBlockParam(inner);
                 break;
-            case ThinkingBlockParamVariant inner:
+            case ContentBlockParamVariants::ThinkingBlockParam inner:
                 thinkingBlockParam(inner);
                 break;
-            case RedactedThinkingBlockParamVariant inner:
+            case ContentBlockParamVariants::RedactedThinkingBlockParam inner:
                 redactedThinkingBlockParam(inner);
                 break;
-            case ToolUseBlockParamVariant inner:
+            case ContentBlockParamVariants::ToolUseBlockParam inner:
                 toolUseBlockParam(inner);
                 break;
-            case ToolResultBlockParamVariant inner:
+            case ContentBlockParamVariants::ToolResultBlockParam inner:
                 toolResultBlockParam(inner);
                 break;
-            case ServerToolUseBlockParamVariant inner:
+            case ContentBlockParamVariants::ServerToolUseBlockParam inner:
                 serverToolUseBlockParam(inner);
                 break;
-            case WebSearchToolResultBlockParamVariant inner:
+            case ContentBlockParamVariants::WebSearchToolResultBlockParam inner:
                 webSearchToolResultBlockParam(inner);
                 break;
             default:
@@ -166,30 +162,39 @@ public abstract record class ContentBlockParam
     }
 
     public T Match<T>(
-        Func<TextBlockParamVariant, T> textBlockParam,
-        Func<ImageBlockParamVariant, T> imageBlockParam,
-        Func<DocumentBlockParamVariant, T> documentBlockParam,
-        Func<SearchResultBlockParamVariant, T> searchResultBlockParam,
-        Func<ThinkingBlockParamVariant, T> thinkingBlockParam,
-        Func<RedactedThinkingBlockParamVariant, T> redactedThinkingBlockParam,
-        Func<ToolUseBlockParamVariant, T> toolUseBlockParam,
-        Func<ToolResultBlockParamVariant, T> toolResultBlockParam,
-        Func<ServerToolUseBlockParamVariant, T> serverToolUseBlockParam,
-        Func<WebSearchToolResultBlockParamVariant, T> webSearchToolResultBlockParam
+        Func<ContentBlockParamVariants::TextBlockParam, T> textBlockParam,
+        Func<ContentBlockParamVariants::ImageBlockParam, T> imageBlockParam,
+        Func<ContentBlockParamVariants::DocumentBlockParam, T> documentBlockParam,
+        Func<ContentBlockParamVariants::SearchResultBlockParam, T> searchResultBlockParam,
+        Func<ContentBlockParamVariants::ThinkingBlockParam, T> thinkingBlockParam,
+        Func<ContentBlockParamVariants::RedactedThinkingBlockParam, T> redactedThinkingBlockParam,
+        Func<ContentBlockParamVariants::ToolUseBlockParam, T> toolUseBlockParam,
+        Func<ContentBlockParamVariants::ToolResultBlockParam, T> toolResultBlockParam,
+        Func<ContentBlockParamVariants::ServerToolUseBlockParam, T> serverToolUseBlockParam,
+        Func<
+            ContentBlockParamVariants::WebSearchToolResultBlockParam,
+            T
+        > webSearchToolResultBlockParam
     )
     {
         return this switch
         {
-            TextBlockParamVariant inner => textBlockParam(inner),
-            ImageBlockParamVariant inner => imageBlockParam(inner),
-            DocumentBlockParamVariant inner => documentBlockParam(inner),
-            SearchResultBlockParamVariant inner => searchResultBlockParam(inner),
-            ThinkingBlockParamVariant inner => thinkingBlockParam(inner),
-            RedactedThinkingBlockParamVariant inner => redactedThinkingBlockParam(inner),
-            ToolUseBlockParamVariant inner => toolUseBlockParam(inner),
-            ToolResultBlockParamVariant inner => toolResultBlockParam(inner),
-            ServerToolUseBlockParamVariant inner => serverToolUseBlockParam(inner),
-            WebSearchToolResultBlockParamVariant inner => webSearchToolResultBlockParam(inner),
+            ContentBlockParamVariants::TextBlockParam inner => textBlockParam(inner),
+            ContentBlockParamVariants::ImageBlockParam inner => imageBlockParam(inner),
+            ContentBlockParamVariants::DocumentBlockParam inner => documentBlockParam(inner),
+            ContentBlockParamVariants::SearchResultBlockParam inner => searchResultBlockParam(
+                inner
+            ),
+            ContentBlockParamVariants::ThinkingBlockParam inner => thinkingBlockParam(inner),
+            ContentBlockParamVariants::RedactedThinkingBlockParam inner =>
+                redactedThinkingBlockParam(inner),
+            ContentBlockParamVariants::ToolUseBlockParam inner => toolUseBlockParam(inner),
+            ContentBlockParamVariants::ToolResultBlockParam inner => toolResultBlockParam(inner),
+            ContentBlockParamVariants::ServerToolUseBlockParam inner => serverToolUseBlockParam(
+                inner
+            ),
+            ContentBlockParamVariants::WebSearchToolResultBlockParam inner =>
+                webSearchToolResultBlockParam(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -227,7 +232,7 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     var deserialized = JsonSerializer.Deserialize<TextBlockParam>(json, options);
                     if (deserialized != null)
                     {
-                        return new TextBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::TextBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -246,7 +251,7 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     var deserialized = JsonSerializer.Deserialize<ImageBlockParam>(json, options);
                     if (deserialized != null)
                     {
-                        return new ImageBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::ImageBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -268,7 +273,7 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     );
                     if (deserialized != null)
                     {
-                        return new DocumentBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::DocumentBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -290,7 +295,7 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     );
                     if (deserialized != null)
                     {
-                        return new SearchResultBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::SearchResultBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -312,7 +317,7 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     );
                     if (deserialized != null)
                     {
-                        return new ThinkingBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::ThinkingBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -334,7 +339,9 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     );
                     if (deserialized != null)
                     {
-                        return new RedactedThinkingBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::RedactedThinkingBlockParam(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -353,7 +360,7 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     var deserialized = JsonSerializer.Deserialize<ToolUseBlockParam>(json, options);
                     if (deserialized != null)
                     {
-                        return new ToolUseBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::ToolUseBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -375,7 +382,7 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     );
                     if (deserialized != null)
                     {
-                        return new ToolResultBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::ToolResultBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -397,7 +404,7 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     );
                     if (deserialized != null)
                     {
-                        return new ServerToolUseBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::ServerToolUseBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -419,7 +426,9 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
                     );
                     if (deserialized != null)
                     {
-                        return new WebSearchToolResultBlockParamVariant(deserialized);
+                        return new ContentBlockParamVariants::WebSearchToolResultBlockParam(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -444,18 +453,25 @@ sealed class ContentBlockParamConverter : JsonConverter<ContentBlockParam>
     {
         object variant = value switch
         {
-            TextBlockParamVariant(var textBlockParam) => textBlockParam,
-            ImageBlockParamVariant(var imageBlockParam) => imageBlockParam,
-            DocumentBlockParamVariant(var documentBlockParam) => documentBlockParam,
-            SearchResultBlockParamVariant(var searchResultBlockParam) => searchResultBlockParam,
-            ThinkingBlockParamVariant(var thinkingBlockParam) => thinkingBlockParam,
-            RedactedThinkingBlockParamVariant(var redactedThinkingBlockParam) =>
+            ContentBlockParamVariants::TextBlockParam(var textBlockParam) => textBlockParam,
+            ContentBlockParamVariants::ImageBlockParam(var imageBlockParam) => imageBlockParam,
+            ContentBlockParamVariants::DocumentBlockParam(var documentBlockParam) =>
+                documentBlockParam,
+            ContentBlockParamVariants::SearchResultBlockParam(var searchResultBlockParam) =>
+                searchResultBlockParam,
+            ContentBlockParamVariants::ThinkingBlockParam(var thinkingBlockParam) =>
+                thinkingBlockParam,
+            ContentBlockParamVariants::RedactedThinkingBlockParam(var redactedThinkingBlockParam) =>
                 redactedThinkingBlockParam,
-            ToolUseBlockParamVariant(var toolUseBlockParam) => toolUseBlockParam,
-            ToolResultBlockParamVariant(var toolResultBlockParam) => toolResultBlockParam,
-            ServerToolUseBlockParamVariant(var serverToolUseBlockParam) => serverToolUseBlockParam,
-            WebSearchToolResultBlockParamVariant(var webSearchToolResultBlockParam) =>
-                webSearchToolResultBlockParam,
+            ContentBlockParamVariants::ToolUseBlockParam(var toolUseBlockParam) =>
+                toolUseBlockParam,
+            ContentBlockParamVariants::ToolResultBlockParam(var toolResultBlockParam) =>
+                toolResultBlockParam,
+            ContentBlockParamVariants::ServerToolUseBlockParam(var serverToolUseBlockParam) =>
+                serverToolUseBlockParam,
+            ContentBlockParamVariants::WebSearchToolResultBlockParam(
+                var webSearchToolResultBlockParam
+            ) => webSearchToolResultBlockParam,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.Batches.MessageBatchResultVariants;
+using MessageBatchResultVariants = Anthropic.Models.Messages.Batches.MessageBatchResultVariants;
 
 namespace Anthropic.Models.Messages.Batches;
 
@@ -20,68 +20,68 @@ public abstract record class MessageBatchResult
     internal MessageBatchResult() { }
 
     public static implicit operator MessageBatchResult(MessageBatchSucceededResult value) =>
-        new MessageBatchSucceededResultVariant(value);
+        new MessageBatchResultVariants::MessageBatchSucceededResult(value);
 
     public static implicit operator MessageBatchResult(MessageBatchErroredResult value) =>
-        new MessageBatchErroredResultVariant(value);
+        new MessageBatchResultVariants::MessageBatchErroredResult(value);
 
     public static implicit operator MessageBatchResult(MessageBatchCanceledResult value) =>
-        new MessageBatchCanceledResultVariant(value);
+        new MessageBatchResultVariants::MessageBatchCanceledResult(value);
 
     public static implicit operator MessageBatchResult(MessageBatchExpiredResult value) =>
-        new MessageBatchExpiredResultVariant(value);
+        new MessageBatchResultVariants::MessageBatchExpiredResult(value);
 
-    public bool TryPickMessageBatchSucceededResultVariant(
+    public bool TryPickMessageBatchSucceededResult(
         [NotNullWhen(true)] out MessageBatchSucceededResult? value
     )
     {
-        value = (this as MessageBatchSucceededResultVariant)?.Value;
+        value = (this as MessageBatchResultVariants::MessageBatchSucceededResult)?.Value;
         return value != null;
     }
 
-    public bool TryPickMessageBatchErroredResultVariant(
+    public bool TryPickMessageBatchErroredResult(
         [NotNullWhen(true)] out MessageBatchErroredResult? value
     )
     {
-        value = (this as MessageBatchErroredResultVariant)?.Value;
+        value = (this as MessageBatchResultVariants::MessageBatchErroredResult)?.Value;
         return value != null;
     }
 
-    public bool TryPickMessageBatchCanceledResultVariant(
+    public bool TryPickMessageBatchCanceledResult(
         [NotNullWhen(true)] out MessageBatchCanceledResult? value
     )
     {
-        value = (this as MessageBatchCanceledResultVariant)?.Value;
+        value = (this as MessageBatchResultVariants::MessageBatchCanceledResult)?.Value;
         return value != null;
     }
 
-    public bool TryPickMessageBatchExpiredResultVariant(
+    public bool TryPickMessageBatchExpiredResult(
         [NotNullWhen(true)] out MessageBatchExpiredResult? value
     )
     {
-        value = (this as MessageBatchExpiredResultVariant)?.Value;
+        value = (this as MessageBatchResultVariants::MessageBatchExpiredResult)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<MessageBatchSucceededResultVariant> messageBatchSucceededResult,
-        Action<MessageBatchErroredResultVariant> messageBatchErroredResult,
-        Action<MessageBatchCanceledResultVariant> messageBatchCanceledResult,
-        Action<MessageBatchExpiredResultVariant> messageBatchExpiredResult
+        Action<MessageBatchResultVariants::MessageBatchSucceededResult> messageBatchSucceededResult,
+        Action<MessageBatchResultVariants::MessageBatchErroredResult> messageBatchErroredResult,
+        Action<MessageBatchResultVariants::MessageBatchCanceledResult> messageBatchCanceledResult,
+        Action<MessageBatchResultVariants::MessageBatchExpiredResult> messageBatchExpiredResult
     )
     {
         switch (this)
         {
-            case MessageBatchSucceededResultVariant inner:
+            case MessageBatchResultVariants::MessageBatchSucceededResult inner:
                 messageBatchSucceededResult(inner);
                 break;
-            case MessageBatchErroredResultVariant inner:
+            case MessageBatchResultVariants::MessageBatchErroredResult inner:
                 messageBatchErroredResult(inner);
                 break;
-            case MessageBatchCanceledResultVariant inner:
+            case MessageBatchResultVariants::MessageBatchCanceledResult inner:
                 messageBatchCanceledResult(inner);
                 break;
-            case MessageBatchExpiredResultVariant inner:
+            case MessageBatchResultVariants::MessageBatchExpiredResult inner:
                 messageBatchExpiredResult(inner);
                 break;
             default:
@@ -90,18 +90,25 @@ public abstract record class MessageBatchResult
     }
 
     public T Match<T>(
-        Func<MessageBatchSucceededResultVariant, T> messageBatchSucceededResult,
-        Func<MessageBatchErroredResultVariant, T> messageBatchErroredResult,
-        Func<MessageBatchCanceledResultVariant, T> messageBatchCanceledResult,
-        Func<MessageBatchExpiredResultVariant, T> messageBatchExpiredResult
+        Func<
+            MessageBatchResultVariants::MessageBatchSucceededResult,
+            T
+        > messageBatchSucceededResult,
+        Func<MessageBatchResultVariants::MessageBatchErroredResult, T> messageBatchErroredResult,
+        Func<MessageBatchResultVariants::MessageBatchCanceledResult, T> messageBatchCanceledResult,
+        Func<MessageBatchResultVariants::MessageBatchExpiredResult, T> messageBatchExpiredResult
     )
     {
         return this switch
         {
-            MessageBatchSucceededResultVariant inner => messageBatchSucceededResult(inner),
-            MessageBatchErroredResultVariant inner => messageBatchErroredResult(inner),
-            MessageBatchCanceledResultVariant inner => messageBatchCanceledResult(inner),
-            MessageBatchExpiredResultVariant inner => messageBatchExpiredResult(inner),
+            MessageBatchResultVariants::MessageBatchSucceededResult inner =>
+                messageBatchSucceededResult(inner),
+            MessageBatchResultVariants::MessageBatchErroredResult inner =>
+                messageBatchErroredResult(inner),
+            MessageBatchResultVariants::MessageBatchCanceledResult inner =>
+                messageBatchCanceledResult(inner),
+            MessageBatchResultVariants::MessageBatchExpiredResult inner =>
+                messageBatchExpiredResult(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -142,7 +149,9 @@ sealed class MessageBatchResultConverter : JsonConverter<MessageBatchResult>
                     );
                     if (deserialized != null)
                     {
-                        return new MessageBatchSucceededResultVariant(deserialized);
+                        return new MessageBatchResultVariants::MessageBatchSucceededResult(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -164,7 +173,9 @@ sealed class MessageBatchResultConverter : JsonConverter<MessageBatchResult>
                     );
                     if (deserialized != null)
                     {
-                        return new MessageBatchErroredResultVariant(deserialized);
+                        return new MessageBatchResultVariants::MessageBatchErroredResult(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -186,7 +197,9 @@ sealed class MessageBatchResultConverter : JsonConverter<MessageBatchResult>
                     );
                     if (deserialized != null)
                     {
-                        return new MessageBatchCanceledResultVariant(deserialized);
+                        return new MessageBatchResultVariants::MessageBatchCanceledResult(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -208,7 +221,9 @@ sealed class MessageBatchResultConverter : JsonConverter<MessageBatchResult>
                     );
                     if (deserialized != null)
                     {
-                        return new MessageBatchExpiredResultVariant(deserialized);
+                        return new MessageBatchResultVariants::MessageBatchExpiredResult(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -233,13 +248,15 @@ sealed class MessageBatchResultConverter : JsonConverter<MessageBatchResult>
     {
         object variant = value switch
         {
-            MessageBatchSucceededResultVariant(var messageBatchSucceededResult) =>
-                messageBatchSucceededResult,
-            MessageBatchErroredResultVariant(var messageBatchErroredResult) =>
+            MessageBatchResultVariants::MessageBatchSucceededResult(
+                var messageBatchSucceededResult
+            ) => messageBatchSucceededResult,
+            MessageBatchResultVariants::MessageBatchErroredResult(var messageBatchErroredResult) =>
                 messageBatchErroredResult,
-            MessageBatchCanceledResultVariant(var messageBatchCanceledResult) =>
-                messageBatchCanceledResult,
-            MessageBatchExpiredResultVariant(var messageBatchExpiredResult) =>
+            MessageBatchResultVariants::MessageBatchCanceledResult(
+                var messageBatchCanceledResult
+            ) => messageBatchCanceledResult,
+            MessageBatchResultVariants::MessageBatchExpiredResult(var messageBatchExpiredResult) =>
                 messageBatchExpiredResult,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };

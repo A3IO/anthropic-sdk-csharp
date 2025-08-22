@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.WebSearchToolResultBlockContentVariants;
+using WebSearchToolResultBlockContentVariants = Anthropic.Models.Messages.WebSearchToolResultBlockContentVariants;
 
 namespace Anthropic.Models.Messages;
 
@@ -14,17 +14,17 @@ public abstract record class WebSearchToolResultBlockContent
 
     public static implicit operator WebSearchToolResultBlockContent(
         WebSearchToolResultError value
-    ) => new WebSearchToolResultErrorVariant(value);
+    ) => new WebSearchToolResultBlockContentVariants::WebSearchToolResultError(value);
 
     public static implicit operator WebSearchToolResultBlockContent(
         List<WebSearchResultBlock> value
-    ) => new WebSearchResultBlocks(value);
+    ) => new WebSearchToolResultBlockContentVariants::WebSearchResultBlocks(value);
 
-    public bool TryPickWebSearchToolResultErrorVariant(
+    public bool TryPickWebSearchToolResultError(
         [NotNullWhen(true)] out WebSearchToolResultError? value
     )
     {
-        value = (this as WebSearchToolResultErrorVariant)?.Value;
+        value = (this as WebSearchToolResultBlockContentVariants::WebSearchToolResultError)?.Value;
         return value != null;
     }
 
@@ -32,21 +32,21 @@ public abstract record class WebSearchToolResultBlockContent
         [NotNullWhen(true)] out List<WebSearchResultBlock>? value
     )
     {
-        value = (this as WebSearchResultBlocks)?.Value;
+        value = (this as WebSearchToolResultBlockContentVariants::WebSearchResultBlocks)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<WebSearchToolResultErrorVariant> webSearchToolResultError,
-        Action<WebSearchResultBlocks> webSearchResultBlocks
+        Action<WebSearchToolResultBlockContentVariants::WebSearchToolResultError> webSearchToolResultError,
+        Action<WebSearchToolResultBlockContentVariants::WebSearchResultBlocks> webSearchResultBlocks
     )
     {
         switch (this)
         {
-            case WebSearchToolResultErrorVariant inner:
+            case WebSearchToolResultBlockContentVariants::WebSearchToolResultError inner:
                 webSearchToolResultError(inner);
                 break;
-            case WebSearchResultBlocks inner:
+            case WebSearchToolResultBlockContentVariants::WebSearchResultBlocks inner:
                 webSearchResultBlocks(inner);
                 break;
             default:
@@ -55,14 +55,22 @@ public abstract record class WebSearchToolResultBlockContent
     }
 
     public T Match<T>(
-        Func<WebSearchToolResultErrorVariant, T> webSearchToolResultError,
-        Func<WebSearchResultBlocks, T> webSearchResultBlocks
+        Func<
+            WebSearchToolResultBlockContentVariants::WebSearchToolResultError,
+            T
+        > webSearchToolResultError,
+        Func<
+            WebSearchToolResultBlockContentVariants::WebSearchResultBlocks,
+            T
+        > webSearchResultBlocks
     )
     {
         return this switch
         {
-            WebSearchToolResultErrorVariant inner => webSearchToolResultError(inner),
-            WebSearchResultBlocks inner => webSearchResultBlocks(inner),
+            WebSearchToolResultBlockContentVariants::WebSearchToolResultError inner =>
+                webSearchToolResultError(inner),
+            WebSearchToolResultBlockContentVariants::WebSearchResultBlocks inner =>
+                webSearchResultBlocks(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -89,7 +97,9 @@ sealed class WebSearchToolResultBlockContentConverter
             );
             if (deserialized != null)
             {
-                return new WebSearchToolResultErrorVariant(deserialized);
+                return new WebSearchToolResultBlockContentVariants::WebSearchToolResultError(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -105,7 +115,9 @@ sealed class WebSearchToolResultBlockContentConverter
             );
             if (deserialized != null)
             {
-                return new WebSearchResultBlocks(deserialized);
+                return new WebSearchToolResultBlockContentVariants::WebSearchResultBlocks(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -124,9 +136,12 @@ sealed class WebSearchToolResultBlockContentConverter
     {
         object variant = value switch
         {
-            WebSearchToolResultErrorVariant(var webSearchToolResultError) =>
-                webSearchToolResultError,
-            WebSearchResultBlocks(var webSearchResultBlocks) => webSearchResultBlocks,
+            WebSearchToolResultBlockContentVariants::WebSearchToolResultError(
+                var webSearchToolResultError
+            ) => webSearchToolResultError,
+            WebSearchToolResultBlockContentVariants::WebSearchResultBlocks(
+                var webSearchResultBlocks
+            ) => webSearchResultBlocks,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

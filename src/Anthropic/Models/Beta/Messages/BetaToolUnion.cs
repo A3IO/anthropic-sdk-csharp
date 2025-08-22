@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaToolUnionVariants;
+using BetaToolUnionVariants = Anthropic.Models.Beta.Messages.BetaToolUnionVariants;
 
 namespace Anthropic.Models.Beta.Messages;
 
@@ -12,171 +12,168 @@ public abstract record class BetaToolUnion
 {
     internal BetaToolUnion() { }
 
-    public static implicit operator BetaToolUnion(BetaTool value) => new BetaToolVariant(value);
+    public static implicit operator BetaToolUnion(BetaTool value) =>
+        new BetaToolUnionVariants::BetaTool(value);
 
     public static implicit operator BetaToolUnion(BetaToolBash20241022 value) =>
-        new BetaToolBash20241022Variant(value);
+        new BetaToolUnionVariants::BetaToolBash20241022(value);
 
     public static implicit operator BetaToolUnion(BetaToolBash20250124 value) =>
-        new BetaToolBash20250124Variant(value);
+        new BetaToolUnionVariants::BetaToolBash20250124(value);
 
     public static implicit operator BetaToolUnion(BetaCodeExecutionTool20250522 value) =>
-        new BetaCodeExecutionTool20250522Variant(value);
+        new BetaToolUnionVariants::BetaCodeExecutionTool20250522(value);
 
     public static implicit operator BetaToolUnion(BetaToolComputerUse20241022 value) =>
-        new BetaToolComputerUse20241022Variant(value);
+        new BetaToolUnionVariants::BetaToolComputerUse20241022(value);
 
     public static implicit operator BetaToolUnion(BetaToolComputerUse20250124 value) =>
-        new BetaToolComputerUse20250124Variant(value);
+        new BetaToolUnionVariants::BetaToolComputerUse20250124(value);
 
     public static implicit operator BetaToolUnion(BetaToolTextEditor20241022 value) =>
-        new BetaToolTextEditor20241022Variant(value);
+        new BetaToolUnionVariants::BetaToolTextEditor20241022(value);
 
     public static implicit operator BetaToolUnion(BetaToolTextEditor20250124 value) =>
-        new BetaToolTextEditor20250124Variant(value);
+        new BetaToolUnionVariants::BetaToolTextEditor20250124(value);
 
     public static implicit operator BetaToolUnion(BetaToolTextEditor20250429 value) =>
-        new BetaToolTextEditor20250429Variant(value);
+        new BetaToolUnionVariants::BetaToolTextEditor20250429(value);
 
     public static implicit operator BetaToolUnion(BetaToolTextEditor20250728 value) =>
-        new BetaToolTextEditor20250728Variant(value);
+        new BetaToolUnionVariants::BetaToolTextEditor20250728(value);
 
     public static implicit operator BetaToolUnion(BetaWebSearchTool20250305 value) =>
-        new BetaWebSearchTool20250305Variant(value);
+        new BetaToolUnionVariants::BetaWebSearchTool20250305(value);
 
-    public bool TryPickBetaToolVariant([NotNullWhen(true)] out BetaTool? value)
+    public bool TryPickBetaTool([NotNullWhen(true)] out BetaTool? value)
     {
-        value = (this as BetaToolVariant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaTool)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolBash20241022Variant(
-        [NotNullWhen(true)] out BetaToolBash20241022? value
-    )
+    public bool TryPickBetaToolBash20241022([NotNullWhen(true)] out BetaToolBash20241022? value)
     {
-        value = (this as BetaToolBash20241022Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaToolBash20241022)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolBash20250124Variant(
-        [NotNullWhen(true)] out BetaToolBash20250124? value
-    )
+    public bool TryPickBetaToolBash20250124([NotNullWhen(true)] out BetaToolBash20250124? value)
     {
-        value = (this as BetaToolBash20250124Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaToolBash20250124)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaCodeExecutionTool20250522Variant(
+    public bool TryPickBetaCodeExecutionTool20250522(
         [NotNullWhen(true)] out BetaCodeExecutionTool20250522? value
     )
     {
-        value = (this as BetaCodeExecutionTool20250522Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaCodeExecutionTool20250522)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolComputerUse20241022Variant(
+    public bool TryPickBetaToolComputerUse20241022(
         [NotNullWhen(true)] out BetaToolComputerUse20241022? value
     )
     {
-        value = (this as BetaToolComputerUse20241022Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaToolComputerUse20241022)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolComputerUse20250124Variant(
+    public bool TryPickBetaToolComputerUse20250124(
         [NotNullWhen(true)] out BetaToolComputerUse20250124? value
     )
     {
-        value = (this as BetaToolComputerUse20250124Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaToolComputerUse20250124)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolTextEditor20241022Variant(
+    public bool TryPickBetaToolTextEditor20241022(
         [NotNullWhen(true)] out BetaToolTextEditor20241022? value
     )
     {
-        value = (this as BetaToolTextEditor20241022Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaToolTextEditor20241022)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolTextEditor20250124Variant(
+    public bool TryPickBetaToolTextEditor20250124(
         [NotNullWhen(true)] out BetaToolTextEditor20250124? value
     )
     {
-        value = (this as BetaToolTextEditor20250124Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaToolTextEditor20250124)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolTextEditor20250429Variant(
+    public bool TryPickBetaToolTextEditor20250429(
         [NotNullWhen(true)] out BetaToolTextEditor20250429? value
     )
     {
-        value = (this as BetaToolTextEditor20250429Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaToolTextEditor20250429)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolTextEditor20250728Variant(
+    public bool TryPickBetaToolTextEditor20250728(
         [NotNullWhen(true)] out BetaToolTextEditor20250728? value
     )
     {
-        value = (this as BetaToolTextEditor20250728Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaToolTextEditor20250728)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaWebSearchTool20250305Variant(
+    public bool TryPickBetaWebSearchTool20250305(
         [NotNullWhen(true)] out BetaWebSearchTool20250305? value
     )
     {
-        value = (this as BetaWebSearchTool20250305Variant)?.Value;
+        value = (this as BetaToolUnionVariants::BetaWebSearchTool20250305)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaToolVariant> betaTool,
-        Action<BetaToolBash20241022Variant> betaToolBash20241022,
-        Action<BetaToolBash20250124Variant> betaToolBash20250124,
-        Action<BetaCodeExecutionTool20250522Variant> betaCodeExecutionTool20250522,
-        Action<BetaToolComputerUse20241022Variant> betaToolComputerUse20241022,
-        Action<BetaToolComputerUse20250124Variant> betaToolComputerUse20250124,
-        Action<BetaToolTextEditor20241022Variant> betaToolTextEditor20241022,
-        Action<BetaToolTextEditor20250124Variant> betaToolTextEditor20250124,
-        Action<BetaToolTextEditor20250429Variant> betaToolTextEditor20250429,
-        Action<BetaToolTextEditor20250728Variant> betaToolTextEditor20250728,
-        Action<BetaWebSearchTool20250305Variant> betaWebSearchTool20250305
+        Action<BetaToolUnionVariants::BetaTool> betaTool,
+        Action<BetaToolUnionVariants::BetaToolBash20241022> betaToolBash20241022,
+        Action<BetaToolUnionVariants::BetaToolBash20250124> betaToolBash20250124,
+        Action<BetaToolUnionVariants::BetaCodeExecutionTool20250522> betaCodeExecutionTool20250522,
+        Action<BetaToolUnionVariants::BetaToolComputerUse20241022> betaToolComputerUse20241022,
+        Action<BetaToolUnionVariants::BetaToolComputerUse20250124> betaToolComputerUse20250124,
+        Action<BetaToolUnionVariants::BetaToolTextEditor20241022> betaToolTextEditor20241022,
+        Action<BetaToolUnionVariants::BetaToolTextEditor20250124> betaToolTextEditor20250124,
+        Action<BetaToolUnionVariants::BetaToolTextEditor20250429> betaToolTextEditor20250429,
+        Action<BetaToolUnionVariants::BetaToolTextEditor20250728> betaToolTextEditor20250728,
+        Action<BetaToolUnionVariants::BetaWebSearchTool20250305> betaWebSearchTool20250305
     )
     {
         switch (this)
         {
-            case BetaToolVariant inner:
+            case BetaToolUnionVariants::BetaTool inner:
                 betaTool(inner);
                 break;
-            case BetaToolBash20241022Variant inner:
+            case BetaToolUnionVariants::BetaToolBash20241022 inner:
                 betaToolBash20241022(inner);
                 break;
-            case BetaToolBash20250124Variant inner:
+            case BetaToolUnionVariants::BetaToolBash20250124 inner:
                 betaToolBash20250124(inner);
                 break;
-            case BetaCodeExecutionTool20250522Variant inner:
+            case BetaToolUnionVariants::BetaCodeExecutionTool20250522 inner:
                 betaCodeExecutionTool20250522(inner);
                 break;
-            case BetaToolComputerUse20241022Variant inner:
+            case BetaToolUnionVariants::BetaToolComputerUse20241022 inner:
                 betaToolComputerUse20241022(inner);
                 break;
-            case BetaToolComputerUse20250124Variant inner:
+            case BetaToolUnionVariants::BetaToolComputerUse20250124 inner:
                 betaToolComputerUse20250124(inner);
                 break;
-            case BetaToolTextEditor20241022Variant inner:
+            case BetaToolUnionVariants::BetaToolTextEditor20241022 inner:
                 betaToolTextEditor20241022(inner);
                 break;
-            case BetaToolTextEditor20250124Variant inner:
+            case BetaToolUnionVariants::BetaToolTextEditor20250124 inner:
                 betaToolTextEditor20250124(inner);
                 break;
-            case BetaToolTextEditor20250429Variant inner:
+            case BetaToolUnionVariants::BetaToolTextEditor20250429 inner:
                 betaToolTextEditor20250429(inner);
                 break;
-            case BetaToolTextEditor20250728Variant inner:
+            case BetaToolUnionVariants::BetaToolTextEditor20250728 inner:
                 betaToolTextEditor20250728(inner);
                 break;
-            case BetaWebSearchTool20250305Variant inner:
+            case BetaToolUnionVariants::BetaWebSearchTool20250305 inner:
                 betaWebSearchTool20250305(inner);
                 break;
             default:
@@ -185,32 +182,47 @@ public abstract record class BetaToolUnion
     }
 
     public T Match<T>(
-        Func<BetaToolVariant, T> betaTool,
-        Func<BetaToolBash20241022Variant, T> betaToolBash20241022,
-        Func<BetaToolBash20250124Variant, T> betaToolBash20250124,
-        Func<BetaCodeExecutionTool20250522Variant, T> betaCodeExecutionTool20250522,
-        Func<BetaToolComputerUse20241022Variant, T> betaToolComputerUse20241022,
-        Func<BetaToolComputerUse20250124Variant, T> betaToolComputerUse20250124,
-        Func<BetaToolTextEditor20241022Variant, T> betaToolTextEditor20241022,
-        Func<BetaToolTextEditor20250124Variant, T> betaToolTextEditor20250124,
-        Func<BetaToolTextEditor20250429Variant, T> betaToolTextEditor20250429,
-        Func<BetaToolTextEditor20250728Variant, T> betaToolTextEditor20250728,
-        Func<BetaWebSearchTool20250305Variant, T> betaWebSearchTool20250305
+        Func<BetaToolUnionVariants::BetaTool, T> betaTool,
+        Func<BetaToolUnionVariants::BetaToolBash20241022, T> betaToolBash20241022,
+        Func<BetaToolUnionVariants::BetaToolBash20250124, T> betaToolBash20250124,
+        Func<BetaToolUnionVariants::BetaCodeExecutionTool20250522, T> betaCodeExecutionTool20250522,
+        Func<BetaToolUnionVariants::BetaToolComputerUse20241022, T> betaToolComputerUse20241022,
+        Func<BetaToolUnionVariants::BetaToolComputerUse20250124, T> betaToolComputerUse20250124,
+        Func<BetaToolUnionVariants::BetaToolTextEditor20241022, T> betaToolTextEditor20241022,
+        Func<BetaToolUnionVariants::BetaToolTextEditor20250124, T> betaToolTextEditor20250124,
+        Func<BetaToolUnionVariants::BetaToolTextEditor20250429, T> betaToolTextEditor20250429,
+        Func<BetaToolUnionVariants::BetaToolTextEditor20250728, T> betaToolTextEditor20250728,
+        Func<BetaToolUnionVariants::BetaWebSearchTool20250305, T> betaWebSearchTool20250305
     )
     {
         return this switch
         {
-            BetaToolVariant inner => betaTool(inner),
-            BetaToolBash20241022Variant inner => betaToolBash20241022(inner),
-            BetaToolBash20250124Variant inner => betaToolBash20250124(inner),
-            BetaCodeExecutionTool20250522Variant inner => betaCodeExecutionTool20250522(inner),
-            BetaToolComputerUse20241022Variant inner => betaToolComputerUse20241022(inner),
-            BetaToolComputerUse20250124Variant inner => betaToolComputerUse20250124(inner),
-            BetaToolTextEditor20241022Variant inner => betaToolTextEditor20241022(inner),
-            BetaToolTextEditor20250124Variant inner => betaToolTextEditor20250124(inner),
-            BetaToolTextEditor20250429Variant inner => betaToolTextEditor20250429(inner),
-            BetaToolTextEditor20250728Variant inner => betaToolTextEditor20250728(inner),
-            BetaWebSearchTool20250305Variant inner => betaWebSearchTool20250305(inner),
+            BetaToolUnionVariants::BetaTool inner => betaTool(inner),
+            BetaToolUnionVariants::BetaToolBash20241022 inner => betaToolBash20241022(inner),
+            BetaToolUnionVariants::BetaToolBash20250124 inner => betaToolBash20250124(inner),
+            BetaToolUnionVariants::BetaCodeExecutionTool20250522 inner =>
+                betaCodeExecutionTool20250522(inner),
+            BetaToolUnionVariants::BetaToolComputerUse20241022 inner => betaToolComputerUse20241022(
+                inner
+            ),
+            BetaToolUnionVariants::BetaToolComputerUse20250124 inner => betaToolComputerUse20250124(
+                inner
+            ),
+            BetaToolUnionVariants::BetaToolTextEditor20241022 inner => betaToolTextEditor20241022(
+                inner
+            ),
+            BetaToolUnionVariants::BetaToolTextEditor20250124 inner => betaToolTextEditor20250124(
+                inner
+            ),
+            BetaToolUnionVariants::BetaToolTextEditor20250429 inner => betaToolTextEditor20250429(
+                inner
+            ),
+            BetaToolUnionVariants::BetaToolTextEditor20250728 inner => betaToolTextEditor20250728(
+                inner
+            ),
+            BetaToolUnionVariants::BetaWebSearchTool20250305 inner => betaWebSearchTool20250305(
+                inner
+            ),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -233,7 +245,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             var deserialized = JsonSerializer.Deserialize<BetaTool>(ref reader, options);
             if (deserialized != null)
             {
-                return new BetaToolVariant(deserialized);
+                return new BetaToolUnionVariants::BetaTool(deserialized);
             }
         }
         catch (JsonException e)
@@ -249,7 +261,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaToolBash20241022Variant(deserialized);
+                return new BetaToolUnionVariants::BetaToolBash20241022(deserialized);
             }
         }
         catch (JsonException e)
@@ -265,7 +277,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaToolBash20250124Variant(deserialized);
+                return new BetaToolUnionVariants::BetaToolBash20250124(deserialized);
             }
         }
         catch (JsonException e)
@@ -281,7 +293,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaCodeExecutionTool20250522Variant(deserialized);
+                return new BetaToolUnionVariants::BetaCodeExecutionTool20250522(deserialized);
             }
         }
         catch (JsonException e)
@@ -297,7 +309,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaToolComputerUse20241022Variant(deserialized);
+                return new BetaToolUnionVariants::BetaToolComputerUse20241022(deserialized);
             }
         }
         catch (JsonException e)
@@ -313,7 +325,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaToolComputerUse20250124Variant(deserialized);
+                return new BetaToolUnionVariants::BetaToolComputerUse20250124(deserialized);
             }
         }
         catch (JsonException e)
@@ -329,7 +341,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaToolTextEditor20241022Variant(deserialized);
+                return new BetaToolUnionVariants::BetaToolTextEditor20241022(deserialized);
             }
         }
         catch (JsonException e)
@@ -345,7 +357,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaToolTextEditor20250124Variant(deserialized);
+                return new BetaToolUnionVariants::BetaToolTextEditor20250124(deserialized);
             }
         }
         catch (JsonException e)
@@ -361,7 +373,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaToolTextEditor20250429Variant(deserialized);
+                return new BetaToolUnionVariants::BetaToolTextEditor20250429(deserialized);
             }
         }
         catch (JsonException e)
@@ -377,7 +389,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaToolTextEditor20250728Variant(deserialized);
+                return new BetaToolUnionVariants::BetaToolTextEditor20250728(deserialized);
             }
         }
         catch (JsonException e)
@@ -393,7 +405,7 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
             );
             if (deserialized != null)
             {
-                return new BetaWebSearchTool20250305Variant(deserialized);
+                return new BetaToolUnionVariants::BetaWebSearchTool20250305(deserialized);
             }
         }
         catch (JsonException e)
@@ -412,24 +424,27 @@ sealed class BetaToolUnionConverter : JsonConverter<BetaToolUnion>
     {
         object variant = value switch
         {
-            BetaToolVariant(var betaTool) => betaTool,
-            BetaToolBash20241022Variant(var betaToolBash20241022) => betaToolBash20241022,
-            BetaToolBash20250124Variant(var betaToolBash20250124) => betaToolBash20250124,
-            BetaCodeExecutionTool20250522Variant(var betaCodeExecutionTool20250522) =>
-                betaCodeExecutionTool20250522,
-            BetaToolComputerUse20241022Variant(var betaToolComputerUse20241022) =>
+            BetaToolUnionVariants::BetaTool(var betaTool) => betaTool,
+            BetaToolUnionVariants::BetaToolBash20241022(var betaToolBash20241022) =>
+                betaToolBash20241022,
+            BetaToolUnionVariants::BetaToolBash20250124(var betaToolBash20250124) =>
+                betaToolBash20250124,
+            BetaToolUnionVariants::BetaCodeExecutionTool20250522(
+                var betaCodeExecutionTool20250522
+            ) => betaCodeExecutionTool20250522,
+            BetaToolUnionVariants::BetaToolComputerUse20241022(var betaToolComputerUse20241022) =>
                 betaToolComputerUse20241022,
-            BetaToolComputerUse20250124Variant(var betaToolComputerUse20250124) =>
+            BetaToolUnionVariants::BetaToolComputerUse20250124(var betaToolComputerUse20250124) =>
                 betaToolComputerUse20250124,
-            BetaToolTextEditor20241022Variant(var betaToolTextEditor20241022) =>
+            BetaToolUnionVariants::BetaToolTextEditor20241022(var betaToolTextEditor20241022) =>
                 betaToolTextEditor20241022,
-            BetaToolTextEditor20250124Variant(var betaToolTextEditor20250124) =>
+            BetaToolUnionVariants::BetaToolTextEditor20250124(var betaToolTextEditor20250124) =>
                 betaToolTextEditor20250124,
-            BetaToolTextEditor20250429Variant(var betaToolTextEditor20250429) =>
+            BetaToolUnionVariants::BetaToolTextEditor20250429(var betaToolTextEditor20250429) =>
                 betaToolTextEditor20250429,
-            BetaToolTextEditor20250728Variant(var betaToolTextEditor20250728) =>
+            BetaToolUnionVariants::BetaToolTextEditor20250728(var betaToolTextEditor20250728) =>
                 betaToolTextEditor20250728,
-            BetaWebSearchTool20250305Variant(var betaWebSearchTool20250305) =>
+            BetaToolUnionVariants::BetaWebSearchTool20250305(var betaWebSearchTool20250305) =>
                 betaWebSearchTool20250305,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };

@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaRequestDocumentBlockProperties.SourceVariants;
 
-public sealed record class BetaBase64PDFSourceVariant(BetaBase64PDFSource Value)
+public sealed record class BetaBase64PDFSource(Messages::BetaBase64PDFSource Value)
     : Source,
-        IVariant<BetaBase64PDFSourceVariant, BetaBase64PDFSource>
+        IVariant<BetaBase64PDFSource, Messages::BetaBase64PDFSource>
 {
-    public static BetaBase64PDFSourceVariant From(BetaBase64PDFSource value)
+    public static BetaBase64PDFSource From(Messages::BetaBase64PDFSource value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class BetaBase64PDFSourceVariant(BetaBase64PDFSource Value)
     }
 }
 
-public sealed record class BetaPlainTextSourceVariant(BetaPlainTextSource Value)
+public sealed record class BetaPlainTextSource(Messages::BetaPlainTextSource Value)
     : Source,
-        IVariant<BetaPlainTextSourceVariant, BetaPlainTextSource>
+        IVariant<BetaPlainTextSource, Messages::BetaPlainTextSource>
 {
-    public static BetaPlainTextSourceVariant From(BetaPlainTextSource value)
+    public static BetaPlainTextSource From(Messages::BetaPlainTextSource value)
     {
         return new(value);
     }
@@ -30,11 +32,11 @@ public sealed record class BetaPlainTextSourceVariant(BetaPlainTextSource Value)
     }
 }
 
-public sealed record class BetaContentBlockSourceVariant(BetaContentBlockSource Value)
+public sealed record class BetaContentBlockSource(Messages::BetaContentBlockSource Value)
     : Source,
-        IVariant<BetaContentBlockSourceVariant, BetaContentBlockSource>
+        IVariant<BetaContentBlockSource, Messages::BetaContentBlockSource>
 {
-    public static BetaContentBlockSourceVariant From(BetaContentBlockSource value)
+    public static BetaContentBlockSource From(Messages::BetaContentBlockSource value)
     {
         return new(value);
     }
@@ -45,11 +47,11 @@ public sealed record class BetaContentBlockSourceVariant(BetaContentBlockSource 
     }
 }
 
-public sealed record class BetaURLPDFSourceVariant(BetaURLPDFSource Value)
+public sealed record class BetaURLPDFSource(Messages::BetaURLPDFSource Value)
     : Source,
-        IVariant<BetaURLPDFSourceVariant, BetaURLPDFSource>
+        IVariant<BetaURLPDFSource, Messages::BetaURLPDFSource>
 {
-    public static BetaURLPDFSourceVariant From(BetaURLPDFSource value)
+    public static BetaURLPDFSource From(Messages::BetaURLPDFSource value)
     {
         return new(value);
     }
@@ -60,11 +62,11 @@ public sealed record class BetaURLPDFSourceVariant(BetaURLPDFSource Value)
     }
 }
 
-public sealed record class BetaFileDocumentSourceVariant(BetaFileDocumentSource Value)
+public sealed record class BetaFileDocumentSource(Messages::BetaFileDocumentSource Value)
     : Source,
-        IVariant<BetaFileDocumentSourceVariant, BetaFileDocumentSource>
+        IVariant<BetaFileDocumentSource, Messages::BetaFileDocumentSource>
 {
-    public static BetaFileDocumentSourceVariant From(BetaFileDocumentSource value)
+    public static BetaFileDocumentSource From(Messages::BetaFileDocumentSource value)
     {
         return new(value);
     }

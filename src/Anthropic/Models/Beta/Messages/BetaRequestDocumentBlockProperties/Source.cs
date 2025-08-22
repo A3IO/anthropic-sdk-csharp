@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaRequestDocumentBlockProperties.SourceVariants;
+using SourceVariants = Anthropic.Models.Beta.Messages.BetaRequestDocumentBlockProperties.SourceVariants;
 
 namespace Anthropic.Models.Beta.Messages.BetaRequestDocumentBlockProperties;
 
@@ -13,81 +13,73 @@ public abstract record class Source
     internal Source() { }
 
     public static implicit operator Source(BetaBase64PDFSource value) =>
-        new BetaBase64PDFSourceVariant(value);
+        new SourceVariants::BetaBase64PDFSource(value);
 
     public static implicit operator Source(BetaPlainTextSource value) =>
-        new BetaPlainTextSourceVariant(value);
+        new SourceVariants::BetaPlainTextSource(value);
 
     public static implicit operator Source(BetaContentBlockSource value) =>
-        new BetaContentBlockSourceVariant(value);
+        new SourceVariants::BetaContentBlockSource(value);
 
     public static implicit operator Source(BetaURLPDFSource value) =>
-        new BetaURLPDFSourceVariant(value);
+        new SourceVariants::BetaURLPDFSource(value);
 
     public static implicit operator Source(BetaFileDocumentSource value) =>
-        new BetaFileDocumentSourceVariant(value);
+        new SourceVariants::BetaFileDocumentSource(value);
 
-    public bool TryPickBetaBase64PDFSourceVariant(
-        [NotNullWhen(true)] out BetaBase64PDFSource? value
-    )
+    public bool TryPickBetaBase64PDFSource([NotNullWhen(true)] out BetaBase64PDFSource? value)
     {
-        value = (this as BetaBase64PDFSourceVariant)?.Value;
+        value = (this as SourceVariants::BetaBase64PDFSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaPlainTextSourceVariant(
-        [NotNullWhen(true)] out BetaPlainTextSource? value
-    )
+    public bool TryPickBetaPlainTextSource([NotNullWhen(true)] out BetaPlainTextSource? value)
     {
-        value = (this as BetaPlainTextSourceVariant)?.Value;
+        value = (this as SourceVariants::BetaPlainTextSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaContentBlockSourceVariant(
-        [NotNullWhen(true)] out BetaContentBlockSource? value
-    )
+    public bool TryPickBetaContentBlockSource([NotNullWhen(true)] out BetaContentBlockSource? value)
     {
-        value = (this as BetaContentBlockSourceVariant)?.Value;
+        value = (this as SourceVariants::BetaContentBlockSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaURLPDFSourceVariant([NotNullWhen(true)] out BetaURLPDFSource? value)
+    public bool TryPickBetaURLPDFSource([NotNullWhen(true)] out BetaURLPDFSource? value)
     {
-        value = (this as BetaURLPDFSourceVariant)?.Value;
+        value = (this as SourceVariants::BetaURLPDFSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaFileDocumentSourceVariant(
-        [NotNullWhen(true)] out BetaFileDocumentSource? value
-    )
+    public bool TryPickBetaFileDocumentSource([NotNullWhen(true)] out BetaFileDocumentSource? value)
     {
-        value = (this as BetaFileDocumentSourceVariant)?.Value;
+        value = (this as SourceVariants::BetaFileDocumentSource)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaBase64PDFSourceVariant> betaBase64PDFSource,
-        Action<BetaPlainTextSourceVariant> betaPlainTextSource,
-        Action<BetaContentBlockSourceVariant> betaContentBlockSource,
-        Action<BetaURLPDFSourceVariant> betaUrlpdfSource,
-        Action<BetaFileDocumentSourceVariant> betaFileDocumentSource
+        Action<SourceVariants::BetaBase64PDFSource> betaBase64PDFSource,
+        Action<SourceVariants::BetaPlainTextSource> betaPlainTextSource,
+        Action<SourceVariants::BetaContentBlockSource> betaContentBlockSource,
+        Action<SourceVariants::BetaURLPDFSource> betaUrlpdfSource,
+        Action<SourceVariants::BetaFileDocumentSource> betaFileDocumentSource
     )
     {
         switch (this)
         {
-            case BetaBase64PDFSourceVariant inner:
+            case SourceVariants::BetaBase64PDFSource inner:
                 betaBase64PDFSource(inner);
                 break;
-            case BetaPlainTextSourceVariant inner:
+            case SourceVariants::BetaPlainTextSource inner:
                 betaPlainTextSource(inner);
                 break;
-            case BetaContentBlockSourceVariant inner:
+            case SourceVariants::BetaContentBlockSource inner:
                 betaContentBlockSource(inner);
                 break;
-            case BetaURLPDFSourceVariant inner:
+            case SourceVariants::BetaURLPDFSource inner:
                 betaUrlpdfSource(inner);
                 break;
-            case BetaFileDocumentSourceVariant inner:
+            case SourceVariants::BetaFileDocumentSource inner:
                 betaFileDocumentSource(inner);
                 break;
             default:
@@ -96,20 +88,20 @@ public abstract record class Source
     }
 
     public T Match<T>(
-        Func<BetaBase64PDFSourceVariant, T> betaBase64PDFSource,
-        Func<BetaPlainTextSourceVariant, T> betaPlainTextSource,
-        Func<BetaContentBlockSourceVariant, T> betaContentBlockSource,
-        Func<BetaURLPDFSourceVariant, T> betaUrlpdfSource,
-        Func<BetaFileDocumentSourceVariant, T> betaFileDocumentSource
+        Func<SourceVariants::BetaBase64PDFSource, T> betaBase64PDFSource,
+        Func<SourceVariants::BetaPlainTextSource, T> betaPlainTextSource,
+        Func<SourceVariants::BetaContentBlockSource, T> betaContentBlockSource,
+        Func<SourceVariants::BetaURLPDFSource, T> betaUrlpdfSource,
+        Func<SourceVariants::BetaFileDocumentSource, T> betaFileDocumentSource
     )
     {
         return this switch
         {
-            BetaBase64PDFSourceVariant inner => betaBase64PDFSource(inner),
-            BetaPlainTextSourceVariant inner => betaPlainTextSource(inner),
-            BetaContentBlockSourceVariant inner => betaContentBlockSource(inner),
-            BetaURLPDFSourceVariant inner => betaUrlpdfSource(inner),
-            BetaFileDocumentSourceVariant inner => betaFileDocumentSource(inner),
+            SourceVariants::BetaBase64PDFSource inner => betaBase64PDFSource(inner),
+            SourceVariants::BetaPlainTextSource inner => betaPlainTextSource(inner),
+            SourceVariants::BetaContentBlockSource inner => betaContentBlockSource(inner),
+            SourceVariants::BetaURLPDFSource inner => betaUrlpdfSource(inner),
+            SourceVariants::BetaFileDocumentSource inner => betaFileDocumentSource(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -150,7 +142,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaBase64PDFSourceVariant(deserialized);
+                        return new SourceVariants::BetaBase64PDFSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -172,7 +164,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaPlainTextSourceVariant(deserialized);
+                        return new SourceVariants::BetaPlainTextSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -194,7 +186,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaContentBlockSourceVariant(deserialized);
+                        return new SourceVariants::BetaContentBlockSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -213,7 +205,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     var deserialized = JsonSerializer.Deserialize<BetaURLPDFSource>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaURLPDFSourceVariant(deserialized);
+                        return new SourceVariants::BetaURLPDFSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -235,7 +227,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaFileDocumentSourceVariant(deserialized);
+                        return new SourceVariants::BetaFileDocumentSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -256,11 +248,13 @@ sealed class SourceConverter : JsonConverter<Source>
     {
         object variant = value switch
         {
-            BetaBase64PDFSourceVariant(var betaBase64PDFSource) => betaBase64PDFSource,
-            BetaPlainTextSourceVariant(var betaPlainTextSource) => betaPlainTextSource,
-            BetaContentBlockSourceVariant(var betaContentBlockSource) => betaContentBlockSource,
-            BetaURLPDFSourceVariant(var betaUrlpdfSource) => betaUrlpdfSource,
-            BetaFileDocumentSourceVariant(var betaFileDocumentSource) => betaFileDocumentSource,
+            SourceVariants::BetaBase64PDFSource(var betaBase64PDFSource) => betaBase64PDFSource,
+            SourceVariants::BetaPlainTextSource(var betaPlainTextSource) => betaPlainTextSource,
+            SourceVariants::BetaContentBlockSource(var betaContentBlockSource) =>
+                betaContentBlockSource,
+            SourceVariants::BetaURLPDFSource(var betaUrlpdfSource) => betaUrlpdfSource,
+            SourceVariants::BetaFileDocumentSource(var betaFileDocumentSource) =>
+                betaFileDocumentSource,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

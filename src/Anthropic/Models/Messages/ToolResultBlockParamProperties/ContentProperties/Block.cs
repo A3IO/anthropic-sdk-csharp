@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.ToolResultBlockParamProperties.ContentProperties.BlockVariants;
+using BlockVariants = Anthropic.Models.Messages.ToolResultBlockParamProperties.ContentProperties.BlockVariants;
 
 namespace Anthropic.Models.Messages.ToolResultBlockParamProperties.ContentProperties;
 
@@ -12,49 +12,48 @@ public abstract record class Block
 {
     internal Block() { }
 
-    public static implicit operator Block(TextBlockParam value) => new TextBlockParamVariant(value);
+    public static implicit operator Block(TextBlockParam value) =>
+        new BlockVariants::TextBlockParam(value);
 
     public static implicit operator Block(ImageBlockParam value) =>
-        new ImageBlockParamVariant(value);
+        new BlockVariants::ImageBlockParam(value);
 
     public static implicit operator Block(SearchResultBlockParam value) =>
-        new SearchResultBlockParamVariant(value);
+        new BlockVariants::SearchResultBlockParam(value);
 
-    public bool TryPickTextBlockParamVariant([NotNullWhen(true)] out TextBlockParam? value)
+    public bool TryPickTextBlockParam([NotNullWhen(true)] out TextBlockParam? value)
     {
-        value = (this as TextBlockParamVariant)?.Value;
+        value = (this as BlockVariants::TextBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickImageBlockParamVariant([NotNullWhen(true)] out ImageBlockParam? value)
+    public bool TryPickImageBlockParam([NotNullWhen(true)] out ImageBlockParam? value)
     {
-        value = (this as ImageBlockParamVariant)?.Value;
+        value = (this as BlockVariants::ImageBlockParam)?.Value;
         return value != null;
     }
 
-    public bool TryPickSearchResultBlockParamVariant(
-        [NotNullWhen(true)] out SearchResultBlockParam? value
-    )
+    public bool TryPickSearchResultBlockParam([NotNullWhen(true)] out SearchResultBlockParam? value)
     {
-        value = (this as SearchResultBlockParamVariant)?.Value;
+        value = (this as BlockVariants::SearchResultBlockParam)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<TextBlockParamVariant> textBlockParam,
-        Action<ImageBlockParamVariant> imageBlockParam,
-        Action<SearchResultBlockParamVariant> searchResultBlockParam
+        Action<BlockVariants::TextBlockParam> textBlockParam,
+        Action<BlockVariants::ImageBlockParam> imageBlockParam,
+        Action<BlockVariants::SearchResultBlockParam> searchResultBlockParam
     )
     {
         switch (this)
         {
-            case TextBlockParamVariant inner:
+            case BlockVariants::TextBlockParam inner:
                 textBlockParam(inner);
                 break;
-            case ImageBlockParamVariant inner:
+            case BlockVariants::ImageBlockParam inner:
                 imageBlockParam(inner);
                 break;
-            case SearchResultBlockParamVariant inner:
+            case BlockVariants::SearchResultBlockParam inner:
                 searchResultBlockParam(inner);
                 break;
             default:
@@ -63,16 +62,16 @@ public abstract record class Block
     }
 
     public T Match<T>(
-        Func<TextBlockParamVariant, T> textBlockParam,
-        Func<ImageBlockParamVariant, T> imageBlockParam,
-        Func<SearchResultBlockParamVariant, T> searchResultBlockParam
+        Func<BlockVariants::TextBlockParam, T> textBlockParam,
+        Func<BlockVariants::ImageBlockParam, T> imageBlockParam,
+        Func<BlockVariants::SearchResultBlockParam, T> searchResultBlockParam
     )
     {
         return this switch
         {
-            TextBlockParamVariant inner => textBlockParam(inner),
-            ImageBlockParamVariant inner => imageBlockParam(inner),
-            SearchResultBlockParamVariant inner => searchResultBlockParam(inner),
+            BlockVariants::TextBlockParam inner => textBlockParam(inner),
+            BlockVariants::ImageBlockParam inner => imageBlockParam(inner),
+            BlockVariants::SearchResultBlockParam inner => searchResultBlockParam(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -110,7 +109,7 @@ sealed class BlockConverter : JsonConverter<Block>
                     var deserialized = JsonSerializer.Deserialize<TextBlockParam>(json, options);
                     if (deserialized != null)
                     {
-                        return new TextBlockParamVariant(deserialized);
+                        return new BlockVariants::TextBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -129,7 +128,7 @@ sealed class BlockConverter : JsonConverter<Block>
                     var deserialized = JsonSerializer.Deserialize<ImageBlockParam>(json, options);
                     if (deserialized != null)
                     {
-                        return new ImageBlockParamVariant(deserialized);
+                        return new BlockVariants::ImageBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -151,7 +150,7 @@ sealed class BlockConverter : JsonConverter<Block>
                     );
                     if (deserialized != null)
                     {
-                        return new SearchResultBlockParamVariant(deserialized);
+                        return new BlockVariants::SearchResultBlockParam(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -172,9 +171,10 @@ sealed class BlockConverter : JsonConverter<Block>
     {
         object variant = value switch
         {
-            TextBlockParamVariant(var textBlockParam) => textBlockParam,
-            ImageBlockParamVariant(var imageBlockParam) => imageBlockParam,
-            SearchResultBlockParamVariant(var searchResultBlockParam) => searchResultBlockParam,
+            BlockVariants::TextBlockParam(var textBlockParam) => textBlockParam,
+            BlockVariants::ImageBlockParam(var imageBlockParam) => imageBlockParam,
+            BlockVariants::SearchResultBlockParam(var searchResultBlockParam) =>
+                searchResultBlockParam,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

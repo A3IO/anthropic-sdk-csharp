@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaThinkingConfigParamVariants;
+using BetaThinkingConfigParamVariants = Anthropic.Models.Beta.Messages.BetaThinkingConfigParamVariants;
 
 namespace Anthropic.Models.Beta.Messages;
 
@@ -23,38 +23,38 @@ public abstract record class BetaThinkingConfigParam
     internal BetaThinkingConfigParam() { }
 
     public static implicit operator BetaThinkingConfigParam(BetaThinkingConfigEnabled value) =>
-        new BetaThinkingConfigEnabledVariant(value);
+        new BetaThinkingConfigParamVariants::BetaThinkingConfigEnabled(value);
 
     public static implicit operator BetaThinkingConfigParam(BetaThinkingConfigDisabled value) =>
-        new BetaThinkingConfigDisabledVariant(value);
+        new BetaThinkingConfigParamVariants::BetaThinkingConfigDisabled(value);
 
-    public bool TryPickBetaThinkingConfigEnabledVariant(
+    public bool TryPickBetaThinkingConfigEnabled(
         [NotNullWhen(true)] out BetaThinkingConfigEnabled? value
     )
     {
-        value = (this as BetaThinkingConfigEnabledVariant)?.Value;
+        value = (this as BetaThinkingConfigParamVariants::BetaThinkingConfigEnabled)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaThinkingConfigDisabledVariant(
+    public bool TryPickBetaThinkingConfigDisabled(
         [NotNullWhen(true)] out BetaThinkingConfigDisabled? value
     )
     {
-        value = (this as BetaThinkingConfigDisabledVariant)?.Value;
+        value = (this as BetaThinkingConfigParamVariants::BetaThinkingConfigDisabled)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaThinkingConfigEnabledVariant> betaThinkingConfigEnabled,
-        Action<BetaThinkingConfigDisabledVariant> betaThinkingConfigDisabled
+        Action<BetaThinkingConfigParamVariants::BetaThinkingConfigEnabled> betaThinkingConfigEnabled,
+        Action<BetaThinkingConfigParamVariants::BetaThinkingConfigDisabled> betaThinkingConfigDisabled
     )
     {
         switch (this)
         {
-            case BetaThinkingConfigEnabledVariant inner:
+            case BetaThinkingConfigParamVariants::BetaThinkingConfigEnabled inner:
                 betaThinkingConfigEnabled(inner);
                 break;
-            case BetaThinkingConfigDisabledVariant inner:
+            case BetaThinkingConfigParamVariants::BetaThinkingConfigDisabled inner:
                 betaThinkingConfigDisabled(inner);
                 break;
             default:
@@ -63,14 +63,22 @@ public abstract record class BetaThinkingConfigParam
     }
 
     public T Match<T>(
-        Func<BetaThinkingConfigEnabledVariant, T> betaThinkingConfigEnabled,
-        Func<BetaThinkingConfigDisabledVariant, T> betaThinkingConfigDisabled
+        Func<
+            BetaThinkingConfigParamVariants::BetaThinkingConfigEnabled,
+            T
+        > betaThinkingConfigEnabled,
+        Func<
+            BetaThinkingConfigParamVariants::BetaThinkingConfigDisabled,
+            T
+        > betaThinkingConfigDisabled
     )
     {
         return this switch
         {
-            BetaThinkingConfigEnabledVariant inner => betaThinkingConfigEnabled(inner),
-            BetaThinkingConfigDisabledVariant inner => betaThinkingConfigDisabled(inner),
+            BetaThinkingConfigParamVariants::BetaThinkingConfigEnabled inner =>
+                betaThinkingConfigEnabled(inner),
+            BetaThinkingConfigParamVariants::BetaThinkingConfigDisabled inner =>
+                betaThinkingConfigDisabled(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -111,7 +119,9 @@ sealed class BetaThinkingConfigParamConverter : JsonConverter<BetaThinkingConfig
                     );
                     if (deserialized != null)
                     {
-                        return new BetaThinkingConfigEnabledVariant(deserialized);
+                        return new BetaThinkingConfigParamVariants::BetaThinkingConfigEnabled(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -133,7 +143,9 @@ sealed class BetaThinkingConfigParamConverter : JsonConverter<BetaThinkingConfig
                     );
                     if (deserialized != null)
                     {
-                        return new BetaThinkingConfigDisabledVariant(deserialized);
+                        return new BetaThinkingConfigParamVariants::BetaThinkingConfigDisabled(
+                            deserialized
+                        );
                     }
                 }
                 catch (JsonException e)
@@ -158,10 +170,12 @@ sealed class BetaThinkingConfigParamConverter : JsonConverter<BetaThinkingConfig
     {
         object variant = value switch
         {
-            BetaThinkingConfigEnabledVariant(var betaThinkingConfigEnabled) =>
-                betaThinkingConfigEnabled,
-            BetaThinkingConfigDisabledVariant(var betaThinkingConfigDisabled) =>
-                betaThinkingConfigDisabled,
+            BetaThinkingConfigParamVariants::BetaThinkingConfigEnabled(
+                var betaThinkingConfigEnabled
+            ) => betaThinkingConfigEnabled,
+            BetaThinkingConfigParamVariants::BetaThinkingConfigDisabled(
+                var betaThinkingConfigDisabled
+            ) => betaThinkingConfigDisabled,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

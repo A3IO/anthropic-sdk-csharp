@@ -1,13 +1,15 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaToolChoiceVariants;
 
 /// <summary>
 /// The model will automatically decide whether to use tools.
 /// </summary>
-public sealed record class BetaToolChoiceAutoVariant(BetaToolChoiceAuto Value)
-    : BetaToolChoice,
-        IVariant<BetaToolChoiceAutoVariant, BetaToolChoiceAuto>
+public sealed record class BetaToolChoiceAuto(Messages::BetaToolChoiceAuto Value)
+    : Messages::BetaToolChoice,
+        IVariant<BetaToolChoiceAuto, Messages::BetaToolChoiceAuto>
 {
-    public static BetaToolChoiceAutoVariant From(BetaToolChoiceAuto value)
+    public static BetaToolChoiceAuto From(Messages::BetaToolChoiceAuto value)
     {
         return new(value);
     }
@@ -21,11 +23,11 @@ public sealed record class BetaToolChoiceAutoVariant(BetaToolChoiceAuto Value)
 /// <summary>
 /// The model will use any available tools.
 /// </summary>
-public sealed record class BetaToolChoiceAnyVariant(BetaToolChoiceAny Value)
-    : BetaToolChoice,
-        IVariant<BetaToolChoiceAnyVariant, BetaToolChoiceAny>
+public sealed record class BetaToolChoiceAny(Messages::BetaToolChoiceAny Value)
+    : Messages::BetaToolChoice,
+        IVariant<BetaToolChoiceAny, Messages::BetaToolChoiceAny>
 {
-    public static BetaToolChoiceAnyVariant From(BetaToolChoiceAny value)
+    public static BetaToolChoiceAny From(Messages::BetaToolChoiceAny value)
     {
         return new(value);
     }
@@ -39,11 +41,11 @@ public sealed record class BetaToolChoiceAnyVariant(BetaToolChoiceAny Value)
 /// <summary>
 /// The model will use the specified tool with `tool_choice.name`.
 /// </summary>
-public sealed record class BetaToolChoiceToolVariant(BetaToolChoiceTool Value)
-    : BetaToolChoice,
-        IVariant<BetaToolChoiceToolVariant, BetaToolChoiceTool>
+public sealed record class BetaToolChoiceTool(Messages::BetaToolChoiceTool Value)
+    : Messages::BetaToolChoice,
+        IVariant<BetaToolChoiceTool, Messages::BetaToolChoiceTool>
 {
-    public static BetaToolChoiceToolVariant From(BetaToolChoiceTool value)
+    public static BetaToolChoiceTool From(Messages::BetaToolChoiceTool value)
     {
         return new(value);
     }
@@ -57,11 +59,11 @@ public sealed record class BetaToolChoiceToolVariant(BetaToolChoiceTool Value)
 /// <summary>
 /// The model will not be allowed to use tools.
 /// </summary>
-public sealed record class BetaToolChoiceNoneVariant(BetaToolChoiceNone Value)
-    : BetaToolChoice,
-        IVariant<BetaToolChoiceNoneVariant, BetaToolChoiceNone>
+public sealed record class BetaToolChoiceNone(Messages::BetaToolChoiceNone Value)
+    : Messages::BetaToolChoice,
+        IVariant<BetaToolChoiceNone, Messages::BetaToolChoiceNone>
 {
-    public static BetaToolChoiceNoneVariant From(BetaToolChoiceNone value)
+    public static BetaToolChoiceNone From(Messages::BetaToolChoiceNone value)
     {
         return new(value);
     }

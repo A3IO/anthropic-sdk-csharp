@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Messages;
+
 namespace Anthropic.Models.Messages.ThinkingConfigParamVariants;
 
-public sealed record class ThinkingConfigEnabledVariant(ThinkingConfigEnabled Value)
-    : ThinkingConfigParam,
-        IVariant<ThinkingConfigEnabledVariant, ThinkingConfigEnabled>
+public sealed record class ThinkingConfigEnabled(Messages::ThinkingConfigEnabled Value)
+    : Messages::ThinkingConfigParam,
+        IVariant<ThinkingConfigEnabled, Messages::ThinkingConfigEnabled>
 {
-    public static ThinkingConfigEnabledVariant From(ThinkingConfigEnabled value)
+    public static ThinkingConfigEnabled From(Messages::ThinkingConfigEnabled value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class ThinkingConfigEnabledVariant(ThinkingConfigEnabled Va
     }
 }
 
-public sealed record class ThinkingConfigDisabledVariant(ThinkingConfigDisabled Value)
-    : ThinkingConfigParam,
-        IVariant<ThinkingConfigDisabledVariant, ThinkingConfigDisabled>
+public sealed record class ThinkingConfigDisabled(Messages::ThinkingConfigDisabled Value)
+    : Messages::ThinkingConfigParam,
+        IVariant<ThinkingConfigDisabled, Messages::ThinkingConfigDisabled>
 {
-    public static ThinkingConfigDisabledVariant From(ThinkingConfigDisabled value)
+    public static ThinkingConfigDisabled From(Messages::ThinkingConfigDisabled value)
     {
         return new(value);
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaToolChoiceVariants;
+using BetaToolChoiceVariants = Anthropic.Models.Beta.Messages.BetaToolChoiceVariants;
 
 namespace Anthropic.Models.Beta.Messages;
 
@@ -17,60 +17,60 @@ public abstract record class BetaToolChoice
     internal BetaToolChoice() { }
 
     public static implicit operator BetaToolChoice(BetaToolChoiceAuto value) =>
-        new BetaToolChoiceAutoVariant(value);
+        new BetaToolChoiceVariants::BetaToolChoiceAuto(value);
 
     public static implicit operator BetaToolChoice(BetaToolChoiceAny value) =>
-        new BetaToolChoiceAnyVariant(value);
+        new BetaToolChoiceVariants::BetaToolChoiceAny(value);
 
     public static implicit operator BetaToolChoice(BetaToolChoiceTool value) =>
-        new BetaToolChoiceToolVariant(value);
+        new BetaToolChoiceVariants::BetaToolChoiceTool(value);
 
     public static implicit operator BetaToolChoice(BetaToolChoiceNone value) =>
-        new BetaToolChoiceNoneVariant(value);
+        new BetaToolChoiceVariants::BetaToolChoiceNone(value);
 
-    public bool TryPickBetaToolChoiceAutoVariant([NotNullWhen(true)] out BetaToolChoiceAuto? value)
+    public bool TryPickBetaToolChoiceAuto([NotNullWhen(true)] out BetaToolChoiceAuto? value)
     {
-        value = (this as BetaToolChoiceAutoVariant)?.Value;
+        value = (this as BetaToolChoiceVariants::BetaToolChoiceAuto)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolChoiceAnyVariant([NotNullWhen(true)] out BetaToolChoiceAny? value)
+    public bool TryPickBetaToolChoiceAny([NotNullWhen(true)] out BetaToolChoiceAny? value)
     {
-        value = (this as BetaToolChoiceAnyVariant)?.Value;
+        value = (this as BetaToolChoiceVariants::BetaToolChoiceAny)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolChoiceToolVariant([NotNullWhen(true)] out BetaToolChoiceTool? value)
+    public bool TryPickBetaToolChoiceTool([NotNullWhen(true)] out BetaToolChoiceTool? value)
     {
-        value = (this as BetaToolChoiceToolVariant)?.Value;
+        value = (this as BetaToolChoiceVariants::BetaToolChoiceTool)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaToolChoiceNoneVariant([NotNullWhen(true)] out BetaToolChoiceNone? value)
+    public bool TryPickBetaToolChoiceNone([NotNullWhen(true)] out BetaToolChoiceNone? value)
     {
-        value = (this as BetaToolChoiceNoneVariant)?.Value;
+        value = (this as BetaToolChoiceVariants::BetaToolChoiceNone)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaToolChoiceAutoVariant> betaToolChoiceAuto,
-        Action<BetaToolChoiceAnyVariant> betaToolChoiceAny,
-        Action<BetaToolChoiceToolVariant> betaToolChoiceTool,
-        Action<BetaToolChoiceNoneVariant> betaToolChoiceNone
+        Action<BetaToolChoiceVariants::BetaToolChoiceAuto> betaToolChoiceAuto,
+        Action<BetaToolChoiceVariants::BetaToolChoiceAny> betaToolChoiceAny,
+        Action<BetaToolChoiceVariants::BetaToolChoiceTool> betaToolChoiceTool,
+        Action<BetaToolChoiceVariants::BetaToolChoiceNone> betaToolChoiceNone
     )
     {
         switch (this)
         {
-            case BetaToolChoiceAutoVariant inner:
+            case BetaToolChoiceVariants::BetaToolChoiceAuto inner:
                 betaToolChoiceAuto(inner);
                 break;
-            case BetaToolChoiceAnyVariant inner:
+            case BetaToolChoiceVariants::BetaToolChoiceAny inner:
                 betaToolChoiceAny(inner);
                 break;
-            case BetaToolChoiceToolVariant inner:
+            case BetaToolChoiceVariants::BetaToolChoiceTool inner:
                 betaToolChoiceTool(inner);
                 break;
-            case BetaToolChoiceNoneVariant inner:
+            case BetaToolChoiceVariants::BetaToolChoiceNone inner:
                 betaToolChoiceNone(inner);
                 break;
             default:
@@ -79,18 +79,18 @@ public abstract record class BetaToolChoice
     }
 
     public T Match<T>(
-        Func<BetaToolChoiceAutoVariant, T> betaToolChoiceAuto,
-        Func<BetaToolChoiceAnyVariant, T> betaToolChoiceAny,
-        Func<BetaToolChoiceToolVariant, T> betaToolChoiceTool,
-        Func<BetaToolChoiceNoneVariant, T> betaToolChoiceNone
+        Func<BetaToolChoiceVariants::BetaToolChoiceAuto, T> betaToolChoiceAuto,
+        Func<BetaToolChoiceVariants::BetaToolChoiceAny, T> betaToolChoiceAny,
+        Func<BetaToolChoiceVariants::BetaToolChoiceTool, T> betaToolChoiceTool,
+        Func<BetaToolChoiceVariants::BetaToolChoiceNone, T> betaToolChoiceNone
     )
     {
         return this switch
         {
-            BetaToolChoiceAutoVariant inner => betaToolChoiceAuto(inner),
-            BetaToolChoiceAnyVariant inner => betaToolChoiceAny(inner),
-            BetaToolChoiceToolVariant inner => betaToolChoiceTool(inner),
-            BetaToolChoiceNoneVariant inner => betaToolChoiceNone(inner),
+            BetaToolChoiceVariants::BetaToolChoiceAuto inner => betaToolChoiceAuto(inner),
+            BetaToolChoiceVariants::BetaToolChoiceAny inner => betaToolChoiceAny(inner),
+            BetaToolChoiceVariants::BetaToolChoiceTool inner => betaToolChoiceTool(inner),
+            BetaToolChoiceVariants::BetaToolChoiceNone inner => betaToolChoiceNone(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -131,7 +131,7 @@ sealed class BetaToolChoiceConverter : JsonConverter<BetaToolChoice>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaToolChoiceAutoVariant(deserialized);
+                        return new BetaToolChoiceVariants::BetaToolChoiceAuto(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -150,7 +150,7 @@ sealed class BetaToolChoiceConverter : JsonConverter<BetaToolChoice>
                     var deserialized = JsonSerializer.Deserialize<BetaToolChoiceAny>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaToolChoiceAnyVariant(deserialized);
+                        return new BetaToolChoiceVariants::BetaToolChoiceAny(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -172,7 +172,7 @@ sealed class BetaToolChoiceConverter : JsonConverter<BetaToolChoice>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaToolChoiceToolVariant(deserialized);
+                        return new BetaToolChoiceVariants::BetaToolChoiceTool(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -194,7 +194,7 @@ sealed class BetaToolChoiceConverter : JsonConverter<BetaToolChoice>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaToolChoiceNoneVariant(deserialized);
+                        return new BetaToolChoiceVariants::BetaToolChoiceNone(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -219,10 +219,13 @@ sealed class BetaToolChoiceConverter : JsonConverter<BetaToolChoice>
     {
         object variant = value switch
         {
-            BetaToolChoiceAutoVariant(var betaToolChoiceAuto) => betaToolChoiceAuto,
-            BetaToolChoiceAnyVariant(var betaToolChoiceAny) => betaToolChoiceAny,
-            BetaToolChoiceToolVariant(var betaToolChoiceTool) => betaToolChoiceTool,
-            BetaToolChoiceNoneVariant(var betaToolChoiceNone) => betaToolChoiceNone,
+            BetaToolChoiceVariants::BetaToolChoiceAuto(var betaToolChoiceAuto) =>
+                betaToolChoiceAuto,
+            BetaToolChoiceVariants::BetaToolChoiceAny(var betaToolChoiceAny) => betaToolChoiceAny,
+            BetaToolChoiceVariants::BetaToolChoiceTool(var betaToolChoiceTool) =>
+                betaToolChoiceTool,
+            BetaToolChoiceVariants::BetaToolChoiceNone(var betaToolChoiceNone) =>
+                betaToolChoiceNone,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

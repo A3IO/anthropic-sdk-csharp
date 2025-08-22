@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaTextCitationVariants;
 
-public sealed record class BetaCitationCharLocationVariant(BetaCitationCharLocation Value)
-    : BetaTextCitation,
-        IVariant<BetaCitationCharLocationVariant, BetaCitationCharLocation>
+public sealed record class BetaCitationCharLocation(Messages::BetaCitationCharLocation Value)
+    : Messages::BetaTextCitation,
+        IVariant<BetaCitationCharLocation, Messages::BetaCitationCharLocation>
 {
-    public static BetaCitationCharLocationVariant From(BetaCitationCharLocation value)
+    public static BetaCitationCharLocation From(Messages::BetaCitationCharLocation value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class BetaCitationCharLocationVariant(BetaCitationCharLocat
     }
 }
 
-public sealed record class BetaCitationPageLocationVariant(BetaCitationPageLocation Value)
-    : BetaTextCitation,
-        IVariant<BetaCitationPageLocationVariant, BetaCitationPageLocation>
+public sealed record class BetaCitationPageLocation(Messages::BetaCitationPageLocation Value)
+    : Messages::BetaTextCitation,
+        IVariant<BetaCitationPageLocation, Messages::BetaCitationPageLocation>
 {
-    public static BetaCitationPageLocationVariant From(BetaCitationPageLocation value)
+    public static BetaCitationPageLocation From(Messages::BetaCitationPageLocation value)
     {
         return new(value);
     }
@@ -30,14 +32,14 @@ public sealed record class BetaCitationPageLocationVariant(BetaCitationPageLocat
     }
 }
 
-public sealed record class BetaCitationContentBlockLocationVariant(
-    BetaCitationContentBlockLocation Value
+public sealed record class BetaCitationContentBlockLocation(
+    Messages::BetaCitationContentBlockLocation Value
 )
-    : BetaTextCitation,
-        IVariant<BetaCitationContentBlockLocationVariant, BetaCitationContentBlockLocation>
+    : Messages::BetaTextCitation,
+        IVariant<BetaCitationContentBlockLocation, Messages::BetaCitationContentBlockLocation>
 {
-    public static BetaCitationContentBlockLocationVariant From(
-        BetaCitationContentBlockLocation value
+    public static BetaCitationContentBlockLocation From(
+        Messages::BetaCitationContentBlockLocation value
     )
     {
         return new(value);
@@ -49,14 +51,17 @@ public sealed record class BetaCitationContentBlockLocationVariant(
     }
 }
 
-public sealed record class BetaCitationsWebSearchResultLocationVariant(
-    BetaCitationsWebSearchResultLocation Value
+public sealed record class BetaCitationsWebSearchResultLocation(
+    Messages::BetaCitationsWebSearchResultLocation Value
 )
-    : BetaTextCitation,
-        IVariant<BetaCitationsWebSearchResultLocationVariant, BetaCitationsWebSearchResultLocation>
+    : Messages::BetaTextCitation,
+        IVariant<
+            BetaCitationsWebSearchResultLocation,
+            Messages::BetaCitationsWebSearchResultLocation
+        >
 {
-    public static BetaCitationsWebSearchResultLocationVariant From(
-        BetaCitationsWebSearchResultLocation value
+    public static BetaCitationsWebSearchResultLocation From(
+        Messages::BetaCitationsWebSearchResultLocation value
     )
     {
         return new(value);
@@ -68,14 +73,14 @@ public sealed record class BetaCitationsWebSearchResultLocationVariant(
     }
 }
 
-public sealed record class BetaCitationSearchResultLocationVariant(
-    BetaCitationSearchResultLocation Value
+public sealed record class BetaCitationSearchResultLocation(
+    Messages::BetaCitationSearchResultLocation Value
 )
-    : BetaTextCitation,
-        IVariant<BetaCitationSearchResultLocationVariant, BetaCitationSearchResultLocation>
+    : Messages::BetaTextCitation,
+        IVariant<BetaCitationSearchResultLocation, Messages::BetaCitationSearchResultLocation>
 {
-    public static BetaCitationSearchResultLocationVariant From(
-        BetaCitationSearchResultLocation value
+    public static BetaCitationSearchResultLocation From(
+        Messages::BetaCitationSearchResultLocation value
     )
     {
         return new(value);

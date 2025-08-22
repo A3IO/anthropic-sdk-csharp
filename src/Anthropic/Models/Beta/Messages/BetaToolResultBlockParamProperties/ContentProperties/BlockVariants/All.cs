@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaToolResultBlockParamProperties.ContentProperties.BlockVariants;
 
-public sealed record class BetaTextBlockParamVariant(BetaTextBlockParam Value)
+public sealed record class BetaTextBlockParam(Messages::BetaTextBlockParam Value)
     : Block,
-        IVariant<BetaTextBlockParamVariant, BetaTextBlockParam>
+        IVariant<BetaTextBlockParam, Messages::BetaTextBlockParam>
 {
-    public static BetaTextBlockParamVariant From(BetaTextBlockParam value)
+    public static BetaTextBlockParam From(Messages::BetaTextBlockParam value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class BetaTextBlockParamVariant(BetaTextBlockParam Value)
     }
 }
 
-public sealed record class BetaImageBlockParamVariant(BetaImageBlockParam Value)
+public sealed record class BetaImageBlockParam(Messages::BetaImageBlockParam Value)
     : Block,
-        IVariant<BetaImageBlockParamVariant, BetaImageBlockParam>
+        IVariant<BetaImageBlockParam, Messages::BetaImageBlockParam>
 {
-    public static BetaImageBlockParamVariant From(BetaImageBlockParam value)
+    public static BetaImageBlockParam From(Messages::BetaImageBlockParam value)
     {
         return new(value);
     }
@@ -30,11 +32,11 @@ public sealed record class BetaImageBlockParamVariant(BetaImageBlockParam Value)
     }
 }
 
-public sealed record class BetaSearchResultBlockParamVariant(BetaSearchResultBlockParam Value)
+public sealed record class BetaSearchResultBlockParam(Messages::BetaSearchResultBlockParam Value)
     : Block,
-        IVariant<BetaSearchResultBlockParamVariant, BetaSearchResultBlockParam>
+        IVariant<BetaSearchResultBlockParam, Messages::BetaSearchResultBlockParam>
 {
-    public static BetaSearchResultBlockParamVariant From(BetaSearchResultBlockParam value)
+    public static BetaSearchResultBlockParam From(Messages::BetaSearchResultBlockParam value)
     {
         return new(value);
     }

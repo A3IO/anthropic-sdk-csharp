@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Messages.DocumentBlockParamProperties.SourceVariants;
+using SourceVariants = Anthropic.Models.Messages.DocumentBlockParamProperties.SourceVariants;
 
 namespace Anthropic.Models.Messages.DocumentBlockParamProperties;
 
@@ -13,59 +13,60 @@ public abstract record class Source
     internal Source() { }
 
     public static implicit operator Source(Base64PDFSource value) =>
-        new Base64PDFSourceVariant(value);
+        new SourceVariants::Base64PDFSource(value);
 
     public static implicit operator Source(PlainTextSource value) =>
-        new PlainTextSourceVariant(value);
+        new SourceVariants::PlainTextSource(value);
 
     public static implicit operator Source(ContentBlockSource value) =>
-        new ContentBlockSourceVariant(value);
+        new SourceVariants::ContentBlockSource(value);
 
-    public static implicit operator Source(URLPDFSource value) => new URLPDFSourceVariant(value);
+    public static implicit operator Source(URLPDFSource value) =>
+        new SourceVariants::URLPDFSource(value);
 
-    public bool TryPickBase64PDFSourceVariant([NotNullWhen(true)] out Base64PDFSource? value)
+    public bool TryPickBase64PDFSource([NotNullWhen(true)] out Base64PDFSource? value)
     {
-        value = (this as Base64PDFSourceVariant)?.Value;
+        value = (this as SourceVariants::Base64PDFSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickPlainTextSourceVariant([NotNullWhen(true)] out PlainTextSource? value)
+    public bool TryPickPlainTextSource([NotNullWhen(true)] out PlainTextSource? value)
     {
-        value = (this as PlainTextSourceVariant)?.Value;
+        value = (this as SourceVariants::PlainTextSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickContentBlockSourceVariant([NotNullWhen(true)] out ContentBlockSource? value)
+    public bool TryPickContentBlockSource([NotNullWhen(true)] out ContentBlockSource? value)
     {
-        value = (this as ContentBlockSourceVariant)?.Value;
+        value = (this as SourceVariants::ContentBlockSource)?.Value;
         return value != null;
     }
 
-    public bool TryPickURLPDFSourceVariant([NotNullWhen(true)] out URLPDFSource? value)
+    public bool TryPickURLPDFSource([NotNullWhen(true)] out URLPDFSource? value)
     {
-        value = (this as URLPDFSourceVariant)?.Value;
+        value = (this as SourceVariants::URLPDFSource)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<Base64PDFSourceVariant> base64PDFSource,
-        Action<PlainTextSourceVariant> plainTextSource,
-        Action<ContentBlockSourceVariant> contentBlockSource,
-        Action<URLPDFSourceVariant> urlpdfSource
+        Action<SourceVariants::Base64PDFSource> base64PDFSource,
+        Action<SourceVariants::PlainTextSource> plainTextSource,
+        Action<SourceVariants::ContentBlockSource> contentBlockSource,
+        Action<SourceVariants::URLPDFSource> urlpdfSource
     )
     {
         switch (this)
         {
-            case Base64PDFSourceVariant inner:
+            case SourceVariants::Base64PDFSource inner:
                 base64PDFSource(inner);
                 break;
-            case PlainTextSourceVariant inner:
+            case SourceVariants::PlainTextSource inner:
                 plainTextSource(inner);
                 break;
-            case ContentBlockSourceVariant inner:
+            case SourceVariants::ContentBlockSource inner:
                 contentBlockSource(inner);
                 break;
-            case URLPDFSourceVariant inner:
+            case SourceVariants::URLPDFSource inner:
                 urlpdfSource(inner);
                 break;
             default:
@@ -74,18 +75,18 @@ public abstract record class Source
     }
 
     public T Match<T>(
-        Func<Base64PDFSourceVariant, T> base64PDFSource,
-        Func<PlainTextSourceVariant, T> plainTextSource,
-        Func<ContentBlockSourceVariant, T> contentBlockSource,
-        Func<URLPDFSourceVariant, T> urlpdfSource
+        Func<SourceVariants::Base64PDFSource, T> base64PDFSource,
+        Func<SourceVariants::PlainTextSource, T> plainTextSource,
+        Func<SourceVariants::ContentBlockSource, T> contentBlockSource,
+        Func<SourceVariants::URLPDFSource, T> urlpdfSource
     )
     {
         return this switch
         {
-            Base64PDFSourceVariant inner => base64PDFSource(inner),
-            PlainTextSourceVariant inner => plainTextSource(inner),
-            ContentBlockSourceVariant inner => contentBlockSource(inner),
-            URLPDFSourceVariant inner => urlpdfSource(inner),
+            SourceVariants::Base64PDFSource inner => base64PDFSource(inner),
+            SourceVariants::PlainTextSource inner => plainTextSource(inner),
+            SourceVariants::ContentBlockSource inner => contentBlockSource(inner),
+            SourceVariants::URLPDFSource inner => urlpdfSource(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -123,7 +124,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     var deserialized = JsonSerializer.Deserialize<Base64PDFSource>(json, options);
                     if (deserialized != null)
                     {
-                        return new Base64PDFSourceVariant(deserialized);
+                        return new SourceVariants::Base64PDFSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -142,7 +143,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     var deserialized = JsonSerializer.Deserialize<PlainTextSource>(json, options);
                     if (deserialized != null)
                     {
-                        return new PlainTextSourceVariant(deserialized);
+                        return new SourceVariants::PlainTextSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -164,7 +165,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     );
                     if (deserialized != null)
                     {
-                        return new ContentBlockSourceVariant(deserialized);
+                        return new SourceVariants::ContentBlockSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -183,7 +184,7 @@ sealed class SourceConverter : JsonConverter<Source>
                     var deserialized = JsonSerializer.Deserialize<URLPDFSource>(json, options);
                     if (deserialized != null)
                     {
-                        return new URLPDFSourceVariant(deserialized);
+                        return new SourceVariants::URLPDFSource(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -204,10 +205,10 @@ sealed class SourceConverter : JsonConverter<Source>
     {
         object variant = value switch
         {
-            Base64PDFSourceVariant(var base64PDFSource) => base64PDFSource,
-            PlainTextSourceVariant(var plainTextSource) => plainTextSource,
-            ContentBlockSourceVariant(var contentBlockSource) => contentBlockSource,
-            URLPDFSourceVariant(var urlpdfSource) => urlpdfSource,
+            SourceVariants::Base64PDFSource(var base64PDFSource) => base64PDFSource,
+            SourceVariants::PlainTextSource(var plainTextSource) => plainTextSource,
+            SourceVariants::ContentBlockSource(var contentBlockSource) => contentBlockSource,
+            SourceVariants::URLPDFSource(var urlpdfSource) => urlpdfSource,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

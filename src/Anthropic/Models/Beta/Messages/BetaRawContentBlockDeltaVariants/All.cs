@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Beta.Messages;
+
 namespace Anthropic.Models.Beta.Messages.BetaRawContentBlockDeltaVariants;
 
-public sealed record class BetaTextDeltaVariant(BetaTextDelta Value)
-    : BetaRawContentBlockDelta,
-        IVariant<BetaTextDeltaVariant, BetaTextDelta>
+public sealed record class BetaTextDelta(Messages::BetaTextDelta Value)
+    : Messages::BetaRawContentBlockDelta,
+        IVariant<BetaTextDelta, Messages::BetaTextDelta>
 {
-    public static BetaTextDeltaVariant From(BetaTextDelta value)
+    public static BetaTextDelta From(Messages::BetaTextDelta value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class BetaTextDeltaVariant(BetaTextDelta Value)
     }
 }
 
-public sealed record class BetaInputJSONDeltaVariant(BetaInputJSONDelta Value)
-    : BetaRawContentBlockDelta,
-        IVariant<BetaInputJSONDeltaVariant, BetaInputJSONDelta>
+public sealed record class BetaInputJSONDelta(Messages::BetaInputJSONDelta Value)
+    : Messages::BetaRawContentBlockDelta,
+        IVariant<BetaInputJSONDelta, Messages::BetaInputJSONDelta>
 {
-    public static BetaInputJSONDeltaVariant From(BetaInputJSONDelta value)
+    public static BetaInputJSONDelta From(Messages::BetaInputJSONDelta value)
     {
         return new(value);
     }
@@ -30,11 +32,11 @@ public sealed record class BetaInputJSONDeltaVariant(BetaInputJSONDelta Value)
     }
 }
 
-public sealed record class BetaCitationsDeltaVariant(BetaCitationsDelta Value)
-    : BetaRawContentBlockDelta,
-        IVariant<BetaCitationsDeltaVariant, BetaCitationsDelta>
+public sealed record class BetaCitationsDelta(Messages::BetaCitationsDelta Value)
+    : Messages::BetaRawContentBlockDelta,
+        IVariant<BetaCitationsDelta, Messages::BetaCitationsDelta>
 {
-    public static BetaCitationsDeltaVariant From(BetaCitationsDelta value)
+    public static BetaCitationsDelta From(Messages::BetaCitationsDelta value)
     {
         return new(value);
     }
@@ -45,11 +47,11 @@ public sealed record class BetaCitationsDeltaVariant(BetaCitationsDelta Value)
     }
 }
 
-public sealed record class BetaThinkingDeltaVariant(BetaThinkingDelta Value)
-    : BetaRawContentBlockDelta,
-        IVariant<BetaThinkingDeltaVariant, BetaThinkingDelta>
+public sealed record class BetaThinkingDelta(Messages::BetaThinkingDelta Value)
+    : Messages::BetaRawContentBlockDelta,
+        IVariant<BetaThinkingDelta, Messages::BetaThinkingDelta>
 {
-    public static BetaThinkingDeltaVariant From(BetaThinkingDelta value)
+    public static BetaThinkingDelta From(Messages::BetaThinkingDelta value)
     {
         return new(value);
     }
@@ -60,11 +62,11 @@ public sealed record class BetaThinkingDeltaVariant(BetaThinkingDelta Value)
     }
 }
 
-public sealed record class BetaSignatureDeltaVariant(BetaSignatureDelta Value)
-    : BetaRawContentBlockDelta,
-        IVariant<BetaSignatureDeltaVariant, BetaSignatureDelta>
+public sealed record class BetaSignatureDelta(Messages::BetaSignatureDelta Value)
+    : Messages::BetaRawContentBlockDelta,
+        IVariant<BetaSignatureDelta, Messages::BetaSignatureDelta>
 {
-    public static BetaSignatureDeltaVariant From(BetaSignatureDelta value)
+    public static BetaSignatureDelta From(Messages::BetaSignatureDelta value)
     {
         return new(value);
     }

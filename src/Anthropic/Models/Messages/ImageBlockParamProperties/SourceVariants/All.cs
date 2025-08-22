@@ -1,10 +1,12 @@
+using Messages = Anthropic.Models.Messages;
+
 namespace Anthropic.Models.Messages.ImageBlockParamProperties.SourceVariants;
 
-public sealed record class Base64ImageSourceVariant(Base64ImageSource Value)
+public sealed record class Base64ImageSource(Messages::Base64ImageSource Value)
     : Source,
-        IVariant<Base64ImageSourceVariant, Base64ImageSource>
+        IVariant<Base64ImageSource, Messages::Base64ImageSource>
 {
-    public static Base64ImageSourceVariant From(Base64ImageSource value)
+    public static Base64ImageSource From(Messages::Base64ImageSource value)
     {
         return new(value);
     }
@@ -15,11 +17,11 @@ public sealed record class Base64ImageSourceVariant(Base64ImageSource Value)
     }
 }
 
-public sealed record class URLImageSourceVariant(URLImageSource Value)
+public sealed record class URLImageSource(Messages::URLImageSource Value)
     : Source,
-        IVariant<URLImageSourceVariant, URLImageSource>
+        IVariant<URLImageSource, Messages::URLImageSource>
 {
-    public static URLImageSourceVariant From(URLImageSource value)
+    public static URLImageSource From(Messages::URLImageSource value)
     {
         return new(value);
     }

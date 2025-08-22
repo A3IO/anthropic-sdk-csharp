@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Messages = Anthropic.Models.Messages;
 
 namespace Anthropic.Models.Messages.ContentBlockSourceProperties.ContentVariants;
 
@@ -12,11 +13,11 @@ public sealed record class String(string Value) : Content, IVariant<String, stri
     public override void Validate() { }
 }
 
-public sealed record class ContentBlockSourceContentVariant(List<ContentBlockSourceContent> Value)
-    : Content,
-        IVariant<ContentBlockSourceContentVariant, List<ContentBlockSourceContent>>
+public sealed record class ContentBlockSourceContent(
+    List<Messages::ContentBlockSourceContent> Value
+) : Content, IVariant<ContentBlockSourceContent, List<Messages::ContentBlockSourceContent>>
 {
-    public static ContentBlockSourceContentVariant From(List<ContentBlockSourceContent> value)
+    public static ContentBlockSourceContent From(List<Messages::ContentBlockSourceContent> value)
     {
         return new(value);
     }

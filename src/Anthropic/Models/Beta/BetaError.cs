@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.BetaErrorVariants;
+using BetaErrorVariants = Anthropic.Models.Beta.BetaErrorVariants;
 
 namespace Anthropic.Models.Beta;
 
@@ -13,134 +13,131 @@ public abstract record class BetaError
     internal BetaError() { }
 
     public static implicit operator BetaError(BetaInvalidRequestError value) =>
-        new BetaInvalidRequestErrorVariant(value);
+        new BetaErrorVariants::BetaInvalidRequestError(value);
 
     public static implicit operator BetaError(BetaAuthenticationError value) =>
-        new BetaAuthenticationErrorVariant(value);
+        new BetaErrorVariants::BetaAuthenticationError(value);
 
     public static implicit operator BetaError(BetaBillingError value) =>
-        new BetaBillingErrorVariant(value);
+        new BetaErrorVariants::BetaBillingError(value);
 
     public static implicit operator BetaError(BetaPermissionError value) =>
-        new BetaPermissionErrorVariant(value);
+        new BetaErrorVariants::BetaPermissionError(value);
 
     public static implicit operator BetaError(BetaNotFoundError value) =>
-        new BetaNotFoundErrorVariant(value);
+        new BetaErrorVariants::BetaNotFoundError(value);
 
     public static implicit operator BetaError(BetaRateLimitError value) =>
-        new BetaRateLimitErrorVariant(value);
+        new BetaErrorVariants::BetaRateLimitError(value);
 
     public static implicit operator BetaError(BetaGatewayTimeoutError value) =>
-        new BetaGatewayTimeoutErrorVariant(value);
+        new BetaErrorVariants::BetaGatewayTimeoutError(value);
 
-    public static implicit operator BetaError(BetaAPIError value) => new BetaAPIErrorVariant(value);
+    public static implicit operator BetaError(BetaAPIError value) =>
+        new BetaErrorVariants::BetaAPIError(value);
 
     public static implicit operator BetaError(BetaOverloadedError value) =>
-        new BetaOverloadedErrorVariant(value);
+        new BetaErrorVariants::BetaOverloadedError(value);
 
-    public bool TryPickBetaInvalidRequestErrorVariant(
+    public bool TryPickBetaInvalidRequestError(
         [NotNullWhen(true)] out BetaInvalidRequestError? value
     )
     {
-        value = (this as BetaInvalidRequestErrorVariant)?.Value;
+        value = (this as BetaErrorVariants::BetaInvalidRequestError)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaAuthenticationErrorVariant(
+    public bool TryPickBetaAuthenticationError(
         [NotNullWhen(true)] out BetaAuthenticationError? value
     )
     {
-        value = (this as BetaAuthenticationErrorVariant)?.Value;
+        value = (this as BetaErrorVariants::BetaAuthenticationError)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaBillingErrorVariant([NotNullWhen(true)] out BetaBillingError? value)
+    public bool TryPickBetaBillingError([NotNullWhen(true)] out BetaBillingError? value)
     {
-        value = (this as BetaBillingErrorVariant)?.Value;
+        value = (this as BetaErrorVariants::BetaBillingError)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaPermissionErrorVariant(
-        [NotNullWhen(true)] out BetaPermissionError? value
-    )
+    public bool TryPickBetaPermissionError([NotNullWhen(true)] out BetaPermissionError? value)
     {
-        value = (this as BetaPermissionErrorVariant)?.Value;
+        value = (this as BetaErrorVariants::BetaPermissionError)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaNotFoundErrorVariant([NotNullWhen(true)] out BetaNotFoundError? value)
+    public bool TryPickBetaNotFoundError([NotNullWhen(true)] out BetaNotFoundError? value)
     {
-        value = (this as BetaNotFoundErrorVariant)?.Value;
+        value = (this as BetaErrorVariants::BetaNotFoundError)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaRateLimitErrorVariant([NotNullWhen(true)] out BetaRateLimitError? value)
+    public bool TryPickBetaRateLimitError([NotNullWhen(true)] out BetaRateLimitError? value)
     {
-        value = (this as BetaRateLimitErrorVariant)?.Value;
+        value = (this as BetaErrorVariants::BetaRateLimitError)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaGatewayTimeoutErrorVariant(
+    public bool TryPickBetaGatewayTimeoutError(
         [NotNullWhen(true)] out BetaGatewayTimeoutError? value
     )
     {
-        value = (this as BetaGatewayTimeoutErrorVariant)?.Value;
+        value = (this as BetaErrorVariants::BetaGatewayTimeoutError)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaAPIErrorVariant([NotNullWhen(true)] out BetaAPIError? value)
+    public bool TryPickBetaAPIError([NotNullWhen(true)] out BetaAPIError? value)
     {
-        value = (this as BetaAPIErrorVariant)?.Value;
+        value = (this as BetaErrorVariants::BetaAPIError)?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaOverloadedErrorVariant(
-        [NotNullWhen(true)] out BetaOverloadedError? value
-    )
+    public bool TryPickBetaOverloadedError([NotNullWhen(true)] out BetaOverloadedError? value)
     {
-        value = (this as BetaOverloadedErrorVariant)?.Value;
+        value = (this as BetaErrorVariants::BetaOverloadedError)?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaInvalidRequestErrorVariant> betaInvalidRequestError,
-        Action<BetaAuthenticationErrorVariant> betaAuthenticationError,
-        Action<BetaBillingErrorVariant> betaBillingError,
-        Action<BetaPermissionErrorVariant> betaPermissionError,
-        Action<BetaNotFoundErrorVariant> betaNotFoundError,
-        Action<BetaRateLimitErrorVariant> betaRateLimitError,
-        Action<BetaGatewayTimeoutErrorVariant> betaGatewayTimeoutError,
-        Action<BetaAPIErrorVariant> betaAPIError,
-        Action<BetaOverloadedErrorVariant> betaOverloadedError
+        Action<BetaErrorVariants::BetaInvalidRequestError> betaInvalidRequestError,
+        Action<BetaErrorVariants::BetaAuthenticationError> betaAuthenticationError,
+        Action<BetaErrorVariants::BetaBillingError> betaBillingError,
+        Action<BetaErrorVariants::BetaPermissionError> betaPermissionError,
+        Action<BetaErrorVariants::BetaNotFoundError> betaNotFoundError,
+        Action<BetaErrorVariants::BetaRateLimitError> betaRateLimitError,
+        Action<BetaErrorVariants::BetaGatewayTimeoutError> betaGatewayTimeoutError,
+        Action<BetaErrorVariants::BetaAPIError> betaAPIError,
+        Action<BetaErrorVariants::BetaOverloadedError> betaOverloadedError
     )
     {
         switch (this)
         {
-            case BetaInvalidRequestErrorVariant inner:
+            case BetaErrorVariants::BetaInvalidRequestError inner:
                 betaInvalidRequestError(inner);
                 break;
-            case BetaAuthenticationErrorVariant inner:
+            case BetaErrorVariants::BetaAuthenticationError inner:
                 betaAuthenticationError(inner);
                 break;
-            case BetaBillingErrorVariant inner:
+            case BetaErrorVariants::BetaBillingError inner:
                 betaBillingError(inner);
                 break;
-            case BetaPermissionErrorVariant inner:
+            case BetaErrorVariants::BetaPermissionError inner:
                 betaPermissionError(inner);
                 break;
-            case BetaNotFoundErrorVariant inner:
+            case BetaErrorVariants::BetaNotFoundError inner:
                 betaNotFoundError(inner);
                 break;
-            case BetaRateLimitErrorVariant inner:
+            case BetaErrorVariants::BetaRateLimitError inner:
                 betaRateLimitError(inner);
                 break;
-            case BetaGatewayTimeoutErrorVariant inner:
+            case BetaErrorVariants::BetaGatewayTimeoutError inner:
                 betaGatewayTimeoutError(inner);
                 break;
-            case BetaAPIErrorVariant inner:
+            case BetaErrorVariants::BetaAPIError inner:
                 betaAPIError(inner);
                 break;
-            case BetaOverloadedErrorVariant inner:
+            case BetaErrorVariants::BetaOverloadedError inner:
                 betaOverloadedError(inner);
                 break;
             default:
@@ -149,28 +146,28 @@ public abstract record class BetaError
     }
 
     public T Match<T>(
-        Func<BetaInvalidRequestErrorVariant, T> betaInvalidRequestError,
-        Func<BetaAuthenticationErrorVariant, T> betaAuthenticationError,
-        Func<BetaBillingErrorVariant, T> betaBillingError,
-        Func<BetaPermissionErrorVariant, T> betaPermissionError,
-        Func<BetaNotFoundErrorVariant, T> betaNotFoundError,
-        Func<BetaRateLimitErrorVariant, T> betaRateLimitError,
-        Func<BetaGatewayTimeoutErrorVariant, T> betaGatewayTimeoutError,
-        Func<BetaAPIErrorVariant, T> betaAPIError,
-        Func<BetaOverloadedErrorVariant, T> betaOverloadedError
+        Func<BetaErrorVariants::BetaInvalidRequestError, T> betaInvalidRequestError,
+        Func<BetaErrorVariants::BetaAuthenticationError, T> betaAuthenticationError,
+        Func<BetaErrorVariants::BetaBillingError, T> betaBillingError,
+        Func<BetaErrorVariants::BetaPermissionError, T> betaPermissionError,
+        Func<BetaErrorVariants::BetaNotFoundError, T> betaNotFoundError,
+        Func<BetaErrorVariants::BetaRateLimitError, T> betaRateLimitError,
+        Func<BetaErrorVariants::BetaGatewayTimeoutError, T> betaGatewayTimeoutError,
+        Func<BetaErrorVariants::BetaAPIError, T> betaAPIError,
+        Func<BetaErrorVariants::BetaOverloadedError, T> betaOverloadedError
     )
     {
         return this switch
         {
-            BetaInvalidRequestErrorVariant inner => betaInvalidRequestError(inner),
-            BetaAuthenticationErrorVariant inner => betaAuthenticationError(inner),
-            BetaBillingErrorVariant inner => betaBillingError(inner),
-            BetaPermissionErrorVariant inner => betaPermissionError(inner),
-            BetaNotFoundErrorVariant inner => betaNotFoundError(inner),
-            BetaRateLimitErrorVariant inner => betaRateLimitError(inner),
-            BetaGatewayTimeoutErrorVariant inner => betaGatewayTimeoutError(inner),
-            BetaAPIErrorVariant inner => betaAPIError(inner),
-            BetaOverloadedErrorVariant inner => betaOverloadedError(inner),
+            BetaErrorVariants::BetaInvalidRequestError inner => betaInvalidRequestError(inner),
+            BetaErrorVariants::BetaAuthenticationError inner => betaAuthenticationError(inner),
+            BetaErrorVariants::BetaBillingError inner => betaBillingError(inner),
+            BetaErrorVariants::BetaPermissionError inner => betaPermissionError(inner),
+            BetaErrorVariants::BetaNotFoundError inner => betaNotFoundError(inner),
+            BetaErrorVariants::BetaRateLimitError inner => betaRateLimitError(inner),
+            BetaErrorVariants::BetaGatewayTimeoutError inner => betaGatewayTimeoutError(inner),
+            BetaErrorVariants::BetaAPIError inner => betaAPIError(inner),
+            BetaErrorVariants::BetaOverloadedError inner => betaOverloadedError(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -211,7 +208,7 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaInvalidRequestErrorVariant(deserialized);
+                        return new BetaErrorVariants::BetaInvalidRequestError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -233,7 +230,7 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaAuthenticationErrorVariant(deserialized);
+                        return new BetaErrorVariants::BetaAuthenticationError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -252,7 +249,7 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
                     var deserialized = JsonSerializer.Deserialize<BetaBillingError>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaBillingErrorVariant(deserialized);
+                        return new BetaErrorVariants::BetaBillingError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -274,7 +271,7 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaPermissionErrorVariant(deserialized);
+                        return new BetaErrorVariants::BetaPermissionError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -293,7 +290,7 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
                     var deserialized = JsonSerializer.Deserialize<BetaNotFoundError>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaNotFoundErrorVariant(deserialized);
+                        return new BetaErrorVariants::BetaNotFoundError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -315,7 +312,7 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaRateLimitErrorVariant(deserialized);
+                        return new BetaErrorVariants::BetaRateLimitError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -337,7 +334,7 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaGatewayTimeoutErrorVariant(deserialized);
+                        return new BetaErrorVariants::BetaGatewayTimeoutError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -356,7 +353,7 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
                     var deserialized = JsonSerializer.Deserialize<BetaAPIError>(json, options);
                     if (deserialized != null)
                     {
-                        return new BetaAPIErrorVariant(deserialized);
+                        return new BetaErrorVariants::BetaAPIError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -378,7 +375,7 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
                     );
                     if (deserialized != null)
                     {
-                        return new BetaOverloadedErrorVariant(deserialized);
+                        return new BetaErrorVariants::BetaOverloadedError(deserialized);
                     }
                 }
                 catch (JsonException e)
@@ -403,15 +400,18 @@ sealed class BetaErrorConverter : JsonConverter<BetaError>
     {
         object variant = value switch
         {
-            BetaInvalidRequestErrorVariant(var betaInvalidRequestError) => betaInvalidRequestError,
-            BetaAuthenticationErrorVariant(var betaAuthenticationError) => betaAuthenticationError,
-            BetaBillingErrorVariant(var betaBillingError) => betaBillingError,
-            BetaPermissionErrorVariant(var betaPermissionError) => betaPermissionError,
-            BetaNotFoundErrorVariant(var betaNotFoundError) => betaNotFoundError,
-            BetaRateLimitErrorVariant(var betaRateLimitError) => betaRateLimitError,
-            BetaGatewayTimeoutErrorVariant(var betaGatewayTimeoutError) => betaGatewayTimeoutError,
-            BetaAPIErrorVariant(var betaAPIError) => betaAPIError,
-            BetaOverloadedErrorVariant(var betaOverloadedError) => betaOverloadedError,
+            BetaErrorVariants::BetaInvalidRequestError(var betaInvalidRequestError) =>
+                betaInvalidRequestError,
+            BetaErrorVariants::BetaAuthenticationError(var betaAuthenticationError) =>
+                betaAuthenticationError,
+            BetaErrorVariants::BetaBillingError(var betaBillingError) => betaBillingError,
+            BetaErrorVariants::BetaPermissionError(var betaPermissionError) => betaPermissionError,
+            BetaErrorVariants::BetaNotFoundError(var betaNotFoundError) => betaNotFoundError,
+            BetaErrorVariants::BetaRateLimitError(var betaRateLimitError) => betaRateLimitError,
+            BetaErrorVariants::BetaGatewayTimeoutError(var betaGatewayTimeoutError) =>
+                betaGatewayTimeoutError,
+            BetaErrorVariants::BetaAPIError(var betaAPIError) => betaAPIError,
+            BetaErrorVariants::BetaOverloadedError(var betaOverloadedError) => betaOverloadedError,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

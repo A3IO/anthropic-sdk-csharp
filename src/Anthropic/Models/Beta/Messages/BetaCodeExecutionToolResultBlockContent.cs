@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Anthropic.Models.Beta.Messages.BetaCodeExecutionToolResultBlockContentVariants;
+using BetaCodeExecutionToolResultBlockContentVariants = Anthropic.Models.Beta.Messages.BetaCodeExecutionToolResultBlockContentVariants;
 
 namespace Anthropic.Models.Beta.Messages;
 
@@ -14,39 +14,47 @@ public abstract record class BetaCodeExecutionToolResultBlockContent
 
     public static implicit operator BetaCodeExecutionToolResultBlockContent(
         BetaCodeExecutionToolResultError value
-    ) => new BetaCodeExecutionToolResultErrorVariant(value);
+    ) =>
+        new BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionToolResultError(
+            value
+        );
 
     public static implicit operator BetaCodeExecutionToolResultBlockContent(
         BetaCodeExecutionResultBlock value
-    ) => new BetaCodeExecutionResultBlockVariant(value);
+    ) => new BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionResultBlock(value);
 
-    public bool TryPickBetaCodeExecutionToolResultErrorVariant(
+    public bool TryPickBetaCodeExecutionToolResultError(
         [NotNullWhen(true)] out BetaCodeExecutionToolResultError? value
     )
     {
-        value = (this as BetaCodeExecutionToolResultErrorVariant)?.Value;
+        value = (
+            this
+            as BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionToolResultError
+        )?.Value;
         return value != null;
     }
 
-    public bool TryPickBetaCodeExecutionResultBlockVariant(
+    public bool TryPickBetaCodeExecutionResultBlock(
         [NotNullWhen(true)] out BetaCodeExecutionResultBlock? value
     )
     {
-        value = (this as BetaCodeExecutionResultBlockVariant)?.Value;
+        value = (
+            this as BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionResultBlock
+        )?.Value;
         return value != null;
     }
 
     public void Switch(
-        Action<BetaCodeExecutionToolResultErrorVariant> betaCodeExecutionToolResultError,
-        Action<BetaCodeExecutionResultBlockVariant> betaCodeExecutionResultBlock
+        Action<BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionToolResultError> betaCodeExecutionToolResultError,
+        Action<BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionResultBlock> betaCodeExecutionResultBlock
     )
     {
         switch (this)
         {
-            case BetaCodeExecutionToolResultErrorVariant inner:
+            case BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionToolResultError inner:
                 betaCodeExecutionToolResultError(inner);
                 break;
-            case BetaCodeExecutionResultBlockVariant inner:
+            case BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionResultBlock inner:
                 betaCodeExecutionResultBlock(inner);
                 break;
             default:
@@ -55,16 +63,22 @@ public abstract record class BetaCodeExecutionToolResultBlockContent
     }
 
     public T Match<T>(
-        Func<BetaCodeExecutionToolResultErrorVariant, T> betaCodeExecutionToolResultError,
-        Func<BetaCodeExecutionResultBlockVariant, T> betaCodeExecutionResultBlock
+        Func<
+            BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionToolResultError,
+            T
+        > betaCodeExecutionToolResultError,
+        Func<
+            BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionResultBlock,
+            T
+        > betaCodeExecutionResultBlock
     )
     {
         return this switch
         {
-            BetaCodeExecutionToolResultErrorVariant inner => betaCodeExecutionToolResultError(
-                inner
-            ),
-            BetaCodeExecutionResultBlockVariant inner => betaCodeExecutionResultBlock(inner),
+            BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionToolResultError inner =>
+                betaCodeExecutionToolResultError(inner),
+            BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionResultBlock inner =>
+                betaCodeExecutionResultBlock(inner),
             _ => throw new InvalidOperationException(),
         };
     }
@@ -91,7 +105,9 @@ sealed class BetaCodeExecutionToolResultBlockContentConverter
             );
             if (deserialized != null)
             {
-                return new BetaCodeExecutionToolResultErrorVariant(deserialized);
+                return new BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionToolResultError(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -107,7 +123,9 @@ sealed class BetaCodeExecutionToolResultBlockContentConverter
             );
             if (deserialized != null)
             {
-                return new BetaCodeExecutionResultBlockVariant(deserialized);
+                return new BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionResultBlock(
+                    deserialized
+                );
             }
         }
         catch (JsonException e)
@@ -126,10 +144,12 @@ sealed class BetaCodeExecutionToolResultBlockContentConverter
     {
         object variant = value switch
         {
-            BetaCodeExecutionToolResultErrorVariant(var betaCodeExecutionToolResultError) =>
-                betaCodeExecutionToolResultError,
-            BetaCodeExecutionResultBlockVariant(var betaCodeExecutionResultBlock) =>
-                betaCodeExecutionResultBlock,
+            BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionToolResultError(
+                var betaCodeExecutionToolResultError
+            ) => betaCodeExecutionToolResultError,
+            BetaCodeExecutionToolResultBlockContentVariants::BetaCodeExecutionResultBlock(
+                var betaCodeExecutionResultBlock
+            ) => betaCodeExecutionResultBlock,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);
