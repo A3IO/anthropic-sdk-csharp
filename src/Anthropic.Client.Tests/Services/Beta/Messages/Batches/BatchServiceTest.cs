@@ -29,6 +29,20 @@ public class BatchServiceTest : TestBase
                             Messages = [new() { Content = "Hello, world", Role = Role.User }],
                             Model = Messages::Model.Claude3_7SonnetLatest,
                             Container = "container",
+                            ContextManagement = new()
+                            {
+                                Edits =
+                                [
+                                    new()
+                                    {
+                                        STAINLESS_FIXME_ClearAtLeast = new(0),
+                                        STAINLESS_FIXME_ClearToolInputs = true,
+                                        STAINLESS_FIXME_ExcludeTools = ["string"],
+                                        STAINLESS_FIXME_Keep = new(0),
+                                        STAINLESS_FIXME_Trigger = new BetaInputTokensTrigger(1),
+                                    },
+                                ],
+                            },
                             MCPServers =
                             [
                                 new()
