@@ -6,7 +6,7 @@
     <AssemblyTitle>SDK Code Generation Anthropic C#</AssemblyTitle>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Nullable>enable</Nullable>
-    <VersionPrefix>10.1.2</VersionPrefix>
+    <VersionPrefix>10.2.0</VersionPrefix>
     <TargetFrameworks>net8.0;net9.0;netstandard2.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <!-- Generate an XML documentation file for the project. -->
@@ -38,13 +38,11 @@
     <PackageId>Anthropic</PackageId>
     <BuildPackage>true</BuildPackage>
     <Deterministic>true</Deterministic>
-    <Version>10.2.0</Version>
     <Authors>Stainless Software, Inc.</Authors>
     <Company>Stainless Software, Inc.</Company>
     <PackageProjectUrl>https://github.com/anthropics/anthropic-sdk-csharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/anthropics/anthropic-sdk-csharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>PRE-RELEASE NOT FOR DISTRIBUTION</PackageReleaseNotes>
     <LangVersion>Latest</LangVersion>
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
