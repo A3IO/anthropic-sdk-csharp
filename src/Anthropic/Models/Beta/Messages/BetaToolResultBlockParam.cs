@@ -17,7 +17,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
     {
         get
         {
-            if (!this._properties.TryGetValue("tool_use_id", out JsonElement element))
+            if (!this._rawData.TryGetValue("tool_use_id", out JsonElement element))
                 throw new AnthropicInvalidDataException(
                     "'tool_use_id' cannot be null",
                     new System::ArgumentOutOfRangeException(
@@ -34,7 +34,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
         }
         init
         {
-            this._properties["tool_use_id"] = JsonSerializer.SerializeToElement(
+            this._rawData["tool_use_id"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -45,7 +45,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
     {
         get
         {
-            if (!this._properties.TryGetValue("type", out JsonElement element))
+            if (!this._rawData.TryGetValue("type", out JsonElement element))
                 throw new AnthropicInvalidDataException(
                     "'type' cannot be null",
                     new System::ArgumentOutOfRangeException("type", "Missing required argument")
@@ -55,7 +55,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
         }
         init
         {
-            this._properties["type"] = JsonSerializer.SerializeToElement(
+            this._rawData["type"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -69,7 +69,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
     {
         get
         {
-            if (!this._properties.TryGetValue("cache_control", out JsonElement element))
+            if (!this._rawData.TryGetValue("cache_control", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<BetaCacheControlEphemeral?>(
@@ -79,7 +79,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
         }
         init
         {
-            this._properties["cache_control"] = JsonSerializer.SerializeToElement(
+            this._rawData["cache_control"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -90,7 +90,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
     {
         get
         {
-            if (!this._properties.TryGetValue("content", out JsonElement element))
+            if (!this._rawData.TryGetValue("content", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<BetaToolResultBlockParamContent?>(
@@ -105,7 +105,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
                 return;
             }
 
-            this._properties["content"] = JsonSerializer.SerializeToElement(
+            this._rawData["content"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -116,7 +116,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
     {
         get
         {
-            if (!this._properties.TryGetValue("is_error", out JsonElement element))
+            if (!this._rawData.TryGetValue("is_error", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
@@ -128,7 +128,7 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
                 return;
             }
 
-            this._properties["is_error"] = JsonSerializer.SerializeToElement(
+            this._rawData["is_error"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -157,26 +157,26 @@ public sealed record class BetaToolResultBlockParam : ModelBase, IFromRaw<BetaTo
         this.Type = JsonSerializer.Deserialize<JsonElement>("\"tool_result\"");
     }
 
-    public BetaToolResultBlockParam(IReadOnlyDictionary<string, JsonElement> properties)
+    public BetaToolResultBlockParam(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
 
         this.Type = JsonSerializer.Deserialize<JsonElement>("\"tool_result\"");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    BetaToolResultBlockParam(FrozenDictionary<string, JsonElement> properties)
+    BetaToolResultBlockParam(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static BetaToolResultBlockParam FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 
     [SetsRequiredMembers]

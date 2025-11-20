@@ -64,14 +64,14 @@ public sealed class MessageService : IMessageService
         [EnumeratorCancellation] CancellationToken cancellationToken = default
     )
     {
-        Dictionary<string, JsonElement> bodyProperties = new(parameters.BodyProperties)
+        Dictionary<string, JsonElement> rawBodyData = new(parameters.RawBodyData)
         {
             ["stream"] = JsonSerializer.Deserialize<JsonElement>("true"),
         };
         parameters = MessageCreateParams.FromRawUnchecked(
-            parameters.HeaderProperties,
-            parameters.QueryProperties,
-            bodyProperties
+            parameters.RawHeaderData,
+            parameters.RawQueryData,
+            rawBodyData
         );
 
         HttpRequest<MessageCreateParams> request = new()

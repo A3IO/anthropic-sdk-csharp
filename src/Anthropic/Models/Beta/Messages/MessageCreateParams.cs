@@ -23,10 +23,10 @@ namespace Anthropic.Models.Beta.Messages;
 /// </summary>
 public sealed record class MessageCreateParams : ParamsBase
 {
-    readonly FreezableDictionary<string, JsonElement> _bodyProperties = [];
-    public IReadOnlyDictionary<string, JsonElement> BodyProperties
+    readonly FreezableDictionary<string, JsonElement> _rawBodyData = [];
+    public IReadOnlyDictionary<string, JsonElement> RawBodyData
     {
-        get { return this._bodyProperties.Freeze(); }
+        get { return this._rawBodyData.Freeze(); }
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("max_tokens", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("max_tokens", out JsonElement element))
                 throw new AnthropicInvalidDataException(
                     "'max_tokens' cannot be null",
                     new System::ArgumentOutOfRangeException(
@@ -55,7 +55,7 @@ public sealed record class MessageCreateParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["max_tokens"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["max_tokens"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -117,7 +117,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("messages", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("messages", out JsonElement element))
                 throw new AnthropicInvalidDataException(
                     "'messages' cannot be null",
                     new System::ArgumentOutOfRangeException("messages", "Missing required argument")
@@ -134,7 +134,7 @@ public sealed record class MessageCreateParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["messages"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["messages"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -149,7 +149,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("model", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("model", out JsonElement element))
                 throw new AnthropicInvalidDataException(
                     "'model' cannot be null",
                     new System::ArgumentOutOfRangeException("model", "Missing required argument")
@@ -162,7 +162,7 @@ public sealed record class MessageCreateParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["model"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["model"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -176,14 +176,14 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("container", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("container", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Container?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["container"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["container"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -200,7 +200,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("context_management", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("context_management", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<BetaContextManagementConfig?>(
@@ -210,7 +210,7 @@ public sealed record class MessageCreateParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["context_management"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["context_management"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -224,7 +224,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("mcp_servers", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("mcp_servers", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<BetaRequestMCPServerURLDefinition>?>(
@@ -239,7 +239,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["mcp_servers"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["mcp_servers"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -253,7 +253,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("metadata", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("metadata", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<BetaMetadata?>(element, ModelBase.SerializerOptions);
@@ -265,7 +265,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["metadata"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["metadata"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -279,7 +279,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("output_format", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("output_format", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<BetaJSONOutputFormat?>(
@@ -289,7 +289,7 @@ public sealed record class MessageCreateParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["output_format"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["output_format"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -307,7 +307,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("service_tier", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("service_tier", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<ApiEnum<string, ServiceTier>?>(
@@ -322,7 +322,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["service_tier"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["service_tier"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -345,7 +345,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("stop_sequences", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("stop_sequences", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
@@ -357,7 +357,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["stop_sequences"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["stop_sequences"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -374,7 +374,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("system", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("system", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<SystemModel?>(element, ModelBase.SerializerOptions);
@@ -386,7 +386,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["system"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["system"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -407,7 +407,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("temperature", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("temperature", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
@@ -419,7 +419,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["temperature"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["temperature"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -440,7 +440,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("thinking", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("thinking", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<BetaThinkingConfigParam?>(
@@ -455,7 +455,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["thinking"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["thinking"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -470,7 +470,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("tool_choice", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("tool_choice", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<BetaToolChoice?>(
@@ -485,7 +485,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["tool_choice"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["tool_choice"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -543,7 +543,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("tools", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("tools", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<BetaToolUnion>?>(
@@ -558,7 +558,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["tools"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["tools"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -577,7 +577,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("top_k", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("top_k", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
@@ -589,7 +589,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["top_k"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["top_k"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -610,7 +610,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("top_p", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("top_p", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
@@ -622,7 +622,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._bodyProperties["top_p"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["top_p"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -636,7 +636,7 @@ public sealed record class MessageCreateParams : ParamsBase
     {
         get
         {
-            if (!this._headerProperties.TryGetValue("anthropic-beta", out JsonElement element))
+            if (!this._rawHeaderData.TryGetValue("anthropic-beta", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<ApiEnum<string, AnthropicBeta>>?>(
@@ -651,7 +651,7 @@ public sealed record class MessageCreateParams : ParamsBase
                 return;
             }
 
-            this._headerProperties["anthropic-beta"] = JsonSerializer.SerializeToElement(
+            this._rawHeaderData["anthropic-beta"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -661,40 +661,40 @@ public sealed record class MessageCreateParams : ParamsBase
     public MessageCreateParams() { }
 
     public MessageCreateParams(
-        IReadOnlyDictionary<string, JsonElement> headerProperties,
-        IReadOnlyDictionary<string, JsonElement> queryProperties,
-        IReadOnlyDictionary<string, JsonElement> bodyProperties
+        IReadOnlyDictionary<string, JsonElement> rawHeaderData,
+        IReadOnlyDictionary<string, JsonElement> rawQueryData,
+        IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._headerProperties = [.. headerProperties];
-        this._queryProperties = [.. queryProperties];
-        this._bodyProperties = [.. bodyProperties];
+        this._rawHeaderData = [.. rawHeaderData];
+        this._rawQueryData = [.. rawQueryData];
+        this._rawBodyData = [.. rawBodyData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     MessageCreateParams(
-        FrozenDictionary<string, JsonElement> headerProperties,
-        FrozenDictionary<string, JsonElement> queryProperties,
-        FrozenDictionary<string, JsonElement> bodyProperties
+        FrozenDictionary<string, JsonElement> rawHeaderData,
+        FrozenDictionary<string, JsonElement> rawQueryData,
+        FrozenDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._headerProperties = [.. headerProperties];
-        this._queryProperties = [.. queryProperties];
-        this._bodyProperties = [.. bodyProperties];
+        this._rawHeaderData = [.. rawHeaderData];
+        this._rawQueryData = [.. rawQueryData];
+        this._rawBodyData = [.. rawBodyData];
     }
 #pragma warning restore CS8618
 
     public static MessageCreateParams FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> headerProperties,
-        IReadOnlyDictionary<string, JsonElement> queryProperties,
-        IReadOnlyDictionary<string, JsonElement> bodyProperties
+        IReadOnlyDictionary<string, JsonElement> rawHeaderData,
+        IReadOnlyDictionary<string, JsonElement> rawQueryData,
+        IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
         return new(
-            FrozenDictionary.ToFrozenDictionary(headerProperties),
-            FrozenDictionary.ToFrozenDictionary(queryProperties),
-            FrozenDictionary.ToFrozenDictionary(bodyProperties)
+            FrozenDictionary.ToFrozenDictionary(rawHeaderData),
+            FrozenDictionary.ToFrozenDictionary(rawQueryData),
+            FrozenDictionary.ToFrozenDictionary(rawBodyData)
         );
     }
 
@@ -710,17 +710,13 @@ public sealed record class MessageCreateParams : ParamsBase
 
     internal override StringContent? BodyContent()
     {
-        return new(
-            JsonSerializer.Serialize(this.BodyProperties),
-            Encoding.UTF8,
-            "application/json"
-        );
+        return new(JsonSerializer.Serialize(this.RawBodyData), Encoding.UTF8, "application/json");
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
     {
         ParamsBase.AddDefaultHeaders(request, options);
-        foreach (var item in this.HeaderProperties)
+        foreach (var item in this.RawHeaderData)
         {
             ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }

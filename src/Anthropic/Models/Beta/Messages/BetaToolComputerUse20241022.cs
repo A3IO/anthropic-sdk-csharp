@@ -21,7 +21,7 @@ public sealed record class BetaToolComputerUse20241022
     {
         get
         {
-            if (!this._properties.TryGetValue("display_height_px", out JsonElement element))
+            if (!this._rawData.TryGetValue("display_height_px", out JsonElement element))
                 throw new AnthropicInvalidDataException(
                     "'display_height_px' cannot be null",
                     new ArgumentOutOfRangeException(
@@ -34,7 +34,7 @@ public sealed record class BetaToolComputerUse20241022
         }
         init
         {
-            this._properties["display_height_px"] = JsonSerializer.SerializeToElement(
+            this._rawData["display_height_px"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -48,7 +48,7 @@ public sealed record class BetaToolComputerUse20241022
     {
         get
         {
-            if (!this._properties.TryGetValue("display_width_px", out JsonElement element))
+            if (!this._rawData.TryGetValue("display_width_px", out JsonElement element))
                 throw new AnthropicInvalidDataException(
                     "'display_width_px' cannot be null",
                     new ArgumentOutOfRangeException("display_width_px", "Missing required argument")
@@ -58,7 +58,7 @@ public sealed record class BetaToolComputerUse20241022
         }
         init
         {
-            this._properties["display_width_px"] = JsonSerializer.SerializeToElement(
+            this._rawData["display_width_px"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -74,7 +74,7 @@ public sealed record class BetaToolComputerUse20241022
     {
         get
         {
-            if (!this._properties.TryGetValue("name", out JsonElement element))
+            if (!this._rawData.TryGetValue("name", out JsonElement element))
                 throw new AnthropicInvalidDataException(
                     "'name' cannot be null",
                     new ArgumentOutOfRangeException("name", "Missing required argument")
@@ -84,7 +84,7 @@ public sealed record class BetaToolComputerUse20241022
         }
         init
         {
-            this._properties["name"] = JsonSerializer.SerializeToElement(
+            this._rawData["name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -95,7 +95,7 @@ public sealed record class BetaToolComputerUse20241022
     {
         get
         {
-            if (!this._properties.TryGetValue("type", out JsonElement element))
+            if (!this._rawData.TryGetValue("type", out JsonElement element))
                 throw new AnthropicInvalidDataException(
                     "'type' cannot be null",
                     new ArgumentOutOfRangeException("type", "Missing required argument")
@@ -105,7 +105,7 @@ public sealed record class BetaToolComputerUse20241022
         }
         init
         {
-            this._properties["type"] = JsonSerializer.SerializeToElement(
+            this._rawData["type"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -119,7 +119,7 @@ public sealed record class BetaToolComputerUse20241022
     {
         get
         {
-            if (!this._properties.TryGetValue("cache_control", out JsonElement element))
+            if (!this._rawData.TryGetValue("cache_control", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<BetaCacheControlEphemeral?>(
@@ -129,7 +129,7 @@ public sealed record class BetaToolComputerUse20241022
         }
         init
         {
-            this._properties["cache_control"] = JsonSerializer.SerializeToElement(
+            this._rawData["cache_control"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -143,14 +143,14 @@ public sealed record class BetaToolComputerUse20241022
     {
         get
         {
-            if (!this._properties.TryGetValue("display_number", out JsonElement element))
+            if (!this._rawData.TryGetValue("display_number", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["display_number"] = JsonSerializer.SerializeToElement(
+            this._rawData["display_number"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -161,7 +161,7 @@ public sealed record class BetaToolComputerUse20241022
     {
         get
         {
-            if (!this._properties.TryGetValue("strict", out JsonElement element))
+            if (!this._rawData.TryGetValue("strict", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
@@ -173,7 +173,7 @@ public sealed record class BetaToolComputerUse20241022
                 return;
             }
 
-            this._properties["strict"] = JsonSerializer.SerializeToElement(
+            this._rawData["strict"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -213,9 +213,9 @@ public sealed record class BetaToolComputerUse20241022
         this.Type = JsonSerializer.Deserialize<JsonElement>("\"computer_20241022\"");
     }
 
-    public BetaToolComputerUse20241022(IReadOnlyDictionary<string, JsonElement> properties)
+    public BetaToolComputerUse20241022(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
 
         this.Name = JsonSerializer.Deserialize<JsonElement>("\"computer\"");
         this.Type = JsonSerializer.Deserialize<JsonElement>("\"computer_20241022\"");
@@ -223,16 +223,16 @@ public sealed record class BetaToolComputerUse20241022
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    BetaToolComputerUse20241022(FrozenDictionary<string, JsonElement> properties)
+    BetaToolComputerUse20241022(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static BetaToolComputerUse20241022 FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
