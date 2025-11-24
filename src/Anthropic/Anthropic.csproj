@@ -21,6 +21,8 @@
     <NoWarn>$(NoWarn),1570,1573,1574,1591</NoWarn>
     <!-- Disable deprecation warnings since we may reference our own deprecated symbols -->
     <NoWarn>$(NoWarn),0618</NoWarn>
+    <!-- Disable warnings about netstandard compat -->
+    <NoWarn>$(NoWarn),IDE0028,IDE0057,CA1847,CA1866</NoWarn>
     <Configurations>Debug;Release</Configurations>
     <ImplicitUsings>disable</ImplicitUsings>
     <PackageId>Anthropic</PackageId>
@@ -43,13 +45,13 @@
     <SupportedFrameworks>net8.0;net9.0;netstandard2.0</SupportedFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="10.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.0.0"/>
+    <PackageReference Include="System.Text.Json" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="System.Collections.Immutable" Version="8.0.0"/>
+    <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
   </ItemGroup>
 </Project>
