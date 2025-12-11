@@ -7,7 +7,11 @@ public class VersionServiceTest : TestBase
     [Fact(Skip = "prism binary unsupported")]
     public async Task Create_Works()
     {
-        var version = await this.client.Beta.Skills.Versions.Create("skill_id");
+        var version = await this.client.Beta.Skills.Versions.Create(
+            "skill_id",
+            new(),
+            TestContext.Current.CancellationToken
+        );
         version.Validate();
     }
 
@@ -16,7 +20,8 @@ public class VersionServiceTest : TestBase
     {
         var version = await this.client.Beta.Skills.Versions.Retrieve(
             "version",
-            new() { SkillID = "skill_id" }
+            new() { SkillID = "skill_id" },
+            TestContext.Current.CancellationToken
         );
         version.Validate();
     }
@@ -24,7 +29,11 @@ public class VersionServiceTest : TestBase
     [Fact]
     public async Task List_Works()
     {
-        var page = await this.client.Beta.Skills.Versions.List("skill_id");
+        var page = await this.client.Beta.Skills.Versions.List(
+            "skill_id",
+            new(),
+            TestContext.Current.CancellationToken
+        );
         page.Validate();
     }
 
@@ -33,7 +42,8 @@ public class VersionServiceTest : TestBase
     {
         var version = await this.client.Beta.Skills.Versions.Delete(
             "version",
-            new() { SkillID = "skill_id" }
+            new() { SkillID = "skill_id" },
+            TestContext.Current.CancellationToken
         );
         version.Validate();
     }

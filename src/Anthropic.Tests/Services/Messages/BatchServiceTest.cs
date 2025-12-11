@@ -84,7 +84,8 @@ public class BatchServiceTest : TestBase
                         },
                     },
                 ],
-            }
+            },
+            TestContext.Current.CancellationToken
         );
         messageBatch.Validate();
     }
@@ -92,35 +93,54 @@ public class BatchServiceTest : TestBase
     [Fact]
     public async Task Retrieve_Works()
     {
-        var messageBatch = await this.client.Messages.Batches.Retrieve("message_batch_id");
+        var messageBatch = await this.client.Messages.Batches.Retrieve(
+            "message_batch_id",
+            new(),
+            TestContext.Current.CancellationToken
+        );
         messageBatch.Validate();
     }
 
     [Fact]
     public async Task List_Works()
     {
-        var page = await this.client.Messages.Batches.List();
+        var page = await this.client.Messages.Batches.List(
+            new(),
+            TestContext.Current.CancellationToken
+        );
         page.Validate();
     }
 
     [Fact]
     public async Task Delete_Works()
     {
-        var deletedMessageBatch = await this.client.Messages.Batches.Delete("message_batch_id");
+        var deletedMessageBatch = await this.client.Messages.Batches.Delete(
+            "message_batch_id",
+            new(),
+            TestContext.Current.CancellationToken
+        );
         deletedMessageBatch.Validate();
     }
 
     [Fact]
     public async Task Cancel_Works()
     {
-        var messageBatch = await this.client.Messages.Batches.Cancel("message_batch_id");
+        var messageBatch = await this.client.Messages.Batches.Cancel(
+            "message_batch_id",
+            new(),
+            TestContext.Current.CancellationToken
+        );
         messageBatch.Validate();
     }
 
     [Fact(Skip = "Prism doesn't support application/x-jsonl responses")]
     public async Task ResultsStreaming_Works()
     {
-        var stream = this.client.Messages.Batches.ResultsStreaming("message_batch_id");
+        var stream = this.client.Messages.Batches.ResultsStreaming(
+            "message_batch_id",
+            new(),
+            TestContext.Current.CancellationToken
+        );
 
         await foreach (var messageBatchIndividualResponse in stream)
         {

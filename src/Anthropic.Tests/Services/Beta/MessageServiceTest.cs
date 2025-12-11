@@ -15,7 +15,8 @@ public class MessageServiceTest : TestBase
                 MaxTokens = 1024,
                 Messages = [new() { Content = "Hello, world", Role = Role.User }],
                 Model = Messages::Model.ClaudeOpus4_5_20251101,
-            }
+            },
+            TestContext.Current.CancellationToken
         );
         betaMessage.Validate();
     }
@@ -29,7 +30,8 @@ public class MessageServiceTest : TestBase
                 MaxTokens = 1024,
                 Messages = [new() { Content = "Hello, world", Role = Role.User }],
                 Model = Messages::Model.ClaudeOpus4_5_20251101,
-            }
+            },
+            TestContext.Current.CancellationToken
         );
 
         await foreach (var betaMessage in stream)
@@ -46,7 +48,8 @@ public class MessageServiceTest : TestBase
             {
                 Messages = [new() { Content = "string", Role = Role.User }],
                 Model = Messages::Model.ClaudeOpus4_5_20251101,
-            }
+            },
+            TestContext.Current.CancellationToken
         );
         betaMessageTokensCount.Validate();
     }

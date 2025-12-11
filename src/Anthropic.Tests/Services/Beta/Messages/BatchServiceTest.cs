@@ -138,7 +138,8 @@ public class BatchServiceTest : TestBase
                         },
                     },
                 ],
-            }
+            },
+            TestContext.Current.CancellationToken
         );
         betaMessageBatch.Validate();
     }
@@ -146,14 +147,21 @@ public class BatchServiceTest : TestBase
     [Fact]
     public async Task Retrieve_Works()
     {
-        var betaMessageBatch = await this.client.Beta.Messages.Batches.Retrieve("message_batch_id");
+        var betaMessageBatch = await this.client.Beta.Messages.Batches.Retrieve(
+            "message_batch_id",
+            new(),
+            TestContext.Current.CancellationToken
+        );
         betaMessageBatch.Validate();
     }
 
     [Fact]
     public async Task List_Works()
     {
-        var page = await this.client.Beta.Messages.Batches.List();
+        var page = await this.client.Beta.Messages.Batches.List(
+            new(),
+            TestContext.Current.CancellationToken
+        );
         page.Validate();
     }
 
@@ -161,7 +169,9 @@ public class BatchServiceTest : TestBase
     public async Task Delete_Works()
     {
         var betaDeletedMessageBatch = await this.client.Beta.Messages.Batches.Delete(
-            "message_batch_id"
+            "message_batch_id",
+            new(),
+            TestContext.Current.CancellationToken
         );
         betaDeletedMessageBatch.Validate();
     }
@@ -169,14 +179,22 @@ public class BatchServiceTest : TestBase
     [Fact]
     public async Task Cancel_Works()
     {
-        var betaMessageBatch = await this.client.Beta.Messages.Batches.Cancel("message_batch_id");
+        var betaMessageBatch = await this.client.Beta.Messages.Batches.Cancel(
+            "message_batch_id",
+            new(),
+            TestContext.Current.CancellationToken
+        );
         betaMessageBatch.Validate();
     }
 
     [Fact(Skip = "Prism doesn't support application/x-jsonl responses")]
     public async Task ResultsStreaming_Works()
     {
-        var stream = this.client.Beta.Messages.Batches.ResultsStreaming("message_batch_id");
+        var stream = this.client.Beta.Messages.Batches.ResultsStreaming(
+            "message_batch_id",
+            new(),
+            TestContext.Current.CancellationToken
+        );
 
         await foreach (var betaMessageBatchIndividualResponse in stream)
         {
