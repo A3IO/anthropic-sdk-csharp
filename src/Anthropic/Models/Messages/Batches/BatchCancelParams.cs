@@ -26,7 +26,10 @@ public sealed record class BatchCancelParams : ParamsBase
     public BatchCancelParams() { }
 
     public BatchCancelParams(BatchCancelParams batchCancelParams)
-        : base(batchCancelParams) { }
+        : base(batchCancelParams)
+    {
+        this.MessageBatchID = batchCancelParams.MessageBatchID;
+    }
 
     public BatchCancelParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,

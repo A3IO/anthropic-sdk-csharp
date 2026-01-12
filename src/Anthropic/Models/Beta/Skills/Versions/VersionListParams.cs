@@ -62,7 +62,10 @@ public sealed record class VersionListParams : ParamsBase
     public VersionListParams() { }
 
     public VersionListParams(VersionListParams versionListParams)
-        : base(versionListParams) { }
+        : base(versionListParams)
+    {
+        this.SkillID = versionListParams.SkillID;
+    }
 
     public VersionListParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,

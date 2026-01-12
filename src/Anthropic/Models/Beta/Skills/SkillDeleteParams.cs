@@ -42,7 +42,10 @@ public sealed record class SkillDeleteParams : ParamsBase
     public SkillDeleteParams() { }
 
     public SkillDeleteParams(SkillDeleteParams skillDeleteParams)
-        : base(skillDeleteParams) { }
+        : base(skillDeleteParams)
+    {
+        this.SkillID = skillDeleteParams.SkillID;
+    }
 
     public SkillDeleteParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,

@@ -68,6 +68,8 @@ public sealed record class VersionCreateParams : ParamsBase
     public VersionCreateParams(VersionCreateParams versionCreateParams)
         : base(versionCreateParams)
     {
+        this.SkillID = versionCreateParams.SkillID;
+
         this._rawBodyData = [.. versionCreateParams._rawBodyData];
     }
 

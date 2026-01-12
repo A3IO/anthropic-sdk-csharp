@@ -42,7 +42,10 @@ public sealed record class FileDeleteParams : ParamsBase
     public FileDeleteParams() { }
 
     public FileDeleteParams(FileDeleteParams fileDeleteParams)
-        : base(fileDeleteParams) { }
+        : base(fileDeleteParams)
+    {
+        this.FileID = fileDeleteParams.FileID;
+    }
 
     public FileDeleteParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,

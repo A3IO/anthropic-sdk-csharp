@@ -42,7 +42,10 @@ public sealed record class FileRetrieveMetadataParams : ParamsBase
     public FileRetrieveMetadataParams() { }
 
     public FileRetrieveMetadataParams(FileRetrieveMetadataParams fileRetrieveMetadataParams)
-        : base(fileRetrieveMetadataParams) { }
+        : base(fileRetrieveMetadataParams)
+    {
+        this.FileID = fileRetrieveMetadataParams.FileID;
+    }
 
     public FileRetrieveMetadataParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,

@@ -44,7 +44,11 @@ public sealed record class VersionRetrieveParams : ParamsBase
     public VersionRetrieveParams() { }
 
     public VersionRetrieveParams(VersionRetrieveParams versionRetrieveParams)
-        : base(versionRetrieveParams) { }
+        : base(versionRetrieveParams)
+    {
+        this.SkillID = versionRetrieveParams.SkillID;
+        this.Version = versionRetrieveParams.Version;
+    }
 
     public VersionRetrieveParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,

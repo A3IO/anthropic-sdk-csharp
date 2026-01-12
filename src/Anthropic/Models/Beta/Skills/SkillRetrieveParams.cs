@@ -42,7 +42,10 @@ public sealed record class SkillRetrieveParams : ParamsBase
     public SkillRetrieveParams() { }
 
     public SkillRetrieveParams(SkillRetrieveParams skillRetrieveParams)
-        : base(skillRetrieveParams) { }
+        : base(skillRetrieveParams)
+    {
+        this.SkillID = skillRetrieveParams.SkillID;
+    }
 
     public SkillRetrieveParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,

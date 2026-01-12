@@ -42,7 +42,10 @@ public sealed record class FileDownloadParams : ParamsBase
     public FileDownloadParams() { }
 
     public FileDownloadParams(FileDownloadParams fileDownloadParams)
-        : base(fileDownloadParams) { }
+        : base(fileDownloadParams)
+    {
+        this.FileID = fileDownloadParams.FileID;
+    }
 
     public FileDownloadParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
