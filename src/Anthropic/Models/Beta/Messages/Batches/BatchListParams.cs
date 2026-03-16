@@ -144,7 +144,7 @@ public record class BatchListParams : ParamsBase
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="IFromRawJson.FromRawUnchecked"/>
+    /// <inheritdoc cref="IFromRawJson{T}.FromRawUnchecked"/>
     public static BatchListParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData
@@ -184,11 +184,10 @@ public record class BatchListParams : ParamsBase
 
     public override Uri Url(ClientOptions options)
     {
-        return new UriBuilder(
-            options.BaseUrl.ToString().TrimEnd('/') + "/v1/messages/batches?beta=true"
-        )
+        var queryString = this.QueryString(options);
+        return new UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v1/messages/batches")
         {
-            Query = this.QueryString(options),
+            Query = string.IsNullOrEmpty(queryString) ? "beta=true" : ("beta=true&" + queryString),
         }.Uri;
     }
 

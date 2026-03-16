@@ -79,7 +79,7 @@ public record class SkillRetrieveParams : ParamsBase
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="IFromRawJson.FromRawUnchecked"/>
+    /// <inheritdoc cref="IFromRawJson{T}.FromRawUnchecked"/>
     public static SkillRetrieveParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData
@@ -121,12 +121,12 @@ public record class SkillRetrieveParams : ParamsBase
 
     public override Uri Url(ClientOptions options)
     {
+        var queryString = this.QueryString(options);
         return new UriBuilder(
-            options.BaseUrl.ToString().TrimEnd('/')
-                + string.Format("/v1/skills/{0}?beta=true", this.SkillID)
+            options.BaseUrl.ToString().TrimEnd('/') + string.Format("/v1/skills/{0}", this.SkillID)
         )
         {
-            Query = this.QueryString(options),
+            Query = string.IsNullOrEmpty(queryString) ? "beta=true" : ("beta=true&" + queryString),
         }.Uri;
     }
 

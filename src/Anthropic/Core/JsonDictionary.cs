@@ -11,9 +11,9 @@ namespace Anthropic.Core;
 /// <summary>
 /// A dictionary that holds JSON data.
 ///
-/// <para>It can be mutated and then frozen once no more mutations are expected. This
-/// is useful for allowing the dictionary to be modified by a class's <c>init</c>
-/// properties, but then preventing it from being modified afterwards.</para>
+/// <para>It can be mutated and then frozen once no more mutations are expected.
+/// This is useful for allowing the dictionary to be modified by a class's
+/// <c>init</c> properties, but then preventing it from being modified afterwards.</para>
 ///
 /// <para>It also caches data deserialization for performance.</para>
 /// </summary>
@@ -38,19 +38,19 @@ sealed class JsonDictionary
     public JsonDictionary()
     {
         _rawData = new Dictionary<string, JsonElement>();
-        _deserializedData = [];
+        _deserializedData = new();
     }
 
     public JsonDictionary(IReadOnlyDictionary<string, JsonElement> dictionary)
     {
         _rawData = Enumerable.ToDictionary(dictionary, (e) => e.Key, (e) => e.Value);
-        _deserializedData = [];
+        _deserializedData = new();
     }
 
     public JsonDictionary(FrozenDictionary<string, JsonElement> dictionary)
     {
         _rawData = dictionary;
-        _deserializedData = [];
+        _deserializedData = new();
     }
 
     public JsonDictionary(JsonDictionary dictionary)

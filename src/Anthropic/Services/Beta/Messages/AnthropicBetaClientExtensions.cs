@@ -68,7 +68,7 @@ public static class AnthropicBetaClientExtensions
         return new BetaSkillsParamsAITool(skillParams);
     }
 
-    /// <summary>Gets an <see cref="IChatClient"/> for use with this <see cref="IBetaService"/>.</summary>
+    /// <summary>Gets an <see cref="IChatClient"/> for use with this <see cref="IMessageService"/>.</summary>
     /// <param name="betaService">The beta service.</param>
     /// <param name="defaultModelId">
     /// The default ID of the model to use.
@@ -79,7 +79,7 @@ public static class AnthropicBetaClientExtensions
     /// This may be overridden with <see cref="ChatOptions.MaxOutputTokens"/>.
     /// If no value is provided for this parameter or in <see cref="ChatOptions"/>, a default maximum will be used.
     /// </param>
-    /// <returns>An <see cref="IChatClient"/> that can be used to converse via the <see cref="IBetaService"/>.</returns>
+    /// <returns>An <see cref="IChatClient"/> that can be used to converse via the <see cref="IMessageService"/>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="betaService"/> is <see langword="null"/>.</exception>
     public static IChatClient AsIChatClient(
         this Anthropic.Services.IBetaService betaService,
@@ -514,9 +514,15 @@ public static class AnthropicBetaClientExtensions
                 {
                     foreach (AIContent content in message.Contents)
                     {
-                        if (content is TextContent tc)
+                        switch (content)
                         {
-                            (systemMessages ??= []).Add(new() { Text = tc.Text });
+                            case AIContent ac when ac.RawRepresentation is BetaTextBlockParam raw:
+                                (systemMessages ??= []).Add(raw);
+                                break;
+
+                            case TextContent tc:
+                                (systemMessages ??= []).Add(new() { Text = tc.Text });
+                                break;
                         }
                     }
 
