@@ -36,6 +36,8 @@ public interface IBetaService
 
     Beta::IVaultService Vaults { get; }
 
+    Beta::IMemoryStoreService MemoryStores { get; }
+
     Beta::IFileService Files { get; }
 
     Beta::ISkillService Skills { get; }
@@ -67,6 +69,8 @@ public interface IBetaServiceWithRawResponse
     Beta::ISessionServiceWithRawResponse Sessions { get; }
 
     Beta::IVaultServiceWithRawResponse Vaults { get; }
+
+    Beta::IMemoryStoreServiceWithRawResponse MemoryStores { get; }
 
     Beta::IFileServiceWithRawResponse Files { get; }
 
