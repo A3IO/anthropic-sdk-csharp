@@ -137,15 +137,6 @@ public record class BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPoli
         this._element = element;
     }
 
-    public BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPolicy(
-        BetaManagedAgentsAutoPolicy value,
-        JsonElement? element = null
-    )
-    {
-        this.Value = value;
-        this._element = element;
-    }
-
     public BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPolicy(JsonElement element)
     {
         this._element = element;
@@ -198,29 +189,6 @@ public record class BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPoli
     }
 
     /// <summary>
-    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="BetaManagedAgentsAutoPolicy"/>.
-    ///
-    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
-    ///
-    /// <example>
-    /// <code>
-    /// if (instance.TryPickBetaManagedAgentsAuto(out var value)) {
-    ///     // `value` is of type `BetaManagedAgentsAutoPolicy`
-    ///     Console.WriteLine(value);
-    /// }
-    /// </code>
-    /// </example>
-    /// </summary>
-    public bool TryPickBetaManagedAgentsAuto(
-        [NotNullWhen(true)] out BetaManagedAgentsAutoPolicy? value
-    )
-    {
-        value = this.Value as BetaManagedAgentsAutoPolicy;
-        return value != null;
-    }
-
-    /// <summary>
     /// Calls the function parameter corresponding to the variant the instance was constructed with.
     ///
     /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match"/>
@@ -235,16 +203,14 @@ public record class BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPoli
     /// <code>
     /// instance.Switch(
     ///     (BetaManagedAgentsAlwaysAllowPolicy value) =&gt; {...},
-    ///     (BetaManagedAgentsAlwaysAskPolicy value) =&gt; {...},
-    ///     (BetaManagedAgentsAutoPolicy value) =&gt; {...}
+    ///     (BetaManagedAgentsAlwaysAskPolicy value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
         System::Action<BetaManagedAgentsAlwaysAllowPolicy> betaManagedAgentsAlwaysAllow,
-        System::Action<BetaManagedAgentsAlwaysAskPolicy> betaManagedAgentsAlwaysAsk,
-        System::Action<BetaManagedAgentsAutoPolicy> betaManagedAgentsAuto
+        System::Action<BetaManagedAgentsAlwaysAskPolicy> betaManagedAgentsAlwaysAsk
     )
     {
         switch (this.Value)
@@ -254,9 +220,6 @@ public record class BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPoli
                 break;
             case BetaManagedAgentsAlwaysAskPolicy value:
                 betaManagedAgentsAlwaysAsk(value);
-                break;
-            case BetaManagedAgentsAutoPolicy value:
-                betaManagedAgentsAuto(value);
                 break;
             default:
                 throw new AnthropicInvalidDataException(
@@ -281,23 +244,20 @@ public record class BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPoli
     /// <code>
     /// var result = instance.Match(
     ///     (BetaManagedAgentsAlwaysAllowPolicy value) =&gt; {...},
-    ///     (BetaManagedAgentsAlwaysAskPolicy value) =&gt; {...},
-    ///     (BetaManagedAgentsAutoPolicy value) =&gt; {...}
+    ///     (BetaManagedAgentsAlwaysAskPolicy value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
         System::Func<BetaManagedAgentsAlwaysAllowPolicy, T> betaManagedAgentsAlwaysAllow,
-        System::Func<BetaManagedAgentsAlwaysAskPolicy, T> betaManagedAgentsAlwaysAsk,
-        System::Func<BetaManagedAgentsAutoPolicy, T> betaManagedAgentsAuto
+        System::Func<BetaManagedAgentsAlwaysAskPolicy, T> betaManagedAgentsAlwaysAsk
     )
     {
         return this.Value switch
         {
             BetaManagedAgentsAlwaysAllowPolicy value => betaManagedAgentsAlwaysAllow(value),
             BetaManagedAgentsAlwaysAskPolicy value => betaManagedAgentsAlwaysAsk(value),
-            BetaManagedAgentsAutoPolicy value => betaManagedAgentsAuto(value),
             _ => throw new AnthropicInvalidDataException(
                 "Data did not match any variant of BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPolicy"
             ),
@@ -310,10 +270,6 @@ public record class BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPoli
 
     public static implicit operator BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPolicy(
         BetaManagedAgentsAlwaysAskPolicy value
-    ) => new(value);
-
-    public static implicit operator BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPolicy(
-        BetaManagedAgentsAutoPolicy value
     ) => new(value);
 
     /// <summary>
@@ -336,8 +292,7 @@ public record class BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPoli
         }
         this.Switch(
             (betaManagedAgentsAlwaysAllow) => betaManagedAgentsAlwaysAllow.Validate(),
-            (betaManagedAgentsAlwaysAsk) => betaManagedAgentsAlwaysAsk.Validate(),
-            (betaManagedAgentsAuto) => betaManagedAgentsAuto.Validate()
+            (betaManagedAgentsAlwaysAsk) => betaManagedAgentsAlwaysAsk.Validate()
         );
     }
 
@@ -365,7 +320,6 @@ public record class BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPoli
         {
             BetaManagedAgentsAlwaysAllowPolicy _ => 0,
             BetaManagedAgentsAlwaysAskPolicy _ => 1,
-            BetaManagedAgentsAutoPolicy _ => 2,
             _ => -1,
         };
     }
@@ -419,26 +373,6 @@ sealed class BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPolicyConve
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<BetaManagedAgentsAlwaysAskPolicy>(
-                        element,
-                        options
-                    );
-                    if (deserialized != null)
-                    {
-                        return new(deserialized, element);
-                    }
-                }
-                catch (JsonException)
-                {
-                    // ignore
-                }
-
-                return new(element);
-            }
-            case "auto":
-            {
-                try
-                {
-                    var deserialized = JsonSerializer.Deserialize<BetaManagedAgentsAutoPolicy>(
                         element,
                         options
                     );

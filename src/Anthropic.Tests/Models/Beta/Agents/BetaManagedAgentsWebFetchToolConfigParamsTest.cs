@@ -341,14 +341,6 @@ public class BetaManagedAgentsWebFetchToolConfigParamsPermissionPolicyTest : Tes
     }
 
     [Fact]
-    public void BetaManagedAgentsAutoValidationWorks()
-    {
-        BetaManagedAgentsWebFetchToolConfigParamsPermissionPolicy value =
-            new BetaManagedAgentsAutoPolicy();
-        value.Validate();
-    }
-
-    [Fact]
     public void BetaManagedAgentsAlwaysAllowSerializationRoundtripWorks()
     {
         BetaManagedAgentsWebFetchToolConfigParamsPermissionPolicy value =
@@ -370,21 +362,6 @@ public class BetaManagedAgentsWebFetchToolConfigParamsPermissionPolicyTest : Tes
     {
         BetaManagedAgentsWebFetchToolConfigParamsPermissionPolicy value =
             new BetaManagedAgentsAlwaysAskPolicy(BetaManagedAgentsAlwaysAskPolicyType.AlwaysAsk);
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<BetaManagedAgentsWebFetchToolConfigParamsPermissionPolicy>(
-                element,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void BetaManagedAgentsAutoSerializationRoundtripWorks()
-    {
-        BetaManagedAgentsWebFetchToolConfigParamsPermissionPolicy value =
-            new BetaManagedAgentsAutoPolicy();
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized =
             JsonSerializer.Deserialize<BetaManagedAgentsWebFetchToolConfigParamsPermissionPolicy>(

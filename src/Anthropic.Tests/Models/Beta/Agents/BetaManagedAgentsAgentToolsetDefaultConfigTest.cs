@@ -125,13 +125,6 @@ public class PermissionPolicyTest : TestBase
     }
 
     [Fact]
-    public void BetaManagedAgentsAutoValidationWorks()
-    {
-        PermissionPolicy value = new BetaManagedAgentsAutoPolicy();
-        value.Validate();
-    }
-
-    [Fact]
     public void BetaManagedAgentsAlwaysAllowSerializationRoundtripWorks()
     {
         PermissionPolicy value = new BetaManagedAgentsAlwaysAllowPolicy(
@@ -152,19 +145,6 @@ public class PermissionPolicyTest : TestBase
         PermissionPolicy value = new BetaManagedAgentsAlwaysAskPolicy(
             BetaManagedAgentsAlwaysAskPolicyType.AlwaysAsk
         );
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<PermissionPolicy>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void BetaManagedAgentsAutoSerializationRoundtripWorks()
-    {
-        PermissionPolicy value = new BetaManagedAgentsAutoPolicy();
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<PermissionPolicy>(
             element,

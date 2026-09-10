@@ -263,14 +263,6 @@ public class BetaManagedAgentsGlobToolConfigParamsPermissionPolicyTest : TestBas
     }
 
     [Fact]
-    public void BetaManagedAgentsAutoValidationWorks()
-    {
-        BetaManagedAgentsGlobToolConfigParamsPermissionPolicy value =
-            new BetaManagedAgentsAutoPolicy();
-        value.Validate();
-    }
-
-    [Fact]
     public void BetaManagedAgentsAlwaysAllowSerializationRoundtripWorks()
     {
         BetaManagedAgentsGlobToolConfigParamsPermissionPolicy value =
@@ -292,21 +284,6 @@ public class BetaManagedAgentsGlobToolConfigParamsPermissionPolicyTest : TestBas
     {
         BetaManagedAgentsGlobToolConfigParamsPermissionPolicy value =
             new BetaManagedAgentsAlwaysAskPolicy(BetaManagedAgentsAlwaysAskPolicyType.AlwaysAsk);
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<BetaManagedAgentsGlobToolConfigParamsPermissionPolicy>(
-                element,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void BetaManagedAgentsAutoSerializationRoundtripWorks()
-    {
-        BetaManagedAgentsGlobToolConfigParamsPermissionPolicy value =
-            new BetaManagedAgentsAutoPolicy();
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized =
             JsonSerializer.Deserialize<BetaManagedAgentsGlobToolConfigParamsPermissionPolicy>(

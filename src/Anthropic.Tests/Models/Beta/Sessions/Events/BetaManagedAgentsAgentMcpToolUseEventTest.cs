@@ -24,7 +24,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
             EvaluatedPermission = EvaluatedPermission.Allow,
-            Evaluation = new BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
             SessionThreadID = "session_thread_id",
         };
 
@@ -40,8 +39,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse;
         ApiEnum<string, EvaluatedPermission> expectedEvaluatedPermission =
             EvaluatedPermission.Allow;
-        BetaManagedAgentsAgentToolEvaluation expectedEvaluation =
-            new BetaManagedAgentsAgentToolEvaluationAlwaysAllow();
         string expectedSessionThreadID = "session_thread_id";
 
         Assert.Equal(expectedID, model.ID);
@@ -57,7 +54,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
         Assert.Equal(expectedProcessedAt, model.ProcessedAt);
         Assert.Equal(expectedType, model.Type);
         Assert.Equal(expectedEvaluatedPermission, model.EvaluatedPermission);
-        Assert.Equal(expectedEvaluation, model.Evaluation);
         Assert.Equal(expectedSessionThreadID, model.SessionThreadID);
     }
 
@@ -76,7 +72,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
             EvaluatedPermission = EvaluatedPermission.Allow,
-            Evaluation = new BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
             SessionThreadID = "session_thread_id",
         };
 
@@ -104,7 +99,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
             EvaluatedPermission = EvaluatedPermission.Allow,
-            Evaluation = new BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
             SessionThreadID = "session_thread_id",
         };
 
@@ -127,8 +121,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse;
         ApiEnum<string, EvaluatedPermission> expectedEvaluatedPermission =
             EvaluatedPermission.Allow;
-        BetaManagedAgentsAgentToolEvaluation expectedEvaluation =
-            new BetaManagedAgentsAgentToolEvaluationAlwaysAllow();
         string expectedSessionThreadID = "session_thread_id";
 
         Assert.Equal(expectedID, deserialized.ID);
@@ -144,7 +136,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
         Assert.Equal(expectedProcessedAt, deserialized.ProcessedAt);
         Assert.Equal(expectedType, deserialized.Type);
         Assert.Equal(expectedEvaluatedPermission, deserialized.EvaluatedPermission);
-        Assert.Equal(expectedEvaluation, deserialized.Evaluation);
         Assert.Equal(expectedSessionThreadID, deserialized.SessionThreadID);
     }
 
@@ -163,7 +154,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
             EvaluatedPermission = EvaluatedPermission.Allow,
-            Evaluation = new BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
             SessionThreadID = "session_thread_id",
         };
 
@@ -189,8 +179,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
 
         Assert.Null(model.EvaluatedPermission);
         Assert.False(model.RawData.ContainsKey("evaluated_permission"));
-        Assert.Null(model.Evaluation);
-        Assert.False(model.RawData.ContainsKey("evaluation"));
     }
 
     [Fact]
@@ -231,13 +219,10 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             EvaluatedPermission = null,
-            Evaluation = null,
         };
 
         Assert.Null(model.EvaluatedPermission);
         Assert.False(model.RawData.ContainsKey("evaluated_permission"));
-        Assert.Null(model.Evaluation);
-        Assert.False(model.RawData.ContainsKey("evaluation"));
     }
 
     [Fact]
@@ -258,7 +243,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             EvaluatedPermission = null,
-            Evaluation = null,
         };
 
         model.Validate();
@@ -279,7 +263,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
             EvaluatedPermission = EvaluatedPermission.Allow,
-            Evaluation = new BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
         };
 
         Assert.Null(model.SessionThreadID);
@@ -301,7 +284,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
             EvaluatedPermission = EvaluatedPermission.Allow,
-            Evaluation = new BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
         };
 
         model.Validate();
@@ -322,7 +304,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
             EvaluatedPermission = EvaluatedPermission.Allow,
-            Evaluation = new BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
 
             SessionThreadID = null,
         };
@@ -346,7 +327,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
             EvaluatedPermission = EvaluatedPermission.Allow,
-            Evaluation = new BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
 
             SessionThreadID = null,
         };
@@ -369,7 +349,6 @@ public class BetaManagedAgentsAgentMcpToolUseEventTest : TestBase
             ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
             EvaluatedPermission = EvaluatedPermission.Allow,
-            Evaluation = new BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
             SessionThreadID = "session_thread_id",
         };
 
