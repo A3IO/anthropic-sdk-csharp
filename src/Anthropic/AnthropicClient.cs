@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -405,7 +406,7 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
             }
             catch (Exception e)
             {
-                if (++retries > maxRetries || !ShouldRetry(e))
+                if (++retries > maxRetries || !ShouldRetry(e, cancellationToken))
                 {
                     throw;
                 }
@@ -612,11 +613,13 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
         request.Params.AddHeadersToRequest(requestMessage, this._options);
         if (!requestMessage.Headers.Contains("x-stainless-retry-count"))
         {
-            requestMessage.Headers.Add("x-stainless-retry-count", retryCount.ToString());
+            requestMessage.Headers.Add(
+                "x-stainless-retry-count",
+                retryCount.ToString(CultureInfo.InvariantCulture)
+            );
         }
-        using CancellationTokenSource timeoutCts = new(
-            this.Timeout ?? ClientOptions.DefaultTimeout
-        );
+        var timeout = this.Timeout ?? ClientOptions.DefaultTimeout;
+        using CancellationTokenSource timeoutCts = new(timeout);
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(
             timeoutCts.Token,
             cancellationToken
@@ -634,6 +637,17 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
         {
             throw new AnthropicIOException("I/O exception", e);
         }
+        catch (OperationCanceledException e)
+            when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+        {
+            throw new TaskCanceledException(
+                string.Format(
+                    "The request was canceled due to the configured client timeout of {0} elapsing.",
+                    timeout
+                ),
+                new TimeoutException(e.Message, e)
+            );
+        }
         // `cts` is disposed as this method returns, before any of the body has been read, so its
         // token must not travel with the response: every body read links against the response's
         // token, and linking against a disposed source throws on .NET Framework in <=4.5.2
@@ -645,15 +659,12 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
     static TimeSpan ComputeRetryBackoff(int retries, HttpResponse? response)
     {
         TimeSpan? apiBackoff = ParseRetryAfterMsHeader(response) ?? ParseRetryAfterHeader(response);
-        if (
-            apiBackoff != null
-            && apiBackoff > TimeSpan.Zero
-            && apiBackoff < TimeSpan.FromMinutes(1)
-        )
+        if (apiBackoff != null && apiBackoff > TimeSpan.Zero)
         {
-            // If the API asks us to wait a certain amount of time (and it's a reasonable amount), then just
-            // do what it says.
-            return (TimeSpan)apiBackoff;
+            // If the API asks us to wait a certain amount of time, then just do what it says.
+            // `Task.Delay` throws for delays above `int.MaxValue` milliseconds, so wait at most that long.
+            var maxDelay = TimeSpan.FromMilliseconds(int.MaxValue);
+            return apiBackoff < maxDelay ? (TimeSpan)apiBackoff : maxDelay;
         }
 
         // Apply exponential backoff, but not more than the max.
@@ -672,7 +683,14 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
             return null;
         }
 
-        if (float.TryParse(headerValue, out var retryAfterMs))
+        if (
+            float.TryParse(
+                headerValue,
+                NumberStyles.Float,
+                CultureInfo.InvariantCulture,
+                out var retryAfterMs
+            )
+        )
         {
             // NaN, infinite or out-of-range values can't be converted to a TimeSpan (the conversion
             // throws), so treat them like an unparsable header.
@@ -700,7 +718,14 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
             return null;
         }
 
-        if (float.TryParse(headerValue, out var retryAfterSeconds))
+        if (
+            float.TryParse(
+                headerValue,
+                NumberStyles.Float,
+                CultureInfo.InvariantCulture,
+                out var retryAfterSeconds
+            )
+        )
         {
             // NaN, infinite or out-of-range values can't be converted to a TimeSpan (the conversion
             // throws), so treat them like an unparsable header.
@@ -714,7 +739,14 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
 
             return TimeSpan.FromSeconds(retryAfterSeconds);
         }
-        else if (DateTimeOffset.TryParse(headerValue, out var retryAfterDate))
+        else if (
+            DateTimeOffset.TryParse(
+                headerValue,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal,
+                out var retryAfterDate
+            )
+        )
         {
             return retryAfterDate - DateTimeOffset.Now;
         }
@@ -750,14 +782,22 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
         };
     }
 
-    static bool ShouldRetry(Exception e)
+    static bool ShouldRetry(Exception e, CancellationToken cancellationToken)
     {
+        if (cancellationToken.IsCancellationRequested)
+        {
+            // The caller cancelled the request, so don't retry.
+            return false;
+        }
+
+        // Retry connection errors and attempts that hit the per-attempt timeout.
         return (
                 e is IOException
                 && e is not FileNotFoundException
                 && e is not DirectoryNotFoundException
             )
-            || e is AnthropicIOException;
+            || e is AnthropicIOException
+            || e is OperationCanceledException;
     }
 
     public void Dispose()
