@@ -203,9 +203,6 @@ class BetaMessageDeltaUsageFromRaw : IFromRawJson<BetaMessageDeltaUsage>
     ) => BetaMessageDeltaUsage.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// Token usage for a sampling iteration.
-/// </summary>
 [JsonConverter(typeof(IterationConverter))]
 public record class Iteration : ModelBase
 {

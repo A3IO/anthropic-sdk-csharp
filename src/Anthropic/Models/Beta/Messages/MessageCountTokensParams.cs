@@ -882,9 +882,6 @@ sealed class MessageCountTokensParamsSystemConverter : JsonConverter<MessageCoun
     }
 }
 
-/// <summary>
-/// Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
-/// </summary>
 [JsonConverter(typeof(ToolConverter))]
 public record class Tool : ModelBase
 {

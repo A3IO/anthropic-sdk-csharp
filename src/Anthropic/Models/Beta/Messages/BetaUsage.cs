@@ -262,9 +262,6 @@ class BetaUsageFromRaw : IFromRawJson<BetaUsage>
         BetaUsage.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// Token usage for a sampling iteration.
-/// </summary>
 [JsonConverter(typeof(BetaUsageIterationConverter))]
 public record class BetaUsageIteration : ModelBase
 {

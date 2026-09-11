@@ -7,9 +7,6 @@ using System = System;
 
 namespace Anthropic.Models.Messages;
 
-/// <summary>
-/// Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
-/// </summary>
 [JsonConverter(typeof(ToolUnionConverter))]
 public record class ToolUnion : ModelBase
 {

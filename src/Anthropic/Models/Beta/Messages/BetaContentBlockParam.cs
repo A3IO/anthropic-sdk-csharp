@@ -7,9 +7,6 @@ using System = System;
 
 namespace Anthropic.Models.Beta.Messages;
 
-/// <summary>
-/// Regular text content.
-/// </summary>
 [JsonConverter(typeof(BetaContentBlockParamConverter))]
 public record class BetaContentBlockParam : ModelBase
 {

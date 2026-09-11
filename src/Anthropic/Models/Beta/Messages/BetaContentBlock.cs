@@ -7,9 +7,6 @@ using System = System;
 
 namespace Anthropic.Models.Beta.Messages;
 
-/// <summary>
-/// Response model for a file uploaded to the container.
-/// </summary>
 [JsonConverter(typeof(BetaContentBlockConverter))]
 public record class BetaContentBlock : ModelBase
 {

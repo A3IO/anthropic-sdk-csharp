@@ -14,9 +14,6 @@ namespace Anthropic.Models.Beta.Messages;
 )]
 public sealed record class BetaRawContentBlockStartEvent : JsonModel
 {
-    /// <summary>
-    /// Response model for a file uploaded to the container.
-    /// </summary>
     public required ContentBlock ContentBlock
     {
         get
@@ -108,9 +105,6 @@ class BetaRawContentBlockStartEventFromRaw : IFromRawJson<BetaRawContentBlockSta
     ) => BetaRawContentBlockStartEvent.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// Response model for a file uploaded to the container.
-/// </summary>
 [JsonConverter(typeof(ContentBlockConverter))]
 public record class ContentBlock : ModelBase
 {

@@ -33,11 +33,6 @@ public sealed record class BetaManagedAgentsSessionErrorEvent : JsonModel
         init { this._rawData.Set("id", value); }
     }
 
-    /// <summary>
-    /// An unknown or unexpected error occurred during session execution. A fallback
-    /// variant; clients that don't recognize a new error code can match on `retry_status`
-    /// and `message` alone.
-    /// </summary>
     public required Error Error
     {
         get
@@ -122,11 +117,6 @@ class BetaManagedAgentsSessionErrorEventFromRaw : IFromRawJson<BetaManagedAgents
     ) => BetaManagedAgentsSessionErrorEvent.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// An unknown or unexpected error occurred during session execution. A fallback variant;
-/// clients that don't recognize a new error code can match on `retry_status` and
-/// `message` alone.
-/// </summary>
 [JsonConverter(typeof(ErrorConverter))]
 public record class Error : ModelBase
 {
