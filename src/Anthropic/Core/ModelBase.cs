@@ -741,6 +741,8 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, BetaAllowedInferenceGeo>(),
             new ApiEnumConverter<string, DefaultInferenceGeo>(),
             new ApiEnumConverter<string, WorkspaceGeo>(),
+            new ApiEnumConverter<string, BetaDataResidencyCreateConfigDefaultInferenceGeo>(),
+            new ApiEnumConverter<string, BetaDataResidencyCreateConfigWorkspaceGeo>(),
             new ApiEnumConverter<string, BetaDataResidencyUpdateConfigDefaultInferenceGeo>(),
             new ApiEnumConverter<string, BetaWorkspaceRole>(),
             new ApiEnumConverter<string, BetaWorkspaceRateLimitGroupType>(),
