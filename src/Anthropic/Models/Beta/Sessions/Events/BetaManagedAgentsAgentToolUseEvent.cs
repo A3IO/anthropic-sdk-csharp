@@ -143,7 +143,8 @@ public sealed record class BetaManagedAgentsAgentToolUseEvent : JsonModel
     /// <summary>
     /// When set, this event was cross-posted from a subagent's thread to surface
     /// its permission request on the primary thread's stream. Empty on the thread's
-    /// own events. Echo this on a `user.tool_confirmation` event to route the approval back.
+    /// own events. Informational only: the server routes the matching `user.tool_confirmation`
+    /// or `user.tool_result` by `tool_use_id`, so clients do not send it back.
     /// </summary>
     public string? SessionThreadID
     {
