@@ -157,6 +157,10 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Messages::Display>(),
             new ApiEnumConverter<string, Messages::BetaThinkingConfigEnabledDisplay>(),
             new ApiEnumConverter<string, Messages::BetaThinkingDroppedInputTransformationReason>(),
+            new ApiEnumConverter<
+                string,
+                Messages::BetaThinkingMismatchAllowedInputTransformationReason
+            >(),
             new ApiEnumConverter<string, Messages::BetaThinkingPrefixMismatchBehavior>(),
             new ApiEnumConverter<string, Messages::BetaToolAllowedCaller>(),
             new ApiEnumConverter<string, Messages::BetaToolType>(),
