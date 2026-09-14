@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Anthropic.Core;
-using Anthropic.Exceptions;
 using Anthropic.Models.Messages;
 using Messages = Anthropic.Models.Beta.Messages;
 
@@ -155,7 +154,7 @@ public class BetaRawMessageDeltaEventTest : TestBase
             OutputTokensDetails = new(0),
             ServerToolUse = new() { WebFetchRequests = 2, WebSearchRequests = 0 },
         };
-        List<Messages::InputTransformation> expectedInputTransformations =
+        List<Messages::BetaInputTransformation> expectedInputTransformations =
         [
             new Messages::BetaThinkingDroppedInputTransformation()
             {
@@ -419,7 +418,7 @@ public class BetaRawMessageDeltaEventTest : TestBase
             OutputTokensDetails = new(0),
             ServerToolUse = new() { WebFetchRequests = 2, WebSearchRequests = 0 },
         };
-        List<Messages::InputTransformation> expectedInputTransformations =
+        List<Messages::BetaInputTransformation> expectedInputTransformations =
         [
             new Messages::BetaThinkingDroppedInputTransformation()
             {
@@ -1168,111 +1167,5 @@ public class DeltaTest : TestBase
         Messages::Delta copied = new(model);
 
         Assert.Equal(model, copied);
-    }
-}
-
-public class InputTransformationTest : TestBase
-{
-    [Fact]
-    public void BetaThinkingDroppedValidationWorks()
-    {
-        Messages::InputTransformation value = new Messages::BetaThinkingDroppedInputTransformation()
-        {
-            Path = "path",
-            Reason = Messages::BetaThinkingDroppedInputTransformationReason.ModelBindingMismatch,
-        };
-        value.Validate();
-    }
-
-    [Fact]
-    public void BetaThinkingMismatchAllowedValidationWorks()
-    {
-        Messages::InputTransformation value =
-            new Messages::BetaThinkingMismatchAllowedInputTransformation()
-            {
-                Path = "path",
-                Reason =
-                    Messages::BetaThinkingMismatchAllowedInputTransformationReason.ModelBindingMismatch,
-            };
-        value.Validate();
-    }
-
-    [Fact]
-    public void BetaThinkingDroppedSerializationRoundtripWorks()
-    {
-        Messages::InputTransformation value = new Messages::BetaThinkingDroppedInputTransformation()
-        {
-            Path = "path",
-            Reason = Messages::BetaThinkingDroppedInputTransformationReason.ModelBindingMismatch,
-        };
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Messages::InputTransformation>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void BetaThinkingMismatchAllowedSerializationRoundtripWorks()
-    {
-        Messages::InputTransformation value =
-            new Messages::BetaThinkingMismatchAllowedInputTransformation()
-            {
-                Path = "path",
-                Reason =
-                    Messages::BetaThinkingMismatchAllowedInputTransformationReason.ModelBindingMismatch,
-            };
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Messages::InputTransformation>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void UnknownVariantCommonProperties_Works()
-    {
-        Messages::InputTransformation value = new(
-            JsonSerializer.Deserialize<JsonElement>(
-                """
-                {
-                  "path": "path",
-                  "type": "thinking_dropped"
-                }
-                """
-            )
-        );
-        Assert.Throws<AnthropicInvalidDataException>(() => value.Validate());
-
-        string expectedPath = "path";
-        JsonElement expectedType = JsonSerializer.SerializeToElement("thinking_dropped");
-
-        Assert.Equal(expectedPath, value.Path);
-        Assert.True(JsonElement.DeepEquals(expectedType, value.Type));
-
-        Messages::InputTransformation emptyValue = new(
-            JsonSerializer.Deserialize<JsonElement>("{}")
-        );
-
-        Assert.Throws<AnthropicInvalidDataException>(() => emptyValue.Path);
-        Assert.Throws<AnthropicInvalidDataException>(() => emptyValue.Type);
-
-        Messages::InputTransformation mismatchedValue = new(
-            JsonSerializer.Deserialize<JsonElement>(
-                """
-                {
-                  "path": [
-                    "invalid"
-                  ]
-                }
-                """
-            )
-        );
-
-        Assert.Throws<AnthropicInvalidDataException>(() => mismatchedValue.Path);
     }
 }

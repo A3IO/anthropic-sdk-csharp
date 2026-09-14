@@ -7,6 +7,11 @@ using System = System;
 
 namespace Anthropic.Models.Beta.Messages;
 
+/// <summary>
+/// One entry of `input_transformations`: either a change the API made to the request's
+/// input before showing it to the model, or a block that failed a binding check
+/// and was still shown to the model unchanged. The `type` field says which.
+/// </summary>
 [JsonConverter(typeof(BetaInputTransformationConverter))]
 public record class BetaInputTransformation : ModelBase
 {
