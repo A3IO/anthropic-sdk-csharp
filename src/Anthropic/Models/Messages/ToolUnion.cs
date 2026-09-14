@@ -264,6 +264,41 @@ public record class ToolUnion : ModelBase
         }
     }
 
+    public WebFetchUrlSources? UrlSources
+    {
+        get
+        {
+            return this.Value switch
+            {
+                Tool _ => null,
+                ToolBash20250124 _ => null,
+                CodeExecutionTool20250522 _ => null,
+                CodeExecutionTool20250825 _ => null,
+                CodeExecutionTool20260120 _ => null,
+                CodeExecutionTool20260521 _ => null,
+                BrowserToolset20260801 _ => null,
+                MemoryTool20250818 _ => null,
+                ComputerToolset20260801 _ => null,
+                ToolTextEditor20250124 _ => null,
+                ToolTextEditor20250429 _ => null,
+                ToolTextEditor20250728 _ => null,
+                WebSearchTool20250305 _ => null,
+                WebFetchTool20250910 x => x.UrlSources,
+                WebSearchTool20260209 _ => null,
+                WebFetchTool20260209 x => x.UrlSources,
+                WebFetchTool20260309 x => x.UrlSources,
+                WebSearchTool20260318 _ => null,
+                WebFetchTool20260318 x => x.UrlSources,
+                ToolSearchToolBm25_20251119 _ => null,
+                ToolSearchToolRegex20251119 _ => null,
+                _ => WrappedJsonSerializer.GetNullableClassProperty<WebFetchUrlSources>(
+                    this.Json,
+                    "url_sources"
+                ),
+            };
+        }
+    }
+
     public bool? UseCache
     {
         get

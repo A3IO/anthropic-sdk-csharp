@@ -195,6 +195,24 @@ public sealed record class WebFetchTool20250910 : JsonModel
         }
     }
 
+    /// <summary>
+    /// Which sources contribute to the set of URLs web fetch may fetch.
+    ///
+    /// <para>Each key is a tagged variant: ``user_input`` is ``all`` or ``none``;
+    /// the two tool filters are ``all``, ``none``, ``only`` (only the named tools'
+    /// results) or ``except`` (every result but the named tools'). A named tool must
+    /// be declared in this request's ``tools[]``.</para>
+    /// </summary>
+    public WebFetchUrlSources? UrlSources
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<WebFetchUrlSources>("url_sources");
+        }
+        init { this._rawData.Set("url_sources", value); }
+    }
+
     /// <inheritdoc/>
     public override void Validate()
     {
@@ -223,6 +241,7 @@ public sealed record class WebFetchTool20250910 : JsonModel
         _ = this.MaxContentTokens;
         _ = this.MaxUses;
         _ = this.Strict;
+        this.UrlSources?.Validate();
     }
 
     public WebFetchTool20250910()
