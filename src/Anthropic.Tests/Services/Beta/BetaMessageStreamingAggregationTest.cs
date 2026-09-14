@@ -810,9 +810,10 @@ public class BetaMessageStreamingAggregationTest
         Assert.NotNull(stream.InputTransformations);
         var transformation = Assert.Single(stream.InputTransformations!);
         Assert.Equal("messages.3.content.0", transformation.Path);
+        Assert.True(transformation.TryPickThinkingDropped(out var dropped));
         Assert.Equal(
             BetaThinkingDroppedInputTransformationReason.ModelBindingMismatch,
-            transformation.Reason.Value()
+            dropped!.Reason.Value()
         );
     }
 
@@ -872,9 +873,10 @@ public class BetaMessageStreamingAggregationTest
         Assert.NotNull(stream.InputTransformations);
         var transformation = Assert.Single(stream.InputTransformations!);
         Assert.Equal("messages.1.content.0", transformation.Path);
+        Assert.True(transformation.TryPickThinkingDropped(out var dropped));
         Assert.Equal(
             BetaThinkingDroppedInputTransformationReason.PrefixBindingMismatch,
-            transformation.Reason.Value()
+            dropped!.Reason.Value()
         );
     }
 
