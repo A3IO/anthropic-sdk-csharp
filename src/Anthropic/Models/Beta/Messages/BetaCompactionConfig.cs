@@ -32,9 +32,8 @@ public sealed record class BetaCompactionConfig : JsonModel
     }
 
     /// <summary>
-    /// Replaces the server's summarization prompt for this request. When set, earlier
-    /// thinking blocks are left out of the content being summarized on models that
-    /// require it.
+    /// Replaces the server's default summarization prompt for this request. An empty
+    /// or whitespace-only value counts as absent.
     /// </summary>
     public string? Instructions
     {
