@@ -322,6 +322,7 @@ public class BetaContentBlockParamTest : TestBase
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Content = "content",
             EncryptedContent = "encrypted_content",
+            Signature = "signature",
         };
         value.Validate();
     }
@@ -787,6 +788,7 @@ public class BetaContentBlockParamTest : TestBase
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Content = "content",
             EncryptedContent = "encrypted_content",
+            Signature = "signature",
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<BetaContentBlockParam>(
@@ -862,6 +864,7 @@ public class BetaContentBlockParamTest : TestBase
                     "ttl": "5m"
                   },
                   "title": "x",
+                  "signature": "signature",
                   "id": "id",
                   "toolset_name": "toolset_name",
                   "tool_use_id": "tool_use_id",
@@ -875,6 +878,7 @@ public class BetaContentBlockParamTest : TestBase
         JsonElement expectedType = JsonSerializer.SerializeToElement("text");
         BetaCacheControlEphemeral expectedCacheControl = new() { Ttl = Ttl.Ttl5m };
         string expectedTitle = "x";
+        string expectedSignature = "signature";
         string expectedID = "id";
         string expectedToolsetName = "toolset_name";
         string expectedToolUseID = "tool_use_id";
@@ -883,6 +887,7 @@ public class BetaContentBlockParamTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, value.Type));
         Assert.Equal(expectedCacheControl, value.CacheControl);
         Assert.Equal(expectedTitle, value.Title);
+        Assert.Equal(expectedSignature, value.Signature);
         Assert.Equal(expectedID, value.ID);
         Assert.Equal(expectedToolsetName, value.ToolsetName);
         Assert.Equal(expectedToolUseID, value.ToolUseID);
@@ -893,6 +898,7 @@ public class BetaContentBlockParamTest : TestBase
         Assert.Throws<AnthropicInvalidDataException>(() => emptyValue.Type);
         Assert.Null(emptyValue.CacheControl);
         Assert.Null(emptyValue.Title);
+        Assert.Null(emptyValue.Signature);
         Assert.Null(emptyValue.ID);
         Assert.Null(emptyValue.ToolsetName);
         Assert.Null(emptyValue.ToolUseID);
@@ -906,6 +912,9 @@ public class BetaContentBlockParamTest : TestBase
                     "invalid"
                   ],
                   "title": [
+                    "invalid"
+                  ],
+                  "signature": [
                     "invalid"
                   ],
                   "id": [
@@ -927,6 +936,7 @@ public class BetaContentBlockParamTest : TestBase
 
         Assert.Null(mismatchedValue.CacheControl);
         Assert.Null(mismatchedValue.Title);
+        Assert.Null(mismatchedValue.Signature);
         Assert.Null(mismatchedValue.ID);
         Assert.Null(mismatchedValue.ToolsetName);
         Assert.Null(mismatchedValue.ToolUseID);

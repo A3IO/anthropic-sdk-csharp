@@ -224,6 +224,24 @@ public sealed record class WebFetchTool20260318 : JsonModel
     }
 
     /// <summary>
+    /// Which sources contribute to the set of URLs web fetch may fetch.
+    ///
+    /// <para>Each key is a tagged variant: ``user_input`` is ``all`` or ``none``;
+    /// the two tool filters are ``all``, ``none``, ``only`` (only the named tools'
+    /// results) or ``except`` (every result but the named tools'). A named tool must
+    /// be declared in this request's ``tools[]``.</para>
+    /// </summary>
+    public WebFetchUrlSources? UrlSources
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<WebFetchUrlSources>("url_sources");
+        }
+        init { this._rawData.Set("url_sources", value); }
+    }
+
+    /// <summary>
     /// Whether to use cached content. Set to false to bypass the cache and fetch
     /// fresh content. Only set to false when the user explicitly requests fresh
     /// content or when fetching rapidly-changing sources.
@@ -275,6 +293,7 @@ public sealed record class WebFetchTool20260318 : JsonModel
         _ = this.MaxUses;
         this.ResponseInclusion?.Validate();
         _ = this.Strict;
+        this.UrlSources?.Validate();
         _ = this.UseCache;
     }
 

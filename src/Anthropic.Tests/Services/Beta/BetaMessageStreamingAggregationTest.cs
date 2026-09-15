@@ -810,9 +810,10 @@ public class BetaMessageStreamingAggregationTest
         Assert.NotNull(stream.InputTransformations);
         var transformation = Assert.Single(stream.InputTransformations!);
         Assert.Equal("messages.3.content.0", transformation.Path);
+        Assert.True(transformation.TryPickThinkingDropped(out var dropped));
         Assert.Equal(
             BetaThinkingDroppedInputTransformationReason.ModelBindingMismatch,
-            transformation.Reason.Value()
+            dropped!.Reason.Value()
         );
     }
 
@@ -872,9 +873,10 @@ public class BetaMessageStreamingAggregationTest
         Assert.NotNull(stream.InputTransformations);
         var transformation = Assert.Single(stream.InputTransformations!);
         Assert.Equal("messages.1.content.0", transformation.Path);
+        Assert.True(transformation.TryPickThinkingDropped(out var dropped));
         Assert.Equal(
             BetaThinkingDroppedInputTransformationReason.PrefixBindingMismatch,
-            transformation.Reason.Value()
+            dropped!.Reason.Value()
         );
     }
 
@@ -1085,6 +1087,36 @@ public class BetaMessageStreamingAggregationTest
         );
         Assert.Equal("srvtoolu_01", serverToolUse.ID);
         Assert.Empty(serverToolUse.Input);
+    }
+
+    [Fact]
+    public async Task CreateStreamingAggregation_CompactionBlockKeepsStartBlockFields()
+    {
+        // The block arrives whole on content_block_start and has to be sent back unchanged;
+        // the deltas only fill in content and encrypted_content.
+        static BetaRawMessageStreamEvent Event(string json) =>
+            JsonSerializer.Deserialize<BetaRawMessageStreamEvent>(json)!;
+        static async IAsyncEnumerable<BetaRawMessageStreamEvent> GetTestValues()
+        {
+            yield return new(new BetaRawMessageStartEvent(GenerateStartMessage));
+            yield return Event(
+                """{"type":"content_block_start","index":0,"content_block":{"type":"compaction","content":null,"encrypted_content":null,"signature":"sig_01"}}"""
+            );
+            yield return Event(
+                """{"type":"content_block_delta","index":0,"delta":{"type":"compaction_delta","content":"Summary.","encrypted_content":"opaque"}}"""
+            );
+            yield return new(new BetaRawContentBlockStopEvent() { Index = 0 });
+            yield return new(new BetaRawMessageStopEvent());
+            await Task.CompletedTask;
+        }
+
+        var stream = await GetTestValues().Aggregate();
+
+        stream.Validate();
+        var compaction = Assert.IsType<BetaCompactionBlock>(Assert.Single(stream.Content).Value);
+        Assert.Equal("Summary.", compaction.Content);
+        Assert.Equal("opaque", compaction.EncryptedContent);
+        Assert.Equal("sig_01", compaction.Signature);
     }
 
     [Fact]

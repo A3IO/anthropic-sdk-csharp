@@ -46,9 +46,6 @@ public sealed record class BetaManagedAgentsSessionStatusIdleEvent : JsonModel
         init { this._rawData.Set("processed_at", value); }
     }
 
-    /// <summary>
-    /// The agent completed its turn naturally and is ready for the next user message.
-    /// </summary>
     public required StopReason StopReason
     {
         get
@@ -121,9 +118,6 @@ class BetaManagedAgentsSessionStatusIdleEventFromRaw
     ) => BetaManagedAgentsSessionStatusIdleEvent.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// The agent completed its turn naturally and is ready for the next user message.
-/// </summary>
 [JsonConverter(typeof(StopReasonConverter))]
 public record class StopReason : ModelBase
 {

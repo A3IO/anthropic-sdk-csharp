@@ -7,11 +7,6 @@ using System = System;
 
 namespace Anthropic.Models.Beta.Dreams;
 
-/// <summary>
-/// The default destination: the job creates a new output memory store as a clone
-/// of the memory_store input and writes the consolidated memories into it. The input
-/// store is never mutated.
-/// </summary>
 [JsonConverter(typeof(BetaOutputBehaviorConverter))]
 public record class BetaOutputBehavior : ModelBase
 {

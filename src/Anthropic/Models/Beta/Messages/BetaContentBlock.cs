@@ -7,9 +7,6 @@ using System = System;
 
 namespace Anthropic.Models.Beta.Messages;
 
-/// <summary>
-/// Response model for a file uploaded to the container.
-/// </summary>
 [JsonConverter(typeof(BetaContentBlockConverter))]
 public record class BetaContentBlock : ModelBase
 {
@@ -52,6 +49,34 @@ public record class BetaContentBlock : ModelBase
                 BetaCompactionBlock x => x.Type,
                 BetaFallbackBlock x => x.Type,
                 _ => WrappedJsonSerializer.GetNotNullStructProperty<JsonElement>(this.Json, "type"),
+            };
+        }
+    }
+
+    public string? Signature
+    {
+        get
+        {
+            return this.Value switch
+            {
+                BetaTextBlock _ => null,
+                BetaThinkingBlock x => x.Signature,
+                BetaRedactedThinkingBlock _ => null,
+                BetaToolUseBlock _ => null,
+                BetaServerToolUseBlock _ => null,
+                BetaWebSearchToolResultBlock _ => null,
+                BetaWebFetchToolResultBlock _ => null,
+                BetaAdvisorToolResultBlock _ => null,
+                BetaCodeExecutionToolResultBlock _ => null,
+                BetaBashCodeExecutionToolResultBlock _ => null,
+                BetaTextEditorCodeExecutionToolResultBlock _ => null,
+                BetaToolSearchToolResultBlock _ => null,
+                BetaMcpToolUseBlock _ => null,
+                BetaMcpToolResultBlock _ => null,
+                BetaContainerUploadBlock _ => null,
+                BetaCompactionBlock x => x.Signature,
+                BetaFallbackBlock _ => null,
+                _ => WrappedJsonSerializer.GetNullableClassProperty<string>(this.Json, "signature"),
             };
         }
     }

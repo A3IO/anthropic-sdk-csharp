@@ -416,6 +416,12 @@ public class BetaToolUnionTest : TestBase
             MaxContentTokens = 1,
             MaxUses = 1,
             Strict = true,
+            UrlSources = new()
+            {
+                ClientToolResults = new BetaWebFetchUrlSourceAll(),
+                ServerToolResults = new BetaWebFetchUrlSourceAll(),
+                UserInput = new BetaWebFetchUrlSourceAll(),
+            },
         };
         value.Validate();
     }
@@ -457,6 +463,12 @@ public class BetaToolUnionTest : TestBase
             MaxContentTokens = 1,
             MaxUses = 1,
             Strict = true,
+            UrlSources = new()
+            {
+                ClientToolResults = new BetaWebFetchUrlSourceAll(),
+                ServerToolResults = new BetaWebFetchUrlSourceAll(),
+                UserInput = new BetaWebFetchUrlSourceAll(),
+            },
         };
         value.Validate();
     }
@@ -475,6 +487,12 @@ public class BetaToolUnionTest : TestBase
             MaxContentTokens = 1,
             MaxUses = 1,
             Strict = true,
+            UrlSources = new()
+            {
+                ClientToolResults = new BetaWebFetchUrlSourceAll(),
+                ServerToolResults = new BetaWebFetchUrlSourceAll(),
+                UserInput = new BetaWebFetchUrlSourceAll(),
+            },
             UseCache = true,
         };
         value.Validate();
@@ -519,6 +537,12 @@ public class BetaToolUnionTest : TestBase
             MaxUses = 1,
             ResponseInclusion = ResponseInclusion.Full,
             Strict = true,
+            UrlSources = new()
+            {
+                ClientToolResults = new BetaWebFetchUrlSourceAll(),
+                ServerToolResults = new BetaWebFetchUrlSourceAll(),
+                UserInput = new BetaWebFetchUrlSourceAll(),
+            },
             UseCache = true,
         };
         value.Validate();
@@ -1103,6 +1127,12 @@ public class BetaToolUnionTest : TestBase
             MaxContentTokens = 1,
             MaxUses = 1,
             Strict = true,
+            UrlSources = new()
+            {
+                ClientToolResults = new BetaWebFetchUrlSourceAll(),
+                ServerToolResults = new BetaWebFetchUrlSourceAll(),
+                UserInput = new BetaWebFetchUrlSourceAll(),
+            },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
@@ -1156,6 +1186,12 @@ public class BetaToolUnionTest : TestBase
             MaxContentTokens = 1,
             MaxUses = 1,
             Strict = true,
+            UrlSources = new()
+            {
+                ClientToolResults = new BetaWebFetchUrlSourceAll(),
+                ServerToolResults = new BetaWebFetchUrlSourceAll(),
+                UserInput = new BetaWebFetchUrlSourceAll(),
+            },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
@@ -1180,6 +1216,12 @@ public class BetaToolUnionTest : TestBase
             MaxContentTokens = 1,
             MaxUses = 1,
             Strict = true,
+            UrlSources = new()
+            {
+                ClientToolResults = new BetaWebFetchUrlSourceAll(),
+                ServerToolResults = new BetaWebFetchUrlSourceAll(),
+                UserInput = new BetaWebFetchUrlSourceAll(),
+            },
             UseCache = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -1236,6 +1278,12 @@ public class BetaToolUnionTest : TestBase
             MaxUses = 1,
             ResponseInclusion = ResponseInclusion.Full,
             Strict = true,
+            UrlSources = new()
+            {
+                ClientToolResults = new BetaWebFetchUrlSourceAll(),
+                ServerToolResults = new BetaWebFetchUrlSourceAll(),
+                UserInput = new BetaWebFetchUrlSourceAll(),
+            },
             UseCache = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -1363,6 +1411,17 @@ public class BetaToolUnionTest : TestBase
                     "enabled": true
                   },
                   "max_content_tokens": 1,
+                  "url_sources": {
+                    "client_tool_results": {
+                      "type": "all"
+                    },
+                    "server_tool_results": {
+                      "type": "all"
+                    },
+                    "user_input": {
+                      "type": "all"
+                    }
+                  },
                   "use_cache": true
                 }
                 """
@@ -1386,6 +1445,12 @@ public class BetaToolUnionTest : TestBase
         };
         BetaCitationsConfigParam expectedCitations = new() { Enabled = true };
         long expectedMaxContentTokens = 1;
+        BetaWebFetchUrlSources expectedUrlSources = new()
+        {
+            ClientToolResults = new BetaWebFetchUrlSourceAll(),
+            ServerToolResults = new BetaWebFetchUrlSourceAll(),
+            UserInput = new BetaWebFetchUrlSourceAll(),
+        };
         bool expectedUseCache = true;
 
         Assert.Equal(expectedCacheControl, value.CacheControl);
@@ -1398,6 +1463,7 @@ public class BetaToolUnionTest : TestBase
         Assert.Equal(expectedUserLocation, value.UserLocation);
         Assert.Equal(expectedCitations, value.Citations);
         Assert.Equal(expectedMaxContentTokens, value.MaxContentTokens);
+        Assert.Equal(expectedUrlSources, value.UrlSources);
         Assert.Equal(expectedUseCache, value.UseCache);
 
         BetaToolUnion emptyValue = new(JsonSerializer.Deserialize<JsonElement>("{}"));
@@ -1412,6 +1478,7 @@ public class BetaToolUnionTest : TestBase
         Assert.Null(emptyValue.UserLocation);
         Assert.Null(emptyValue.Citations);
         Assert.Null(emptyValue.MaxContentTokens);
+        Assert.Null(emptyValue.UrlSources);
         Assert.Null(emptyValue.UseCache);
 
         BetaToolUnion mismatchedValue = new(
@@ -1448,6 +1515,9 @@ public class BetaToolUnionTest : TestBase
                   "max_content_tokens": [
                     "invalid"
                   ],
+                  "url_sources": [
+                    "invalid"
+                  ],
                   "use_cache": [
                     "invalid"
                   ]
@@ -1466,6 +1536,7 @@ public class BetaToolUnionTest : TestBase
         Assert.Null(mismatchedValue.UserLocation);
         Assert.Null(mismatchedValue.Citations);
         Assert.Null(mismatchedValue.MaxContentTokens);
+        Assert.Null(mismatchedValue.UrlSources);
         Assert.Null(mismatchedValue.UseCache);
     }
 }

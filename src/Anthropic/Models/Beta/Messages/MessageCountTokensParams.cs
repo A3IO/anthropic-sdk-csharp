@@ -131,6 +131,26 @@ public record class MessageCountTokensParams : ParamsBase
     }
 
     /// <summary>
+    /// Compact the whole conversation and return a signed `compaction` block, alone,
+    /// that a later request sends back first in `messages`, in place of the messages
+    /// it summarizes. There is no trigger and no pause flag: sending the parameter
+    /// compacts, and nothing is sampled after the block.
+    ///
+    /// <para>The summarization prompt is the server's own unless `instructions` are
+    /// given, which then replace it for this request; a value that is empty or only
+    /// whitespace counts as absent.</para>
+    /// </summary>
+    public BetaCompactionConfig? Compaction
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<BetaCompactionConfig>("compaction");
+        }
+        init { this._rawBodyData.Set("compaction", value); }
+    }
+
+    /// <summary>
     /// Context management configuration.
     ///
     /// <para>This allows you to control how Claude manages context across multiple
@@ -882,9 +902,6 @@ sealed class MessageCountTokensParamsSystemConverter : JsonConverter<MessageCoun
     }
 }
 
-/// <summary>
-/// Code execution tool with REPL state persistence (daemon mode + gVisor checkpoint).
-/// </summary>
 [JsonConverter(typeof(ToolConverter))]
 public record class Tool : ModelBase
 {
@@ -1312,6 +1329,48 @@ public record class Tool : ModelBase
                 _ => WrappedJsonSerializer.GetNullableStructProperty<long>(
                     this.Json,
                     "max_content_tokens"
+                ),
+            };
+        }
+    }
+
+    public BetaWebFetchUrlSources? UrlSources
+    {
+        get
+        {
+            return this.Value switch
+            {
+                BetaTool _ => null,
+                BetaToolBash20241022 _ => null,
+                BetaToolBash20250124 _ => null,
+                BetaCodeExecutionTool20250522 _ => null,
+                BetaCodeExecutionTool20250825 _ => null,
+                BetaCodeExecutionTool20260120 _ => null,
+                BetaCodeExecutionTool20260521 _ => null,
+                BetaBrowserToolset20260801 _ => null,
+                BetaToolComputerUse20241022 _ => null,
+                BetaMemoryTool20250818 _ => null,
+                BetaToolComputerUse20250124 _ => null,
+                BetaToolTextEditor20241022 _ => null,
+                BetaToolComputerUse20251124 _ => null,
+                BetaComputerToolset20260801 _ => null,
+                BetaToolTextEditor20250124 _ => null,
+                BetaToolTextEditor20250429 _ => null,
+                BetaToolTextEditor20250728 _ => null,
+                BetaWebSearchTool20250305 _ => null,
+                BetaWebFetchTool20250910 x => x.UrlSources,
+                BetaWebSearchTool20260209 _ => null,
+                BetaWebFetchTool20260209 x => x.UrlSources,
+                BetaWebFetchTool20260309 x => x.UrlSources,
+                BetaWebSearchTool20260318 _ => null,
+                BetaWebFetchTool20260318 x => x.UrlSources,
+                BetaAdvisorTool20260301 _ => null,
+                BetaToolSearchToolBm25_20251119 _ => null,
+                BetaToolSearchToolRegex20251119 _ => null,
+                BetaMcpToolset _ => null,
+                _ => WrappedJsonSerializer.GetNullableClassProperty<BetaWebFetchUrlSources>(
+                    this.Json,
+                    "url_sources"
                 ),
             };
         }

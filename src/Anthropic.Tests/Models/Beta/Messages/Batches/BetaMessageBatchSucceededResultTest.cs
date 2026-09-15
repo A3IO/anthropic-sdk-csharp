@@ -112,7 +112,7 @@ public class BetaMessageBatchSucceededResultTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =
@@ -216,7 +216,7 @@ public class BetaMessageBatchSucceededResultTest : TestBase
             },
             InputTransformations =
             [
-                new()
+                new Messages::BetaThinkingDroppedInputTransformation()
                 {
                     Path = "path",
                     Reason =
@@ -333,7 +333,7 @@ public class BetaMessageBatchSucceededResultTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =
@@ -455,7 +455,7 @@ public class BetaMessageBatchSucceededResultTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =
@@ -566,7 +566,7 @@ public class BetaMessageBatchSucceededResultTest : TestBase
             },
             InputTransformations =
             [
-                new()
+                new Messages::BetaThinkingDroppedInputTransformation()
                 {
                     Path = "path",
                     Reason =
@@ -683,7 +683,7 @@ public class BetaMessageBatchSucceededResultTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =
@@ -799,7 +799,7 @@ public class BetaMessageBatchSucceededResultTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =

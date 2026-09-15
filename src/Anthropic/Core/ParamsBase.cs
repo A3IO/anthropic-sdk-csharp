@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -249,7 +250,9 @@ public abstract record class ParamsBase
         }
         request.Headers.Add(
             "X-Stainless-Timeout",
-            (options.Timeout ?? ClientOptions.DefaultTimeout).TotalSeconds.ToString()
+            (options.Timeout ?? ClientOptions.DefaultTimeout).TotalSeconds.ToString(
+                CultureInfo.InvariantCulture
+            )
         );
     }
 

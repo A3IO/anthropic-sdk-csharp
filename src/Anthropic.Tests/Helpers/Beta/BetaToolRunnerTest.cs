@@ -2014,7 +2014,7 @@ public class BetaToolRunnerTest
         {
             return MakeEventStream(
                 """{"type":"message_start","message":{"id":"msg_1","type":"message","role":"assistant","content":[],"model":"claude-opus-4-6-20250929","stop_reason":null,"stop_sequence":null,"usage":{"input_tokens":10,"output_tokens":10}}}""",
-                """{"type":"content_block_start","index":0,"content_block":{"type":"compaction","content":null,"encrypted_content":null}}""",
+                """{"type":"content_block_start","index":0,"content_block":{"type":"compaction","content":null,"encrypted_content":null,"signature":"sig_01"}}""",
                 """{"type":"content_block_delta","index":0,"delta":{"type":"compaction_delta","content":"Summary of the conversation so far.","encrypted_content":null}}""",
                 """{"type":"content_block_stop","index":0}""",
                 """{"type":"message_delta","delta":{"stop_reason":"compaction","stop_sequence":null},"usage":{"output_tokens":10}}""",
@@ -2075,6 +2075,9 @@ public class BetaToolRunnerTest
             "Summary of the conversation so far.",
             block.GetProperty("content").GetString()
         );
+        // The block arrives whole on content_block_start; what the deltas don't carry is
+        // sent back as it arrived.
+        Assert.Equal("sig_01", block.GetProperty("signature").GetString());
     }
 
     private class CustomWeatherTool : IBetaRunnableTool

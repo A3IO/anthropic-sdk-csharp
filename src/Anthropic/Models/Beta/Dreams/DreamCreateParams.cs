@@ -44,9 +44,6 @@ public record class DreamCreateParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Model identifier and configuration applied to every pipeline stage.
-    /// </summary>
     public required Model Model
     {
         get
@@ -67,11 +64,6 @@ public record class DreamCreateParams : ParamsBase
         init { this._rawBodyData.Set("instructions", value); }
     }
 
-    /// <summary>
-    /// The default destination: the job creates a new output memory store as a clone
-    /// of the memory_store input and writes the consolidated memories into it. The
-    /// input store is never mutated.
-    /// </summary>
     public BetaOutputBehavior? OutputBehavior
     {
         get
@@ -246,9 +238,6 @@ public record class DreamCreateParams : ParamsBase
     }
 }
 
-/// <summary>
-/// Model identifier and configuration applied to every pipeline stage.
-/// </summary>
 [JsonConverter(typeof(ModelConverter))]
 public record class Model : ModelBase
 {

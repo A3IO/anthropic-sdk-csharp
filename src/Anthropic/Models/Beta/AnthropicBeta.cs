@@ -53,6 +53,7 @@ public enum AnthropicBeta
     MidConversationOutputConfig2026_07_01,
     ThinkingBindingControls2026_08_01,
     MidConversationSystemClearAt2026_08_21,
+    Compact2026_09_04,
 }
 
 sealed class AnthropicBetaConverter : JsonConverter<AnthropicBeta>
@@ -115,6 +116,7 @@ sealed class AnthropicBetaConverter : JsonConverter<AnthropicBeta>
                 AnthropicBeta.ThinkingBindingControls2026_08_01,
             "mid-conversation-system-clear-at-2026-08-21" =>
                 AnthropicBeta.MidConversationSystemClearAt2026_08_21,
+            "compact-2026-09-04" => AnthropicBeta.Compact2026_09_04,
             _ => (AnthropicBeta)(-1),
         };
     }
@@ -180,6 +182,7 @@ sealed class AnthropicBetaConverter : JsonConverter<AnthropicBeta>
                     "thinking-binding-controls-2026-08-01",
                 AnthropicBeta.MidConversationSystemClearAt2026_08_21 =>
                     "mid-conversation-system-clear-at-2026-08-21",
+                AnthropicBeta.Compact2026_09_04 => "compact-2026-09-04",
                 _ => throw new AnthropicInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

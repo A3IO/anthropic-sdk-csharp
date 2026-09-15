@@ -111,7 +111,7 @@ public class BetaRawMessageStreamEventTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =
@@ -195,7 +195,7 @@ public class BetaRawMessageStreamEventTest : TestBase
             },
             InputTransformations =
             [
-                new()
+                new Messages::BetaThinkingDroppedInputTransformation()
                 {
                     Path = "path",
                     Reason =
@@ -359,7 +359,7 @@ public class BetaRawMessageStreamEventTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =
@@ -449,7 +449,7 @@ public class BetaRawMessageStreamEventTest : TestBase
             },
             InputTransformations =
             [
-                new()
+                new Messages::BetaThinkingDroppedInputTransformation()
                 {
                     Path = "path",
                     Reason =

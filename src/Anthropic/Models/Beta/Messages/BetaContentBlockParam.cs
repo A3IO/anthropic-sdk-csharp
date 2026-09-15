@@ -7,9 +7,6 @@ using System = System;
 
 namespace Anthropic.Models.Beta.Messages;
 
-/// <summary>
-/// Regular text content.
-/// </summary>
 [JsonConverter(typeof(BetaContentBlockParamConverter))]
 public record class BetaContentBlockParam : ModelBase
 {
@@ -129,6 +126,40 @@ public record class BetaContentBlockParam : ModelBase
                 BetaRequestToolRemovalBlock _ => null,
                 BetaFallbackBlockParam _ => null,
                 _ => WrappedJsonSerializer.GetNullableClassProperty<string>(this.Json, "title"),
+            };
+        }
+    }
+
+    public string? Signature
+    {
+        get
+        {
+            return this.Value switch
+            {
+                BetaTextBlockParam _ => null,
+                BetaImageBlockParam _ => null,
+                BetaRequestDocumentBlock _ => null,
+                BetaSearchResultBlockParam _ => null,
+                BetaThinkingBlockParam x => x.Signature,
+                BetaRedactedThinkingBlockParam _ => null,
+                BetaToolUseBlockParam _ => null,
+                BetaToolResultBlockParam _ => null,
+                BetaServerToolUseBlockParam _ => null,
+                BetaWebSearchToolResultBlockParam _ => null,
+                BetaWebFetchToolResultBlockParam _ => null,
+                BetaAdvisorToolResultBlockParam _ => null,
+                BetaCodeExecutionToolResultBlockParam _ => null,
+                BetaBashCodeExecutionToolResultBlockParam _ => null,
+                BetaTextEditorCodeExecutionToolResultBlockParam _ => null,
+                BetaToolSearchToolResultBlockParam _ => null,
+                BetaMcpToolUseBlockParam _ => null,
+                BetaRequestMcpToolResultBlockParam _ => null,
+                BetaContainerUploadBlockParam _ => null,
+                BetaCompactionBlockParam x => x.Signature,
+                BetaRequestToolAdditionBlock _ => null,
+                BetaRequestToolRemovalBlock _ => null,
+                BetaFallbackBlockParam _ => null,
+                _ => WrappedJsonSerializer.GetNullableClassProperty<string>(this.Json, "signature"),
             };
         }
     }

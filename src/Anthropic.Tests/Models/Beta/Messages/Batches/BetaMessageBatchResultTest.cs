@@ -113,7 +113,7 @@ public class BetaMessageBatchResultTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =
@@ -254,7 +254,7 @@ public class BetaMessageBatchResultTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =

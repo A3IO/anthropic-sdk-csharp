@@ -1096,7 +1096,7 @@ public class BetaRefusalFallbackHandlerStreamingTest
         var iterations = message.Usage.Iterations!;
         Assert.Equal(2, iterations.Count);
         Assert.True(iterations[0].TryPickBetaMessageIterationUsage(out var refused));
-        Assert.Equal(FableModel, refused!.Model.Raw());
+        Assert.Equal(FableModel, refused!.Model?.Raw());
         Assert.True(iterations[1].TryPickBetaFallbackMessageIterationUsage(out var served));
         Assert.Equal(FallbackModel, served!.Model.Raw());
     }

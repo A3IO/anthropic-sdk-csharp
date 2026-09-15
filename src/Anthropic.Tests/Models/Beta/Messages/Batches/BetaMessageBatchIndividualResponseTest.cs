@@ -114,7 +114,7 @@ public class BetaMessageBatchIndividualResponseTest : TestBase
                     },
                     InputTransformations =
                     [
-                        new()
+                        new Messages::BetaThinkingDroppedInputTransformation()
                         {
                             Path = "path",
                             Reason =
@@ -225,7 +225,7 @@ public class BetaMessageBatchIndividualResponseTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =
@@ -344,7 +344,7 @@ public class BetaMessageBatchIndividualResponseTest : TestBase
                     },
                     InputTransformations =
                     [
-                        new()
+                        new Messages::BetaThinkingDroppedInputTransformation()
                         {
                             Path = "path",
                             Reason =
@@ -469,7 +469,7 @@ public class BetaMessageBatchIndividualResponseTest : TestBase
                     },
                     InputTransformations =
                     [
-                        new()
+                        new Messages::BetaThinkingDroppedInputTransformation()
                         {
                             Path = "path",
                             Reason =
@@ -587,7 +587,7 @@ public class BetaMessageBatchIndividualResponseTest : TestBase
                 },
                 InputTransformations =
                 [
-                    new()
+                    new Messages::BetaThinkingDroppedInputTransformation()
                     {
                         Path = "path",
                         Reason =
@@ -706,7 +706,7 @@ public class BetaMessageBatchIndividualResponseTest : TestBase
                     },
                     InputTransformations =
                     [
-                        new()
+                        new Messages::BetaThinkingDroppedInputTransformation()
                         {
                             Path = "path",
                             Reason =
@@ -825,7 +825,7 @@ public class BetaMessageBatchIndividualResponseTest : TestBase
                     },
                     InputTransformations =
                     [
-                        new()
+                        new Messages::BetaThinkingDroppedInputTransformation()
                         {
                             Path = "path",
                             Reason =

@@ -73,9 +73,6 @@ public sealed record class BetaManagedAgentsSessionThreadStatusIdleEvent : JsonM
         init { this._rawData.Set("session_thread_id", value); }
     }
 
-    /// <summary>
-    /// The agent completed its turn naturally and is ready for the next user message.
-    /// </summary>
     public required BetaManagedAgentsSessionThreadStatusIdleEventStopReason StopReason
     {
         get
@@ -154,9 +151,6 @@ class BetaManagedAgentsSessionThreadStatusIdleEventFromRaw
     ) => BetaManagedAgentsSessionThreadStatusIdleEvent.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// The agent completed its turn naturally and is ready for the next user message.
-/// </summary>
 [JsonConverter(typeof(BetaManagedAgentsSessionThreadStatusIdleEventStopReasonConverter))]
 public record class BetaManagedAgentsSessionThreadStatusIdleEventStopReason : ModelBase
 {

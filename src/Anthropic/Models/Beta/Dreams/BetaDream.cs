@@ -122,11 +122,6 @@ public sealed record class BetaDream : JsonModel
         init { this._rawData.Set("model", value); }
     }
 
-    /// <summary>
-    /// The default destination: the job creates a new output memory store as a clone
-    /// of the memory_store input and writes the consolidated memories into it. The
-    /// input store is never mutated.
-    /// </summary>
     public required BetaOutputBehavior OutputBehavior
     {
         get

@@ -444,6 +444,26 @@ public sealed record class Params : JsonModel
     }
 
     /// <summary>
+    /// Compact the whole conversation and return a signed `compaction` block, alone,
+    /// that a later request sends back first in `messages`, in place of the messages
+    /// it summarizes. There is no trigger and no pause flag: sending the parameter
+    /// compacts, and nothing is sampled after the block.
+    ///
+    /// <para>The summarization prompt is the server's own unless `instructions` are
+    /// given, which then replace it for this request; a value that is empty or only
+    /// whitespace counts as absent.</para>
+    /// </summary>
+    public BetaCompactionConfig? Compaction
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<BetaCompactionConfig>("compaction");
+        }
+        init { this._rawData.Set("compaction", value); }
+    }
+
+    /// <summary>
     /// Container identifier for reuse across requests.
     /// </summary>
     public global::Anthropic.Models.Beta.Messages.Batches.Container? Container
@@ -771,7 +791,7 @@ public sealed record class Params : JsonModel
     /// fully deterministic.</para>
     /// </summary>
     [System::Obsolete(
-        "Deprecated. Models released after Claude Opus 4.6 do not support setting temperature. A value of 1.0 of will be accepted for backwards compatibility, all other values will be rejected with a 400 error."
+        "Deprecated. Models released after Claude Opus 4.6 do not support setting temperature. A value of 1.0 will be accepted for backwards compatibility, all other values will be rejected with a 400 error."
     )]
     public double? Temperature
     {
@@ -979,6 +999,7 @@ public sealed record class Params : JsonModel
         }
         this.Model.Raw();
         this.CacheControl?.Validate();
+        this.Compaction?.Validate();
         this.Container?.Validate();
         this.ContextManagement?.Validate();
         this.Diagnostics?.Validate();

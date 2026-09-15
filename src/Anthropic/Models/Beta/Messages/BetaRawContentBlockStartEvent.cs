@@ -14,9 +14,6 @@ namespace Anthropic.Models.Beta.Messages;
 )]
 public sealed record class BetaRawContentBlockStartEvent : JsonModel
 {
-    /// <summary>
-    /// Response model for a file uploaded to the container.
-    /// </summary>
     public required ContentBlock ContentBlock
     {
         get
@@ -108,9 +105,6 @@ class BetaRawContentBlockStartEventFromRaw : IFromRawJson<BetaRawContentBlockSta
     ) => BetaRawContentBlockStartEvent.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// Response model for a file uploaded to the container.
-/// </summary>
 [JsonConverter(typeof(ContentBlockConverter))]
 public record class ContentBlock : ModelBase
 {
@@ -153,6 +147,34 @@ public record class ContentBlock : ModelBase
                 BetaCompactionBlock x => x.Type,
                 BetaFallbackBlock x => x.Type,
                 _ => WrappedJsonSerializer.GetNotNullStructProperty<JsonElement>(this.Json, "type"),
+            };
+        }
+    }
+
+    public string? Signature
+    {
+        get
+        {
+            return this.Value switch
+            {
+                BetaTextBlock _ => null,
+                BetaThinkingBlock x => x.Signature,
+                BetaRedactedThinkingBlock _ => null,
+                BetaToolUseBlock _ => null,
+                BetaServerToolUseBlock _ => null,
+                BetaWebSearchToolResultBlock _ => null,
+                BetaWebFetchToolResultBlock _ => null,
+                BetaAdvisorToolResultBlock _ => null,
+                BetaCodeExecutionToolResultBlock _ => null,
+                BetaBashCodeExecutionToolResultBlock _ => null,
+                BetaTextEditorCodeExecutionToolResultBlock _ => null,
+                BetaToolSearchToolResultBlock _ => null,
+                BetaMcpToolUseBlock _ => null,
+                BetaMcpToolResultBlock _ => null,
+                BetaContainerUploadBlock _ => null,
+                BetaCompactionBlock x => x.Signature,
+                BetaFallbackBlock _ => null,
+                _ => WrappedJsonSerializer.GetNullableClassProperty<string>(this.Json, "signature"),
             };
         }
     }

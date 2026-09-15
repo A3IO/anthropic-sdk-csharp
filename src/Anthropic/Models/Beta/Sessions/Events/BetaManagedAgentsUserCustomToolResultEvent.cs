@@ -114,8 +114,8 @@ public sealed record class BetaManagedAgentsUserCustomToolResultEvent : JsonMode
     }
 
     /// <summary>
-    /// Routes this result to a subagent thread. Copy from the `agent.custom_tool_use`
-    /// event's `session_thread_id`.
+    /// Set by the server to the subagent thread this result was routed to. Omitted
+    /// when it was routed to the primary thread.
     /// </summary>
     public string? SessionThreadID
     {

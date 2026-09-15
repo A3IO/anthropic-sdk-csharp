@@ -53,6 +53,7 @@ public class AnthropicBetaTest : TestBase
     [InlineData(AnthropicBeta.MidConversationOutputConfig2026_07_01)]
     [InlineData(AnthropicBeta.ThinkingBindingControls2026_08_01)]
     [InlineData(AnthropicBeta.MidConversationSystemClearAt2026_08_21)]
+    [InlineData(AnthropicBeta.Compact2026_09_04)]
     public void Validation_Works(AnthropicBeta rawValue)
     {
         // force implicit conversion because Theory can't do that for us
@@ -118,6 +119,7 @@ public class AnthropicBetaTest : TestBase
     [InlineData(AnthropicBeta.MidConversationOutputConfig2026_07_01)]
     [InlineData(AnthropicBeta.ThinkingBindingControls2026_08_01)]
     [InlineData(AnthropicBeta.MidConversationSystemClearAt2026_08_21)]
+    [InlineData(AnthropicBeta.Compact2026_09_04)]
     public void SerializationRoundtrip_Works(AnthropicBeta rawValue)
     {
         // force implicit conversion because Theory can't do that for us
