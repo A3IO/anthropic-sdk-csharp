@@ -29,6 +29,7 @@ public class MessageCountTokensParamsTest : TestBase
             ],
             Model = Messages::Model.ClaudeOpus5,
             CacheControl = new() { Ttl = Ttl.Ttl5m },
+            Compaction = new() { Instructions = "instructions" },
             ContextManagement = new()
             {
                 Edits =
@@ -149,6 +150,7 @@ public class MessageCountTokensParamsTest : TestBase
         ];
         ApiEnum<string, Messages::Model> expectedModel = Messages::Model.ClaudeOpus5;
         BetaCacheControlEphemeral expectedCacheControl = new() { Ttl = Ttl.Ttl5m };
+        BetaCompactionConfig expectedCompaction = new() { Instructions = "instructions" };
         BetaContextManagementConfig expectedContextManagement = new()
         {
             Edits =
@@ -270,6 +272,7 @@ public class MessageCountTokensParamsTest : TestBase
         }
         Assert.Equal(expectedModel, parameters.Model);
         Assert.Equal(expectedCacheControl, parameters.CacheControl);
+        Assert.Equal(expectedCompaction, parameters.Compaction);
         Assert.Equal(expectedContextManagement, parameters.ContextManagement);
         Assert.NotNull(parameters.McpServers);
         Assert.Equal(expectedMcpServers.Count, parameters.McpServers.Count);
@@ -316,6 +319,7 @@ public class MessageCountTokensParamsTest : TestBase
             ],
             Model = Messages::Model.ClaudeOpus5,
             CacheControl = new() { Ttl = Ttl.Ttl5m },
+            Compaction = new() { Instructions = "instructions" },
             ContextManagement = new()
             {
                 Edits =
@@ -377,6 +381,7 @@ public class MessageCountTokensParamsTest : TestBase
             ],
             Model = Messages::Model.ClaudeOpus5,
             CacheControl = new() { Ttl = Ttl.Ttl5m },
+            Compaction = new() { Instructions = "instructions" },
             ContextManagement = new()
             {
                 Edits =
@@ -536,6 +541,8 @@ public class MessageCountTokensParamsTest : TestBase
 
         Assert.Null(parameters.CacheControl);
         Assert.False(parameters.RawBodyData.ContainsKey("cache_control"));
+        Assert.Null(parameters.Compaction);
+        Assert.False(parameters.RawBodyData.ContainsKey("compaction"));
         Assert.Null(parameters.ContextManagement);
         Assert.False(parameters.RawBodyData.ContainsKey("context_management"));
         Assert.Null(parameters.OutputFormat);
@@ -646,6 +653,7 @@ public class MessageCountTokensParamsTest : TestBase
             WorkspaceID = "wrkspc_011CZkZaBF1tNoB5wlCeusgy",
 
             CacheControl = null,
+            Compaction = null,
             ContextManagement = null,
             OutputFormat = null,
             Speed = null,
@@ -653,6 +661,8 @@ public class MessageCountTokensParamsTest : TestBase
 
         Assert.Null(parameters.CacheControl);
         Assert.True(parameters.RawBodyData.ContainsKey("cache_control"));
+        Assert.Null(parameters.Compaction);
+        Assert.True(parameters.RawBodyData.ContainsKey("compaction"));
         Assert.Null(parameters.ContextManagement);
         Assert.True(parameters.RawBodyData.ContainsKey("context_management"));
         Assert.Null(parameters.OutputFormat);
@@ -744,6 +754,7 @@ public class MessageCountTokensParamsTest : TestBase
             ],
             Model = Messages::Model.ClaudeOpus5,
             CacheControl = new() { Ttl = Ttl.Ttl5m },
+            Compaction = new() { Instructions = "instructions" },
             ContextManagement = new()
             {
                 Edits =

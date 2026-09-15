@@ -414,6 +414,7 @@ public class ContentBlockTest : TestBase
         {
             Content = "content",
             EncryptedContent = "encrypted_content",
+            Signature = "signature",
         };
         value.Validate();
     }
@@ -730,6 +731,7 @@ public class ContentBlockTest : TestBase
         {
             Content = "content",
             EncryptedContent = "encrypted_content",
+            Signature = "signature",
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ContentBlock>(
@@ -766,6 +768,7 @@ public class ContentBlockTest : TestBase
                 """
                 {
                   "type": "text",
+                  "signature": "signature",
                   "id": "id",
                   "tool_use_id": "srvtoolu_SQfNkl1n_JR_"
                 }
@@ -775,16 +778,19 @@ public class ContentBlockTest : TestBase
         Assert.Throws<AnthropicInvalidDataException>(() => value.Validate());
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("text");
+        string expectedSignature = "signature";
         string expectedID = "id";
         string expectedToolUseID = "srvtoolu_SQfNkl1n_JR_";
 
         Assert.True(JsonElement.DeepEquals(expectedType, value.Type));
+        Assert.Equal(expectedSignature, value.Signature);
         Assert.Equal(expectedID, value.ID);
         Assert.Equal(expectedToolUseID, value.ToolUseID);
 
         ContentBlock emptyValue = new(JsonSerializer.Deserialize<JsonElement>("{}"));
 
         Assert.Throws<AnthropicInvalidDataException>(() => emptyValue.Type);
+        Assert.Null(emptyValue.Signature);
         Assert.Null(emptyValue.ID);
         Assert.Null(emptyValue.ToolUseID);
 
@@ -792,6 +798,9 @@ public class ContentBlockTest : TestBase
             JsonSerializer.Deserialize<JsonElement>(
                 """
                 {
+                  "signature": [
+                    "invalid"
+                  ],
                   "id": [
                     "invalid"
                   ],
@@ -803,6 +812,7 @@ public class ContentBlockTest : TestBase
             )
         );
 
+        Assert.Null(mismatchedValue.Signature);
         Assert.Null(mismatchedValue.ID);
         Assert.Null(mismatchedValue.ToolUseID);
     }

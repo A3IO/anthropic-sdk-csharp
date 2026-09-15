@@ -54,6 +54,19 @@ public sealed record class BetaCompactionBlock : JsonModel
         init { this._rawData.Set("type", value); }
     }
 
+    /// <summary>
+    /// Signature over the summary, to be sent back with the block verbatim
+    /// </summary>
+    public string? Signature
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("signature");
+        }
+        init { this._rawData.Set("signature", value); }
+    }
+
     /// <inheritdoc/>
     public override void Validate()
     {
@@ -63,6 +76,7 @@ public sealed record class BetaCompactionBlock : JsonModel
         {
             throw new AnthropicInvalidDataException("Invalid value given for constant");
         }
+        _ = this.Signature;
     }
 
     public BetaCompactionBlock()

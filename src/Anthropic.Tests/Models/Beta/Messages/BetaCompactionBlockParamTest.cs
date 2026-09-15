@@ -14,17 +14,20 @@ public class BetaCompactionBlockParamTest : TestBase
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Content = "content",
             EncryptedContent = "encrypted_content",
+            Signature = "signature",
         };
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("compaction");
         BetaCacheControlEphemeral expectedCacheControl = new() { Ttl = Ttl.Ttl5m };
         string expectedContent = "content";
         string expectedEncryptedContent = "encrypted_content";
+        string expectedSignature = "signature";
 
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedCacheControl, model.CacheControl);
         Assert.Equal(expectedContent, model.Content);
         Assert.Equal(expectedEncryptedContent, model.EncryptedContent);
+        Assert.Equal(expectedSignature, model.Signature);
     }
 
     [Fact]
@@ -35,6 +38,7 @@ public class BetaCompactionBlockParamTest : TestBase
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Content = "content",
             EncryptedContent = "encrypted_content",
+            Signature = "signature",
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -54,6 +58,7 @@ public class BetaCompactionBlockParamTest : TestBase
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Content = "content",
             EncryptedContent = "encrypted_content",
+            Signature = "signature",
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -67,11 +72,13 @@ public class BetaCompactionBlockParamTest : TestBase
         BetaCacheControlEphemeral expectedCacheControl = new() { Ttl = Ttl.Ttl5m };
         string expectedContent = "content";
         string expectedEncryptedContent = "encrypted_content";
+        string expectedSignature = "signature";
 
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedCacheControl, deserialized.CacheControl);
         Assert.Equal(expectedContent, deserialized.Content);
         Assert.Equal(expectedEncryptedContent, deserialized.EncryptedContent);
+        Assert.Equal(expectedSignature, deserialized.Signature);
     }
 
     [Fact]
@@ -82,6 +89,7 @@ public class BetaCompactionBlockParamTest : TestBase
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Content = "content",
             EncryptedContent = "encrypted_content",
+            Signature = "signature",
         };
 
         model.Validate();
@@ -98,6 +106,8 @@ public class BetaCompactionBlockParamTest : TestBase
         Assert.False(model.RawData.ContainsKey("content"));
         Assert.Null(model.EncryptedContent);
         Assert.False(model.RawData.ContainsKey("encrypted_content"));
+        Assert.Null(model.Signature);
+        Assert.False(model.RawData.ContainsKey("signature"));
     }
 
     [Fact]
@@ -116,6 +126,7 @@ public class BetaCompactionBlockParamTest : TestBase
             CacheControl = null,
             Content = null,
             EncryptedContent = null,
+            Signature = null,
         };
 
         Assert.Null(model.CacheControl);
@@ -124,6 +135,8 @@ public class BetaCompactionBlockParamTest : TestBase
         Assert.True(model.RawData.ContainsKey("content"));
         Assert.Null(model.EncryptedContent);
         Assert.True(model.RawData.ContainsKey("encrypted_content"));
+        Assert.Null(model.Signature);
+        Assert.True(model.RawData.ContainsKey("signature"));
     }
 
     [Fact]
@@ -134,6 +147,7 @@ public class BetaCompactionBlockParamTest : TestBase
             CacheControl = null,
             Content = null,
             EncryptedContent = null,
+            Signature = null,
         };
 
         model.Validate();
@@ -147,6 +161,7 @@ public class BetaCompactionBlockParamTest : TestBase
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Content = "content",
             EncryptedContent = "encrypted_content",
+            Signature = "signature",
         };
 
         BetaCompactionBlockParam copied = new(model);

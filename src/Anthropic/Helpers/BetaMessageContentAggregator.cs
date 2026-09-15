@@ -279,7 +279,7 @@ public sealed class BetaMessageContentAggregator
                 PartialJsons(),
                 BetaMcpToolUseBlock.FromRawUnchecked
             ),
-            BetaCompactionBlock compactionBlock => new BetaCompactionBlock()
+            BetaCompactionBlock compactionBlock => compactionBlock with
             {
                 Content = MergeCompaction(compactionBlock.Content, d => d.Content),
                 EncryptedContent = MergeCompaction(

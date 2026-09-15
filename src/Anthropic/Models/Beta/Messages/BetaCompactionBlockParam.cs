@@ -71,6 +71,19 @@ public sealed record class BetaCompactionBlockParam : JsonModel
         init { this._rawData.Set("encrypted_content", value); }
     }
 
+    /// <summary>
+    /// The block's signature as returned, to be sent back verbatim
+    /// </summary>
+    public string? Signature
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("signature");
+        }
+        init { this._rawData.Set("signature", value); }
+    }
+
     /// <inheritdoc/>
     public override void Validate()
     {
@@ -81,6 +94,7 @@ public sealed record class BetaCompactionBlockParam : JsonModel
         this.CacheControl?.Validate();
         _ = this.Content;
         _ = this.EncryptedContent;
+        _ = this.Signature;
     }
 
     public BetaCompactionBlockParam()

@@ -151,6 +151,34 @@ public record class ContentBlock : ModelBase
         }
     }
 
+    public string? Signature
+    {
+        get
+        {
+            return this.Value switch
+            {
+                BetaTextBlock _ => null,
+                BetaThinkingBlock x => x.Signature,
+                BetaRedactedThinkingBlock _ => null,
+                BetaToolUseBlock _ => null,
+                BetaServerToolUseBlock _ => null,
+                BetaWebSearchToolResultBlock _ => null,
+                BetaWebFetchToolResultBlock _ => null,
+                BetaAdvisorToolResultBlock _ => null,
+                BetaCodeExecutionToolResultBlock _ => null,
+                BetaBashCodeExecutionToolResultBlock _ => null,
+                BetaTextEditorCodeExecutionToolResultBlock _ => null,
+                BetaToolSearchToolResultBlock _ => null,
+                BetaMcpToolUseBlock _ => null,
+                BetaMcpToolResultBlock _ => null,
+                BetaContainerUploadBlock _ => null,
+                BetaCompactionBlock x => x.Signature,
+                BetaFallbackBlock _ => null,
+                _ => WrappedJsonSerializer.GetNullableClassProperty<string>(this.Json, "signature"),
+            };
+        }
+    }
+
     public string? ID
     {
         get
