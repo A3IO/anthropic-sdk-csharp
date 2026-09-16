@@ -660,6 +660,34 @@ public class AnthropicClientCredentialsTests
     }
 
     [Fact]
+    public async Task OAuthBeta_IsJoinedToRequestBetasWithACommaAndNoSpace()
+    {
+        var handler = new FakeHandler();
+        using var client = new AnthropicClient(
+            new ClientOptions
+            {
+                Credentials = new FakeCredentials(),
+                HttpClient = new HttpClient(handler),
+            }
+        );
+
+        await client.Beta.Messages.Create(
+            new Anthropic.Models.Beta.Messages.MessageCreateParams()
+            {
+                MaxTokens = 1,
+                Model = "claude-sonnet-4-5",
+                Messages = [],
+                Betas = ["files-api-2025-04-14"],
+            }
+        );
+
+        Assert.Equal(
+            ["files-api-2025-04-14,oauth-2025-04-20"],
+            handler.LastRequest!.Headers.GetValues("anthropic-beta")
+        );
+    }
+
+    [Fact]
     public async Task ProviderIsCached_SingleFetchAcrossRequests()
     {
         // A user-supplied IAccessTokenProvider is wrapped in the internal TokenCache,

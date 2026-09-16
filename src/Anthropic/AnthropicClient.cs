@@ -568,7 +568,8 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
         // betas (e.g., files-api-2025-04-14) and the OAuth beta coexist without duplicates.
         if (requestMessage.Headers.TryGetValues("anthropic-beta", out var existing))
         {
-            foreach (var entry in existing)
+            var entries = existing.ToList();
+            foreach (var entry in entries)
             {
                 foreach (var part in entry.Split(','))
                 {
@@ -578,6 +579,9 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
                     }
                 }
             }
+            entries.Add(value);
+            requestMessage.Headers.Remove("anthropic-beta");
+            value = string.Join(",", entries);
         }
         requestMessage.Headers.TryAddWithoutValidation("anthropic-beta", value);
     }
