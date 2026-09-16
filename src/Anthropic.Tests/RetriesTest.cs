@@ -69,7 +69,12 @@ public class RetriesTest : TestBase
 
     record class UploadParams : ParamsBase
     {
-        public required BinaryContent File { get; init; }
+        public UploadParams(BinaryContent file)
+        {
+            File = file;
+        }
+
+        public BinaryContent File { get; }
 
         internal override void AddHeadersToRequest(
             HttpRequestMessage _request,
@@ -929,7 +934,7 @@ public class RetriesTest : TestBase
             new HttpRequest<UploadParams>
             {
                 Method = HttpMethod.Post,
-                Params = new() { File = Encoding.UTF8.GetBytes("file contents") },
+                Params = new(Encoding.UTF8.GetBytes("file contents")),
             },
             TestContext.Current.CancellationToken
         );
@@ -954,7 +959,7 @@ public class RetriesTest : TestBase
                 new HttpRequest<UploadParams>
                 {
                     Method = HttpMethod.Post,
-                    Params = new() { File = new BinaryContent { Stream = stream } },
+                    Params = new(new BinaryContent { Stream = stream }),
                 },
                 TestContext.Current.CancellationToken
             )
