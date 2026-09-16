@@ -173,6 +173,10 @@ public record struct ClientOptions
     ///
     /// <para>The API may also explicitly instruct the SDK to retry or not retry a request.</para>
     ///
+    /// <para>A request that uploads a file from a <c>Stream</c> is sent once and not retried, because the first
+    /// attempt consumes the stream; an upload whose files were given as byte arrays is retried like any other
+    /// request.</para>
+    ///
     /// <para>Defaults to 2 when null. Set to 0 to
     /// disable retries, which also ignores API instructions to retry.</para>
     /// </summary>

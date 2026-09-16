@@ -233,6 +233,12 @@ public abstract record class ParamsBase
         return null;
     }
 
+    /// <summary>
+    /// Whether <see cref="BodyContent"/> can produce the body again for a retry; when false the request is
+    /// sent once. A multipart body with a part that reads from a caller's stream can't: the first attempt consumes it.
+    /// </summary>
+    internal virtual bool IsBodyRepeatable() => true;
+
     internal static void AddDefaultHeaders(HttpRequestMessage request, ClientOptions options)
     {
         foreach (var header in defaultHeaders)

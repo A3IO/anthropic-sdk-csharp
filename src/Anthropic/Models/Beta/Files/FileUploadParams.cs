@@ -197,6 +197,9 @@ public record class FileUploadParams : ParamsBase
         return MultipartJsonSerializer.Serialize(RawBodyData);
     }
 
+    internal override bool IsBodyRepeatable() =>
+        MultipartJsonSerializer.IsRepeatable(this.RawBodyData);
+
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
     {
         ParamsBase.AddDefaultHeaders(request, options);

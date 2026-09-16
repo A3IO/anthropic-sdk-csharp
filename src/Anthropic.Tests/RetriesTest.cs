@@ -1,13 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Anthropic;
 using Anthropic.Core;
+using Anthropic.Exceptions;
 using Moq;
 using Moq.Protected;
 
@@ -61,6 +65,29 @@ public class RetriesTest : TestBase
         {
             return new Uri("http://localhost/something");
         }
+    }
+
+    record class UploadParams : ParamsBase
+    {
+        public required BinaryContent File { get; init; }
+
+        internal override void AddHeadersToRequest(
+            HttpRequestMessage _request,
+            ClientOptions _options
+        )
+        {
+            // do nothing
+        }
+
+        public override Uri Url(ClientOptions _options)
+        {
+            return new Uri("http://localhost/something");
+        }
+
+        internal override HttpContent? BodyContent() =>
+            MultipartJsonSerializer.Serialize(new Dictionary<string, object> { { "file", File } });
+
+        internal override bool IsBodyRepeatable() => File.IsRepeatable;
     }
 
     [Fact]
@@ -852,5 +879,88 @@ public class RetriesTest : TestBase
         culture.NumberFormat.NumberDecimalSeparator = ",";
         culture.NumberFormat.NumberGroupSeparator = ".";
         return culture;
+    }
+
+    static HttpClient UploadHttpClient(List<string> bodies)
+    {
+        var handlerMock = new Mock<HttpMessageHandler>();
+        handlerMock
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>()
+            )
+            .Returns<HttpRequestMessage, CancellationToken>(
+                async (req, ct) =>
+                {
+                    bodies.Add(await req.Content!.ReadAsStringAsync(
+#if NET
+                            ct
+#endif
+                        ));
+
+                    var response = new HttpResponseMessage()
+                    {
+                        StatusCode =
+                            bodies.Count == 1
+                                ? HttpStatusCode.ServiceUnavailable
+                                : HttpStatusCode.OK,
+                        Content = new StringContent("foo"),
+                    };
+                    // Retry straight away rather than after the default backoff.
+                    response.Headers.TryAddWithoutValidation("Retry-After-Ms", "1");
+                    return response;
+                }
+            );
+
+        return new HttpClient(handlerMock.Object);
+    }
+
+    [Fact]
+    public async Task UploadFromByteArray_IsRetried()
+    {
+        var bodies = new List<string>();
+        AnthropicClient client = new() { HttpClient = UploadHttpClient(bodies), MaxRetries = 2 };
+
+        // A file part created from a byte array can be sent again, so the 503 is retried and the second attempt
+        // carries the same bytes.
+        var resp = await client.WithRawResponse.Execute(
+            new HttpRequest<UploadParams>
+            {
+                Method = HttpMethod.Post,
+                Params = new() { File = Encoding.UTF8.GetBytes("file contents") },
+            },
+            TestContext.Current.CancellationToken
+        );
+
+        Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
+        Assert.Equal(2, bodies.Count);
+        Assert.Contains("file contents", bodies[0]);
+        Assert.Contains("file contents", bodies[1]);
+    }
+
+    [Fact]
+    public async Task UploadFromStream_IsSentOnce()
+    {
+        var bodies = new List<string>();
+        AnthropicClient client = new() { HttpClient = UploadHttpClient(bodies), MaxRetries = 2 };
+
+        // A file part that reads from a caller's stream is consumed by the first attempt, so the request is sent once
+        // and the 503 surfaces instead of being retried.
+        var stream = new MemoryStream(Encoding.UTF8.GetBytes("file contents"));
+        await Assert.ThrowsAnyAsync<AnthropicApiException>(() =>
+            client.WithRawResponse.Execute(
+                new HttpRequest<UploadParams>
+                {
+                    Method = HttpMethod.Post,
+                    Params = new() { File = new BinaryContent { Stream = stream } },
+                },
+                TestContext.Current.CancellationToken
+            )
+        );
+
+        var body = Assert.Single(bodies);
+        Assert.Contains("file contents", body);
     }
 }

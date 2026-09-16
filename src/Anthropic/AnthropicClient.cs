@@ -393,7 +393,10 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
     )
         where T : ParamsBase
     {
-        var maxRetries = this.MaxRetries ?? ClientOptions.DefaultMaxRetries;
+        // A body that reads from a caller's stream can only be sent once, so such a request gets no retries.
+        var maxRetries = request.Params.IsBodyRepeatable()
+            ? this.MaxRetries ?? ClientOptions.DefaultMaxRetries
+            : 0;
         var retries = 0;
         var authRetryConsumed = false;
         while (true)
