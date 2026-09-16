@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Anthropic.Core;
 using Anthropic.Credentials;
 using Anthropic.Exceptions;
+using Anthropic.Models.Files;
 using Anthropic.Models.Messages;
 
 namespace Anthropic.Tests.Credentials;
@@ -749,6 +750,78 @@ public class AnthropicClientCredentialsTests
 
         Assert.Equal(2, handler.Requests.Count);
         Assert.Equal(1, creds.ForceRefreshCount);
+    }
+
+    [Fact]
+    public async Task UnauthorizedResponse_StreamUpload_IsSentOnce()
+    {
+        // The first attempt reads the caller's stream to its end, so a refresh-and-retry would
+        // send an upload with nothing in it. The 401 surfaces instead.
+        var creds = new FakeCredentials((n, _) => new AccessToken($"token-{n}"));
+
+        var handler = new FakeHandler(
+            (_, _) =>
+                new HttpResponseMessage(HttpStatusCode.Unauthorized)
+                {
+                    Content = new StringContent("{}", Encoding.UTF8, "application/json"),
+                }
+        );
+
+        using var client = new AnthropicClient(
+            new ClientOptions
+            {
+                Credentials = creds,
+                HttpClient = new HttpClient(handler),
+                MaxRetries = 0,
+            }
+        );
+
+        var stream = new MemoryStream(Encoding.UTF8.GetBytes("file contents"));
+        var exception = await Assert.ThrowsAsync<AnthropicUnauthorizedException>(() =>
+            client.Files.Upload(
+                new FileUploadParams { File = new BinaryContent { Stream = stream } },
+                TestContext.Current.CancellationToken
+            )
+        );
+
+        Assert.Equal(HttpStatusCode.Unauthorized, exception.StatusCode);
+        Assert.Single(handler.Requests);
+    }
+
+    [Fact]
+    public async Task UnauthorizedResponse_ByteArrayUpload_RetriesOnce()
+    {
+        // Every attempt can send a byte array again, so this upload keeps the refresh-and-retry.
+        var creds = new FakeCredentials((n, _) => new AccessToken($"token-{(n == 1 ? "A" : "B")}"));
+
+        var handler = new FakeHandler(
+            (_, callNumber) =>
+                new HttpResponseMessage(
+                    callNumber == 1 ? HttpStatusCode.Unauthorized : HttpStatusCode.OK
+                )
+                {
+                    Content = new StringContent("{}", Encoding.UTF8, "application/json"),
+                }
+        );
+
+        using var client = new AnthropicClient(
+            new ClientOptions
+            {
+                Credentials = creds,
+                HttpClient = new HttpClient(handler),
+                MaxRetries = 0,
+            }
+        );
+
+        using var response = await client.WithRawResponse.Files.Upload(
+            new FileUploadParams { File = Encoding.UTF8.GetBytes("file contents") },
+            TestContext.Current.CancellationToken
+        );
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(2, handler.Requests.Count);
+        Assert.Equal("token-A", handler.Requests[0].Headers.Authorization!.Parameter);
+        Assert.Equal("token-B", handler.Requests[1].Headers.Authorization!.Parameter);
     }
 
     [Fact]

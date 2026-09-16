@@ -417,12 +417,12 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
 
             // 401 with token credentials: force-refresh the token and retry once.
             // Gated on retries == 0 so an auth retry never stacks on top of a transport
-            // retry. Body replayability is not gated separately — ExecuteOnce rebuilds the
-            // body from request.Params on every attempt, the same as the transport-retry path.
+            // retry, and on IsBodyRepeatable because a multipart body reads from the caller's
+            // streams, which the first attempt has already consumed.
             if (response?.StatusCode == HttpStatusCode.Unauthorized && UsingTokenCredentials)
             {
                 // UsingTokenCredentials => _tokenCache != null, so the ! deref is safe.
-                if (!authRetryConsumed && retries == 0)
+                if (!authRetryConsumed && retries == 0 && request.Params.IsBodyRepeatable())
                 {
                     authRetryConsumed = true;
                     var failedToken = _tokenCache!.Cached?.Token;
