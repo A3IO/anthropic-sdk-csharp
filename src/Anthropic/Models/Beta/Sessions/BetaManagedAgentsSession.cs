@@ -329,9 +329,25 @@ class BetaManagedAgentsSessionFromRaw : IFromRawJson<BetaManagedAgentsSession>
 [JsonConverter(typeof(BetaManagedAgentsSessionStatusConverter))]
 public enum BetaManagedAgentsSessionStatus
 {
+    /// <summary>
+    /// Transient error occurred, retrying automatically.
+    /// </summary>
     Rescheduling,
+
+    /// <summary>
+    /// Agent is actively executing.
+    /// </summary>
     Running,
+
+    /// <summary>
+    /// Agent is waiting for input, including user messages or tool confirmations.
+    /// Sessions start in idle.
+    /// </summary>
     Idle,
+
+    /// <summary>
+    /// Session has ended, either due to an error or completion.
+    /// </summary>
     Terminated,
 }
 
