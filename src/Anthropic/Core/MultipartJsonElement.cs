@@ -271,7 +271,7 @@ public static class MultipartJsonSerializer
                         && multipartElement.BinaryContents.TryGetValue(guid, out var binaryContent)
                     )
                     {
-                        content = new StreamContent(binaryContent.Stream);
+                        content = binaryContent.ToHttpContent();
                         content.Headers.ContentType = binaryContent.ContentType;
                         fileName = binaryContent.FileName;
                     }
@@ -324,6 +324,17 @@ public static class MultipartJsonSerializer
         SerializeParts("", multipartElement.Json);
         return formDataContent;
     }
+
+    /// <summary>
+    /// Whether every binary part of the given body can be sent again on a retry; false when any part reads from
+    /// a caller's stream (see <see cref="BinaryContent.IsRepeatable"/>).
+    /// </summary>
+    internal static bool IsRepeatable(IReadOnlyDictionary<string, MultipartJsonElement> body) =>
+        Enumerable.All(
+            body.Values,
+            (element) =>
+                Enumerable.All(element.BinaryContents.Values, (content) => content.IsRepeatable)
+        );
 }
 
 /// <summary>

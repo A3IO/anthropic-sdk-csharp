@@ -689,10 +689,29 @@ sealed class BetaManagedAgentsModelConfigParamsEffortConverter
 [JsonConverter(typeof(BetaManagedAgentsEffortLevelConverter))]
 public enum BetaManagedAgentsEffortLevel
 {
+    /// <summary>
+    /// Low effort. Favors latency over reasoning depth.
+    /// </summary>
     Low,
+
+    /// <summary>
+    /// Medium effort. Balances latency and reasoning depth.
+    /// </summary>
     Medium,
+
+    /// <summary>
+    /// High effort. Favors reasoning depth.
+    /// </summary>
     High,
+
+    /// <summary>
+    /// Extra-high effort. Not all models accept this level.
+    /// </summary>
     Xhigh,
+
+    /// <summary>
+    /// Maximum effort. Favors reasoning depth over latency.
+    /// </summary>
     Max,
 }
 

@@ -1120,6 +1120,54 @@ public class BetaMessageStreamingAggregationTest
     }
 
     [Fact]
+    public async Task CreateStreamingAggregation_CompactionBlockDoesNotAddAbsentEncryptedContent()
+    {
+        var stream = await CompactionStream(
+            """{"type":"compaction","content":null,"signature":"sig_01"}""",
+            """{"type":"compaction_delta","content":"Summary."}"""
+        );
+
+        var compaction = Assert.IsType<BetaCompactionBlock>(Assert.Single(stream.Content).Value);
+        Assert.Equal("Summary.", compaction.Content);
+        Assert.False(compaction.RawData.ContainsKey("encrypted_content"));
+        Assert.Equal("sig_01", compaction.Signature);
+    }
+
+    [Fact]
+    public async Task CreateStreamingAggregation_CompactionBlockAddsEncryptedContentFromDelta()
+    {
+        var stream = await CompactionStream(
+            """{"type":"compaction","content":null,"signature":"sig_01"}""",
+            """{"type":"compaction_delta","content":"Summary.","encrypted_content":"opaque"}"""
+        );
+
+        var compaction = Assert.IsType<BetaCompactionBlock>(Assert.Single(stream.Content).Value);
+        Assert.Equal("opaque", compaction.EncryptedContent);
+        Assert.True(compaction.RawData.ContainsKey("encrypted_content"));
+    }
+
+    private static async Task<BetaMessage> CompactionStream(string startBlockJson, string deltaJson)
+    {
+        static BetaRawMessageStreamEvent Event(string json) =>
+            JsonSerializer.Deserialize<BetaRawMessageStreamEvent>(json)!;
+        async IAsyncEnumerable<BetaRawMessageStreamEvent> GetTestValues()
+        {
+            yield return new(new BetaRawMessageStartEvent(GenerateStartMessage));
+            yield return Event(
+                $$"""{"type":"content_block_start","index":0,"content_block":{{startBlockJson}}}"""
+            );
+            yield return Event(
+                $$"""{"type":"content_block_delta","index":0,"delta":{{deltaJson}}}"""
+            );
+            yield return new(new BetaRawContentBlockStopEvent() { Index = 0 });
+            yield return new(new BetaRawMessageStopEvent());
+            await Task.CompletedTask;
+        }
+
+        return await GetTestValues().Aggregate();
+    }
+
+    [Fact]
     public async Task CreateStreamingAggregation_PassesThroughBlocksWithoutDeltaVariants()
     {
         static async IAsyncEnumerable<BetaRawMessageStreamEvent> GetTestValues()

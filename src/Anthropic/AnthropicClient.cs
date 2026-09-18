@@ -393,7 +393,10 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
     )
         where T : ParamsBase
     {
-        var maxRetries = this.MaxRetries ?? ClientOptions.DefaultMaxRetries;
+        // A body that reads from a caller's stream can only be sent once, so such a request gets no retries.
+        var maxRetries = request.Params.IsBodyRepeatable()
+            ? this.MaxRetries ?? ClientOptions.DefaultMaxRetries
+            : 0;
         var retries = 0;
         var authRetryConsumed = false;
         while (true)
@@ -414,12 +417,12 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
 
             // 401 with token credentials: force-refresh the token and retry once.
             // Gated on retries == 0 so an auth retry never stacks on top of a transport
-            // retry. Body replayability is not gated separately — ExecuteOnce rebuilds the
-            // body from request.Params on every attempt, the same as the transport-retry path.
+            // retry, and on IsBodyRepeatable because a multipart body reads from the caller's
+            // streams, which the first attempt has already consumed.
             if (response?.StatusCode == HttpStatusCode.Unauthorized && UsingTokenCredentials)
             {
                 // UsingTokenCredentials => _tokenCache != null, so the ! deref is safe.
-                if (!authRetryConsumed && retries == 0)
+                if (!authRetryConsumed && retries == 0 && request.Params.IsBodyRepeatable())
                 {
                     authRetryConsumed = true;
                     var failedToken = _tokenCache!.Cached?.Token;
@@ -565,7 +568,8 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
         // betas (e.g., files-api-2025-04-14) and the OAuth beta coexist without duplicates.
         if (requestMessage.Headers.TryGetValues("anthropic-beta", out var existing))
         {
-            foreach (var entry in existing)
+            var entries = existing.ToList();
+            foreach (var entry in entries)
             {
                 foreach (var part in entry.Split(','))
                 {
@@ -575,6 +579,9 @@ public class AnthropicClientWithRawResponse : IAnthropicClientWithRawResponse
                     }
                 }
             }
+            entries.Add(value);
+            requestMessage.Headers.Remove("anthropic-beta");
+            value = string.Join(",", entries);
         }
         requestMessage.Headers.TryAddWithoutValidation("anthropic-beta", value);
     }

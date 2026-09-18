@@ -17,7 +17,7 @@ public class BetaToolRunnerTest
 {
     private static readonly JsonSerializerOptions s_jsonOptions = new();
 
-    private static BetaMessage MakeMessage(
+    internal static BetaMessage MakeMessage(
         IReadOnlyList<BetaContentBlock> content,
         BetaStopReason stopReason = BetaStopReason.EndTurn,
         BetaContainer? container = null
@@ -52,13 +52,13 @@ public class BetaToolRunnerTest
         };
     }
 
-    private static BetaContentBlock MakeTextBlock(string text)
+    internal static BetaContentBlock MakeTextBlock(string text)
     {
         var json = JsonSerializer.SerializeToElement(new { type = "text", text });
         return JsonSerializer.Deserialize<BetaContentBlock>(json, s_jsonOptions)!;
     }
 
-    private static BetaContentBlock MakeToolUseBlock(
+    internal static BetaContentBlock MakeToolUseBlock(
         string id,
         string name,
         Dictionary<string, JsonElement> input
@@ -110,7 +110,7 @@ public class BetaToolRunnerTest
         return JsonSerializer.Deserialize<BetaContentBlock>(json, s_jsonOptions)!;
     }
 
-    private static MessageCreateParams BaseParams =>
+    internal static MessageCreateParams BaseParams =>
         new()
         {
             MaxTokens = 1024,
@@ -145,7 +145,7 @@ public class BetaToolRunnerTest
             Run = run,
         };
 
-    private static BetaRunnableTool MakeWeatherToolSync(Func<BetaToolUseBlock, string> run) =>
+    internal static BetaRunnableTool MakeWeatherToolSync(Func<BetaToolUseBlock, string> run) =>
         new()
         {
             Name = "get_weather",
@@ -1024,7 +1024,7 @@ public class BetaToolRunnerTest
         );
     }
 
-    private static async IAsyncEnumerable<BetaRawMessageStreamEvent> MakeEventStream(
+    internal static async IAsyncEnumerable<BetaRawMessageStreamEvent> MakeEventStream(
         params string[] jsonEvents
     )
     {
@@ -1798,7 +1798,7 @@ public class BetaToolRunnerTest
 
     // --- pause_turn ---
 
-    private static BetaMessage MakePausedTurn() =>
+    internal static BetaMessage MakePausedTurn() =>
         MakeMessage(
             [
                 MakeTextBlock("Let me look that up."),

@@ -485,9 +485,25 @@ sealed class OrderConverter : JsonConverter<Order>
 [JsonConverter(typeof(StatusConverter))]
 public enum Status
 {
+    /// <summary>
+    /// Transient error occurred, retrying automatically.
+    /// </summary>
     Rescheduling,
+
+    /// <summary>
+    /// Agent is actively executing.
+    /// </summary>
     Running,
+
+    /// <summary>
+    /// Agent is waiting for input, including user messages or tool confirmations.
+    /// Sessions start in idle.
+    /// </summary>
     Idle,
+
+    /// <summary>
+    /// Session has ended, either due to an error or completion.
+    /// </summary>
     Terminated,
 }
 

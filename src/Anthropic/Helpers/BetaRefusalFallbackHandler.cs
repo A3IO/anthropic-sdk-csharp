@@ -314,7 +314,17 @@ public sealed class BetaRefusalFallbackHandler : DelegatingHandler
         }
         if (missing.Count > 0)
         {
-            copied.Add(new KeyValuePair<string, string[]>("anthropic-beta", [.. missing]));
+            var values = copied
+                .Where(header =>
+                    string.Equals(header.Key, "anthropic-beta", StringComparison.OrdinalIgnoreCase)
+                )
+                .SelectMany(header => header.Value)
+                .Concat(missing);
+            var joined = string.Join(",", values);
+            copied.RemoveAll(header =>
+                string.Equals(header.Key, "anthropic-beta", StringComparison.OrdinalIgnoreCase)
+            );
+            copied.Add(new KeyValuePair<string, string[]>("anthropic-beta", [joined]));
         }
         copied.Add(
             new KeyValuePair<string, string[]>(
