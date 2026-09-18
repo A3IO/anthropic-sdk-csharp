@@ -19,6 +19,12 @@ namespace Anthropic.Models.Beta.Dreams;
 )]
 public sealed record class BetaDreamMemoryStoreInput : JsonModel
 {
+    /// <summary>
+    /// The ID of the memory store for the dream to read (`memstore_...`).
+    ///
+    /// <para>The memory store must be in the same workspace as the dream and must
+    /// not be archived.</para>
+    /// </summary>
     public required string MemoryStoreID
     {
         get

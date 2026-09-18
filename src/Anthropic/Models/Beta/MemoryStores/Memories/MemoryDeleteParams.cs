@@ -23,6 +23,13 @@ public record class MemoryDeleteParams : ParamsBase
 
     public string? MemoryID { get; init; }
 
+    /// <summary>
+    /// Delete the memory only if its current `content_sha256` equals this value,
+    /// given as 64 lowercase hexadecimal characters. Omit it to delete unconditionally.
+    ///
+    /// <para>If the hashes differ, the request fails with HTTP status 409 and nothing
+    /// is deleted.</para>
+    /// </summary>
     public string? ExpectedContentSha256
     {
         get

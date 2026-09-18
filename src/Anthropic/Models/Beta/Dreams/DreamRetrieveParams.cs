@@ -11,7 +11,12 @@ using Anthropic.Services.Beta;
 namespace Anthropic.Models.Beta.Dreams;
 
 /// <summary>
-/// Get a Dream
+/// Get a dream by ID to check its status, output memory store, and token usage.
+///
+/// <para>Archived dreams are returned too.</para>
+///
+/// <para>See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#track-progress)
+/// for how to poll a dream and what each status means.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

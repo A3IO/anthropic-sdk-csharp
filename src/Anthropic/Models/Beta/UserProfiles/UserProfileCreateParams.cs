@@ -331,7 +331,15 @@ public record class UserProfileCreateParams : ParamsBase
 [JsonConverter(typeof(AccessTypeConverter))]
 public enum AccessType
 {
+    /// <summary>
+    /// The user profile represents an individual end-user of a product that the
+    /// platform builds on the API. New profiles get this value by default.
+    /// </summary>
     Application,
+
+    /// <summary>
+    /// The user profile represents a company that the platform resells Claude access to.
+    /// </summary>
     Passthrough,
 }
 

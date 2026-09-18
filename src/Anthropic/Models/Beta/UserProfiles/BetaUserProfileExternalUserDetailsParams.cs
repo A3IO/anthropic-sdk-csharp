@@ -196,8 +196,21 @@ class BetaUserProfileExternalUserDetailsParamsFromRaw
 [JsonConverter(typeof(BetaUserProfileExternalUserDetailsParamsAccountStatusConverter))]
 public enum BetaUserProfileExternalUserDetailsParamsAccountStatus
 {
+    /// <summary>
+    /// The platform has neither restricted nor barred the account of the entity
+    /// that the user profile represents.
+    /// </summary>
     Active,
+
+    /// <summary>
+    /// The platform has restricted the account of the entity that the user profile
+    /// represents and may restore it.
+    /// </summary>
     Suspended,
+
+    /// <summary>
+    /// The platform has barred the account of the entity that the user profile represents.
+    /// </summary>
     Blocked,
 }
 

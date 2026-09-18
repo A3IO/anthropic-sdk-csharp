@@ -21,6 +21,9 @@ namespace Anthropic.Models.Beta.UserProfiles;
 /// </summary>
 public record class UserProfileListParams : ParamsBase
 {
+    /// <summary>
+    /// The maximum number of user profiles to return, from 1 to 100. Defaults to 20.
+    /// </summary>
     public int? Limit
     {
         get
@@ -40,7 +43,8 @@ public record class UserProfileListParams : ParamsBase
     }
 
     /// <summary>
-    /// ListOrder enum
+    /// The sort direction, applied to the field that `order_by` selects. Defaults
+    /// to `desc`.
     /// </summary>
     public ApiEnum<string, Order>? Order
     {
@@ -61,8 +65,8 @@ public record class UserProfileListParams : ParamsBase
     }
 
     /// <summary>
-    /// Sort field for listing user profiles: `created_at` (default) or `name` (case-insensitive;
-    /// profiles without a name sort last).
+    /// The field to sort user profiles by, in the direction that `order` sets. Defaults
+    /// to `created_at`.
     /// </summary>
     public ApiEnum<string, OrderBy>? OrderBy
     {
@@ -82,6 +86,11 @@ public record class UserProfileListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// The cursor for the page to return, taken from `next_page` in a previous response.
+    ///
+    /// <para>Leave it out to get the first page.</para>
+    /// </summary>
     public string? Page
     {
         get
@@ -245,12 +254,21 @@ public record class UserProfileListParams : ParamsBase
 }
 
 /// <summary>
-/// ListOrder enum
+/// The sort direction, applied to the field that `order_by` selects. Defaults to `desc`.
 /// </summary>
 [JsonConverter(typeof(OrderConverter))]
 public enum Order
 {
+    /// <summary>
+    /// Oldest first when `order_by` is `created_at`, or names in ascending order
+    /// when `order_by` is `name`.
+    /// </summary>
     Asc,
+
+    /// <summary>
+    /// Newest first when `order_by` is `created_at`, or names in descending order
+    /// when `order_by` is `name`. This is the default.
+    /// </summary>
     Desc,
 }
 
@@ -288,13 +306,21 @@ sealed class OrderConverter : JsonConverter<Order>
 }
 
 /// <summary>
-/// Sort field for listing user profiles: `created_at` (default) or `name` (case-insensitive;
-/// profiles without a name sort last).
+/// The field to sort user profiles by, in the direction that `order` sets. Defaults
+/// to `created_at`.
 /// </summary>
 [JsonConverter(typeof(OrderByConverter))]
 public enum OrderBy
 {
+    /// <summary>
+    /// Sort by when each user profile was created. This is the default.
+    /// </summary>
     CreatedAt,
+
+    /// <summary>
+    /// Sort by `name`, ignoring the case of ASCII letters. Profiles without a name
+    /// come last in either direction.
+    /// </summary>
     Name,
 }
 

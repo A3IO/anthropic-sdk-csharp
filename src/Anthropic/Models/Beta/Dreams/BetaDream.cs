@@ -20,6 +20,9 @@ namespace Anthropic.Models.Beta.Dreams;
 [JsonConverter(typeof(JsonModelConverter<BetaDream, BetaDreamFromRaw>))]
 public sealed record class BetaDream : JsonModel
 {
+    /// <summary>
+    /// The unique ID of the dream (`drm_...`).
+    /// </summary>
     public required string ID
     {
         get
@@ -82,6 +85,9 @@ public sealed record class BetaDream : JsonModel
         init { this._rawData.Set("error", value); }
     }
 
+    /// <summary>
+    /// The sources that the dream reads, from the request that created it.
+    /// </summary>
     public required IReadOnlyList<BetaDreamInput> Inputs
     {
         get
@@ -98,6 +104,9 @@ public sealed record class BetaDream : JsonModel
         }
     }
 
+    /// <summary>
+    /// The guidance given when the dream was created, or `null` if none was given.
+    /// </summary>
     public required string? Instructions
     {
         get
@@ -122,6 +131,10 @@ public sealed record class BetaDream : JsonModel
         init { this._rawData.Set("model", value); }
     }
 
+    /// <summary>
+    /// Which memory store a dream writes its result to. Defaults to `create_new`
+    /// when left out of a create request.
+    /// </summary>
     public required BetaOutputBehavior OutputBehavior
     {
         get
@@ -132,6 +145,18 @@ public sealed record class BetaDream : JsonModel
         init { this._rawData.Set("output_behavior", value); }
     }
 
+    /// <summary>
+    /// The memory store that holds the dream's result, as a one-item array, or an
+    /// empty array until the dream records that memory store.
+    ///
+    /// <para>The array is empty while the dream is `pending` and for a short time
+    /// after it starts `running`. It can stay empty if the dream fails or is canceled
+    /// before then. The memory store holds the complete result only once `status`
+    /// is `completed`.</para>
+    ///
+    /// <para>See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#use-the-output)
+    /// for how to review and use the result.</para>
+    /// </summary>
     public required IReadOnlyList<BetaDreamOutput> Outputs
     {
         get
@@ -148,6 +173,15 @@ public sealed record class BetaDream : JsonModel
         }
     }
 
+    /// <summary>
+    /// The ID of the session that runs the dream (`sesn_...`), or `null` if that
+    /// session hasn't started.
+    ///
+    /// <para>Stream that session's events to follow what the dream reads and writes.</para>
+    ///
+    /// <para>See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#watch-the-pipeline-run)
+    /// for how to watch a running dream.</para>
+    /// </summary>
     public required string? SessionID
     {
         get

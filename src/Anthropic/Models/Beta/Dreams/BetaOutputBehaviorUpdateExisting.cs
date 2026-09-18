@@ -22,6 +22,10 @@ namespace Anthropic.Models.Beta.Dreams;
 )]
 public sealed record class BetaOutputBehaviorUpdateExisting : JsonModel
 {
+    /// <summary>
+    /// The ID of the memory store for the dream to write its result to (`memstore_...`).
+    /// It must be the memory store in the `memory_store` entry of `inputs`.
+    /// </summary>
     public required string MemoryStoreID
     {
         get

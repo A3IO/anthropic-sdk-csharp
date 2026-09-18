@@ -16,6 +16,15 @@ namespace Anthropic.Models.Beta.Dreams;
 [JsonConverter(typeof(JsonModelConverter<BetaDreamSessionsInput, BetaDreamSessionsInputFromRaw>))]
 public sealed record class BetaDreamSessionsInput : JsonModel
 {
+    /// <summary>
+    /// The IDs of the sessions whose transcripts the dream reads (`sesn_...`).
+    ///
+    /// <para>Give 1 to 100 IDs, with no duplicates. Each session must be in the
+    /// same workspace as the dream. Responses list the IDs in sorted order.</para>
+    ///
+    /// <para>The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#limits)
+    /// lists all the limits on a dream.</para>
+    /// </summary>
     public required IReadOnlyList<string> SessionIds
     {
         get

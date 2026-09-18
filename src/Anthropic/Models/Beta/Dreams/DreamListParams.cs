@@ -11,7 +11,12 @@ using Anthropic.Services.Beta;
 namespace Anthropic.Models.Beta.Dreams;
 
 /// <summary>
-/// List Dreams
+/// List the dreams in the workspace, newest first.
+///
+/// <para>Archived dreams are left out unless `include_archived` is `true`.</para>
+///
+/// <para>See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#list-dreams)
+/// for how to page through dreams.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -63,6 +68,9 @@ public record class DreamListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Whether to include archived dreams. Defaults to `false`.
+    /// </summary>
     public bool? IncludeArchived
     {
         get
@@ -81,6 +89,9 @@ public record class DreamListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// The maximum number of dreams to return, from 1 to 100. Defaults to 20.
+    /// </summary>
     public int? Limit
     {
         get
@@ -99,6 +110,11 @@ public record class DreamListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// The cursor for the page to return, taken from `next_page` in a previous response.
+    ///
+    /// <para>Leave it out to get the first page.</para>
+    /// </summary>
     public string? Page
     {
         get

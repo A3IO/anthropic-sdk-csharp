@@ -22,6 +22,9 @@ public record class MemoryVersionListParams : ParamsBase
 {
     public string? MemoryStoreID { get; init; }
 
+    /// <summary>
+    /// Return only versions written with the API key that has this ID.
+    /// </summary>
     public string? ApiKeyID
     {
         get
@@ -82,6 +85,9 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// The maximum number of versions to return per page. Defaults to 20.
+    /// </summary>
     public int? Limit
     {
         get
@@ -100,6 +106,12 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Return only versions of the memory with this ID (`mem_...`).
+    ///
+    /// <para>The filter still works after the memory is deleted. The results then
+    /// include the version whose `operation` is `deleted`.</para>
+    /// </summary>
     public string? MemoryID
     {
         get
@@ -119,8 +131,7 @@ public record class MemoryVersionListParams : ParamsBase
     }
 
     /// <summary>
-    /// The kind of mutation a `memory_version` records. Every non-no-op mutation
-    /// to a memory appends exactly one version row with one of these values.
+    /// Return only versions that record this kind of change.
     /// </summary>
     public ApiEnum<string, BetaManagedAgentsMemoryVersionOperation>? Operation
     {
@@ -142,6 +153,10 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// The `next_page` value from a previous response, to get the next page. Omit
+    /// it to get the first page.
+    /// </summary>
     public string? Page
     {
         get
@@ -160,6 +175,9 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Return only versions written by the service account with this ID (`svac_...`).
+    /// </summary>
     public string? ServiceAccountID
     {
         get
@@ -178,6 +196,9 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Return only versions written by the session with this ID.
+    /// </summary>
     public string? SessionID
     {
         get
