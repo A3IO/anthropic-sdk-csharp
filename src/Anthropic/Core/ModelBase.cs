@@ -288,9 +288,9 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Sessions::Order>(),
             new ApiEnumConverter<string, Sessions::Status>(),
             new ApiEnumConverter<string, Events::Type>(),
+            new ApiEnumConverter<string, Events::BetaManagedAgentsAgentEvaluatedPermission>(),
             new ApiEnumConverter<string, Events::BetaManagedAgentsAgentMcpToolResultEventType>(),
             new ApiEnumConverter<string, Events::BetaManagedAgentsAgentMcpToolUseEventType>(),
-            new ApiEnumConverter<string, Events::EvaluatedPermission>(),
             new ApiEnumConverter<string, Events::BetaManagedAgentsAgentMessageEventType>(),
             new ApiEnumConverter<string, Events::BetaManagedAgentsAgentThinkingEventType>(),
             new ApiEnumConverter<
@@ -307,10 +307,6 @@ public abstract record class ModelBase
             >(),
             new ApiEnumConverter<string, Events::BetaManagedAgentsAgentToolResultEventType>(),
             new ApiEnumConverter<string, Events::BetaManagedAgentsAgentToolUseEventType>(),
-            new ApiEnumConverter<
-                string,
-                Events::BetaManagedAgentsAgentToolUseEventEvaluatedPermission
-            >(),
             new ApiEnumConverter<string, Events::BetaManagedAgentsBase64DocumentSourceType>(),
             new ApiEnumConverter<string, Events::BetaManagedAgentsBase64ImageSourceType>(),
             new ApiEnumConverter<string, Events::BetaManagedAgentsBillingErrorType>(),

@@ -106,14 +106,14 @@ public sealed record class BetaManagedAgentsAgentMcpToolUseEvent : JsonModel
     /// <summary>
     /// AgentEvaluatedPermission enum
     /// </summary>
-    public ApiEnum<string, EvaluatedPermission>? EvaluatedPermission
+    public ApiEnum<string, BetaManagedAgentsAgentEvaluatedPermission>? EvaluatedPermission
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, EvaluatedPermission>>(
-                "evaluated_permission"
-            );
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, BetaManagedAgentsAgentEvaluatedPermission>
+            >("evaluated_permission");
         }
         init
         {
@@ -254,56 +254,6 @@ sealed class BetaManagedAgentsAgentMcpToolUseEventTypeConverter
             value switch
             {
                 BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse => "agent.mcp_tool_use",
-                _ => throw new AnthropicInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
-/// AgentEvaluatedPermission enum
-/// </summary>
-[JsonConverter(typeof(EvaluatedPermissionConverter))]
-public enum EvaluatedPermission
-{
-    Allow,
-    Ask,
-    Deny,
-}
-
-sealed class EvaluatedPermissionConverter : JsonConverter<EvaluatedPermission>
-{
-    public override EvaluatedPermission Read(
-        ref Utf8JsonReader reader,
-        System::Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "allow" => EvaluatedPermission.Allow,
-            "ask" => EvaluatedPermission.Ask,
-            "deny" => EvaluatedPermission.Deny,
-            _ => (EvaluatedPermission)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        EvaluatedPermission value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                EvaluatedPermission.Allow => "allow",
-                EvaluatedPermission.Ask => "ask",
-                EvaluatedPermission.Deny => "deny",
                 _ => throw new AnthropicInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

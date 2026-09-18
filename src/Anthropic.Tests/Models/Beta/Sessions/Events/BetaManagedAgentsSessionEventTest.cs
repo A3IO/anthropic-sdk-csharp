@@ -156,7 +156,7 @@ public class BetaManagedAgentsSessionEventTest : TestBase
                 Name = "name",
                 ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Type = Events::BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
-                EvaluatedPermission = Events::EvaluatedPermission.Allow,
+                EvaluatedPermission = Events::BetaManagedAgentsAgentEvaluatedPermission.Allow,
                 Evaluation = new Events::BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
                 SessionThreadID = "session_thread_id",
             };
@@ -200,8 +200,7 @@ public class BetaManagedAgentsSessionEventTest : TestBase
                 Name = "name",
                 ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Type = Events::BetaManagedAgentsAgentToolUseEventType.AgentToolUse,
-                EvaluatedPermission =
-                    Events::BetaManagedAgentsAgentToolUseEventEvaluatedPermission.Allow,
+                EvaluatedPermission = Events::BetaManagedAgentsAgentEvaluatedPermission.Allow,
                 Evaluation = new Events::BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
                 SessionThreadID = "session_thread_id",
             };
@@ -993,7 +992,7 @@ public class BetaManagedAgentsSessionEventTest : TestBase
                 Name = "name",
                 ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Type = Events::BetaManagedAgentsAgentMcpToolUseEventType.AgentMcpToolUse,
-                EvaluatedPermission = Events::EvaluatedPermission.Allow,
+                EvaluatedPermission = Events::BetaManagedAgentsAgentEvaluatedPermission.Allow,
                 Evaluation = new Events::BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
                 SessionThreadID = "session_thread_id",
             };
@@ -1049,8 +1048,7 @@ public class BetaManagedAgentsSessionEventTest : TestBase
                 Name = "name",
                 ProcessedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Type = Events::BetaManagedAgentsAgentToolUseEventType.AgentToolUse,
-                EvaluatedPermission =
-                    Events::BetaManagedAgentsAgentToolUseEventEvaluatedPermission.Allow,
+                EvaluatedPermission = Events::BetaManagedAgentsAgentEvaluatedPermission.Allow,
                 Evaluation = new Events::BetaManagedAgentsAgentToolEvaluationAlwaysAllow(),
                 SessionThreadID = "session_thread_id",
             };
@@ -1825,6 +1823,7 @@ public class BetaManagedAgentsSessionEventTest : TestBase
                   "tool_use_id": "tool_use_id",
                   "is_error": true,
                   "name": "name",
+                  "evaluated_permission": "allow",
                   "evaluation": {
                     "type": "always_allow"
                   },
@@ -1850,6 +1849,10 @@ public class BetaManagedAgentsSessionEventTest : TestBase
         string expectedToolUseID = "tool_use_id";
         bool expectedIsError = true;
         string expectedName = "name";
+        ApiEnum<
+            string,
+            Events::BetaManagedAgentsAgentEvaluatedPermission
+        > expectedEvaluatedPermission = Events::BetaManagedAgentsAgentEvaluatedPermission.Allow;
         Events::BetaManagedAgentsAgentToolEvaluation expectedEvaluation =
             new Events::BetaManagedAgentsAgentToolEvaluationAlwaysAllow();
         string expectedAgentName = "Researcher";
@@ -1867,6 +1870,7 @@ public class BetaManagedAgentsSessionEventTest : TestBase
         Assert.Equal(expectedToolUseID, value.ToolUseID);
         Assert.Equal(expectedIsError, value.IsError);
         Assert.Equal(expectedName, value.Name);
+        Assert.Equal(expectedEvaluatedPermission, value.EvaluatedPermission);
         Assert.Equal(expectedEvaluation, value.Evaluation);
         Assert.Equal(expectedAgentName, value.AgentName);
         Assert.Equal(expectedIteration, value.Iteration);
@@ -1883,6 +1887,7 @@ public class BetaManagedAgentsSessionEventTest : TestBase
         Assert.Null(emptyValue.ToolUseID);
         Assert.Null(emptyValue.IsError);
         Assert.Null(emptyValue.Name);
+        Assert.Null(emptyValue.EvaluatedPermission);
         Assert.Null(emptyValue.Evaluation);
         Assert.Null(emptyValue.AgentName);
         Assert.Null(emptyValue.Iteration);
