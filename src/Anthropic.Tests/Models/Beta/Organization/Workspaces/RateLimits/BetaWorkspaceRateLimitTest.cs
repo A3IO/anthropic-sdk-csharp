@@ -3,6 +3,7 @@ using System.Text.Json;
 using Anthropic.Core;
 using Anthropic.Exceptions;
 using Anthropic.Models.Beta.Organization.Workspaces.RateLimits;
+using RateLimits = Anthropic.Models.Beta.Organization.RateLimits;
 
 namespace Anthropic.Tests.Models.Beta.Organization.Workspaces.RateLimits;
 
@@ -13,6 +14,11 @@ public class BetaWorkspaceRateLimitTest : TestBase
     {
         var model = new BetaWorkspaceRateLimit
         {
+            Group = new RateLimits::BetaOrganizationRateLimitModelGroup()
+            {
+                ID = "id",
+                DisplayName = "display_name",
+            },
             GroupType = BetaWorkspaceRateLimitGroupType.Batch,
             Limits =
             [
@@ -28,6 +34,11 @@ public class BetaWorkspaceRateLimitTest : TestBase
             WorkspaceID = "workspace_id",
         };
 
+        Group expectedGroup = new RateLimits::BetaOrganizationRateLimitModelGroup()
+        {
+            ID = "id",
+            DisplayName = "display_name",
+        };
         ApiEnum<string, BetaWorkspaceRateLimitGroupType> expectedGroupType =
             BetaWorkspaceRateLimitGroupType.Batch;
         List<BetaWorkspaceRateLimitValue> expectedLimits =
@@ -44,6 +55,7 @@ public class BetaWorkspaceRateLimitTest : TestBase
         JsonElement expectedType = JsonSerializer.SerializeToElement("workspace_rate_limit");
         string expectedWorkspaceID = "workspace_id";
 
+        Assert.Equal(expectedGroup, model.Group);
         Assert.Equal(expectedGroupType, model.GroupType);
         Assert.Equal(expectedLimits.Count, model.Limits.Count);
         for (int i = 0; i < expectedLimits.Count; i++)
@@ -66,6 +78,11 @@ public class BetaWorkspaceRateLimitTest : TestBase
     {
         var model = new BetaWorkspaceRateLimit
         {
+            Group = new RateLimits::BetaOrganizationRateLimitModelGroup()
+            {
+                ID = "id",
+                DisplayName = "display_name",
+            },
             GroupType = BetaWorkspaceRateLimitGroupType.Batch,
             Limits =
             [
@@ -95,6 +112,11 @@ public class BetaWorkspaceRateLimitTest : TestBase
     {
         var model = new BetaWorkspaceRateLimit
         {
+            Group = new RateLimits::BetaOrganizationRateLimitModelGroup()
+            {
+                ID = "id",
+                DisplayName = "display_name",
+            },
             GroupType = BetaWorkspaceRateLimitGroupType.Batch,
             Limits =
             [
@@ -117,6 +139,11 @@ public class BetaWorkspaceRateLimitTest : TestBase
         );
         Assert.NotNull(deserialized);
 
+        Group expectedGroup = new RateLimits::BetaOrganizationRateLimitModelGroup()
+        {
+            ID = "id",
+            DisplayName = "display_name",
+        };
         ApiEnum<string, BetaWorkspaceRateLimitGroupType> expectedGroupType =
             BetaWorkspaceRateLimitGroupType.Batch;
         List<BetaWorkspaceRateLimitValue> expectedLimits =
@@ -133,6 +160,7 @@ public class BetaWorkspaceRateLimitTest : TestBase
         JsonElement expectedType = JsonSerializer.SerializeToElement("workspace_rate_limit");
         string expectedWorkspaceID = "workspace_id";
 
+        Assert.Equal(expectedGroup, deserialized.Group);
         Assert.Equal(expectedGroupType, deserialized.GroupType);
         Assert.Equal(expectedLimits.Count, deserialized.Limits.Count);
         for (int i = 0; i < expectedLimits.Count; i++)
@@ -155,6 +183,11 @@ public class BetaWorkspaceRateLimitTest : TestBase
     {
         var model = new BetaWorkspaceRateLimit
         {
+            Group = new RateLimits::BetaOrganizationRateLimitModelGroup()
+            {
+                ID = "id",
+                DisplayName = "display_name",
+            },
             GroupType = BetaWorkspaceRateLimitGroupType.Batch,
             Limits =
             [
@@ -178,6 +211,11 @@ public class BetaWorkspaceRateLimitTest : TestBase
     {
         var model = new BetaWorkspaceRateLimit
         {
+            Group = new RateLimits::BetaOrganizationRateLimitModelGroup()
+            {
+                ID = "id",
+                DisplayName = "display_name",
+            },
             GroupType = BetaWorkspaceRateLimitGroupType.Batch,
             Limits =
             [
@@ -196,6 +234,160 @@ public class BetaWorkspaceRateLimitTest : TestBase
         BetaWorkspaceRateLimit copied = new(model);
 
         Assert.Equal(model, copied);
+    }
+}
+
+public class GroupTest : TestBase
+{
+    [Fact]
+    public void BetaOrganizationRateLimitModelValidationWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitModelGroup()
+        {
+            ID = "id",
+            DisplayName = "display_name",
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitBatchValidationWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitBatchGroup("id");
+        value.Validate();
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitTokenCountValidationWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitTokenCountGroup("id");
+        value.Validate();
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitFilesValidationWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitFilesGroup("id");
+        value.Validate();
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitSkillsValidationWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitSkillsGroup("id");
+        value.Validate();
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitWebSearchValidationWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitWebSearchGroup("id");
+        value.Validate();
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitModelSerializationRoundtripWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitModelGroup()
+        {
+            ID = "id",
+            DisplayName = "display_name",
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Group>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitBatchSerializationRoundtripWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitBatchGroup("id");
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Group>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitTokenCountSerializationRoundtripWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitTokenCountGroup("id");
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Group>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitFilesSerializationRoundtripWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitFilesGroup("id");
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Group>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitSkillsSerializationRoundtripWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitSkillsGroup("id");
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Group>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void BetaOrganizationRateLimitWebSearchSerializationRoundtripWorks()
+    {
+        Group value = new RateLimits::BetaOrganizationRateLimitWebSearchGroup("id");
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Group>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void UnknownVariantCommonProperties_Works()
+    {
+        Group value = new(
+            JsonSerializer.Deserialize<JsonElement>(
+                """
+                {
+                  "id": "id",
+                  "type": "model_group"
+                }
+                """
+            )
+        );
+        Assert.Throws<AnthropicInvalidDataException>(() => value.Validate());
+
+        string expectedID = "id";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("model_group");
+
+        Assert.Equal(expectedID, value.ID);
+        Assert.True(JsonElement.DeepEquals(expectedType, value.Type));
+
+        Group emptyValue = new(JsonSerializer.Deserialize<JsonElement>("{}"));
+
+        Assert.Throws<AnthropicInvalidDataException>(() => emptyValue.ID);
+        Assert.Throws<AnthropicInvalidDataException>(() => emptyValue.Type);
+
+        Group mismatchedValue = new(
+            JsonSerializer.Deserialize<JsonElement>(
+                """
+                {
+                  "id": [
+                    "invalid"
+                  ]
+                }
+                """
+            )
+        );
+
+        Assert.Throws<AnthropicInvalidDataException>(() => mismatchedValue.ID);
     }
 }
 
