@@ -36,8 +36,7 @@ public sealed record class BetaManagedAgentsSessionThread : JsonModel
     }
 
     /// <summary>
-    /// The resolved agent a session thread runs: a saved-agent snapshot, the platform
-    /// advisor entry, or an inline-defined (ephemeral) agent snapshot.
+    /// The resolved agent a `session_thread` runs.
     /// </summary>
     public required Agent Agent
     {
@@ -224,8 +223,7 @@ class BetaManagedAgentsSessionThreadFromRaw : IFromRawJson<BetaManagedAgentsSess
 }
 
 /// <summary>
-/// The resolved agent a session thread runs: a saved-agent snapshot, the platform
-/// advisor entry, or an inline-defined (ephemeral) agent snapshot.
+/// The resolved agent a `session_thread` runs.
 /// </summary>
 [JsonConverter(typeof(AgentConverter))]
 public record class Agent : ModelBase
