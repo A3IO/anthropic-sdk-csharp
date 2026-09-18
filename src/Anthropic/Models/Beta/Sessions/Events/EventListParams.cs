@@ -111,9 +111,6 @@ public record class EventListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for limit
-    /// </summary>
     public int? Limit
     {
         get

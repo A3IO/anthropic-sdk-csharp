@@ -21,9 +21,6 @@ namespace Anthropic.Models.Beta.UserProfiles;
 /// </summary>
 public record class UserProfileListParams : ParamsBase
 {
-    /// <summary>
-    /// Query parameter for limit
-    /// </summary>
     public int? Limit
     {
         get
@@ -43,7 +40,7 @@ public record class UserProfileListParams : ParamsBase
     }
 
     /// <summary>
-    /// Query parameter for order
+    /// ListOrder enum
     /// </summary>
     public ApiEnum<string, Order>? Order
     {
@@ -64,7 +61,8 @@ public record class UserProfileListParams : ParamsBase
     }
 
     /// <summary>
-    /// Query parameter for order_by
+    /// Sort field for listing user profiles: `created_at` (default) or `name` (case-insensitive;
+    /// profiles without a name sort last).
     /// </summary>
     public ApiEnum<string, OrderBy>? OrderBy
     {
@@ -84,9 +82,6 @@ public record class UserProfileListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for page
-    /// </summary>
     public string? Page
     {
         get
@@ -242,7 +237,7 @@ public record class UserProfileListParams : ParamsBase
 }
 
 /// <summary>
-/// Query parameter for order
+/// ListOrder enum
 /// </summary>
 [JsonConverter(typeof(OrderConverter))]
 public enum Order
@@ -285,7 +280,8 @@ sealed class OrderConverter : JsonConverter<Order>
 }
 
 /// <summary>
-/// Query parameter for order_by
+/// Sort field for listing user profiles: `created_at` (default) or `name` (case-insensitive;
+/// profiles without a name sort last).
 /// </summary>
 [JsonConverter(typeof(OrderByConverter))]
 public enum OrderBy

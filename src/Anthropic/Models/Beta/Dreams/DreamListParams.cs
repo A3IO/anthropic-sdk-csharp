@@ -63,9 +63,6 @@ public record class DreamListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for include_archived
-    /// </summary>
     public bool? IncludeArchived
     {
         get
@@ -84,9 +81,6 @@ public record class DreamListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for limit
-    /// </summary>
     public int? Limit
     {
         get
@@ -105,9 +99,6 @@ public record class DreamListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for page
-    /// </summary>
     public string? Page
     {
         get

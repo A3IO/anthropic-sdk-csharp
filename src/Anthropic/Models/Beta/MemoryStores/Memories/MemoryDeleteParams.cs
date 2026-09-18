@@ -23,9 +23,6 @@ public record class MemoryDeleteParams : ParamsBase
 
     public string? MemoryID { get; init; }
 
-    /// <summary>
-    /// Query parameter for expected_content_sha256
-    /// </summary>
     public string? ExpectedContentSha256
     {
         get

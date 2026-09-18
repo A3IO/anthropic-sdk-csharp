@@ -22,9 +22,6 @@ public record class MemoryVersionListParams : ParamsBase
 {
     public string? MemoryStoreID { get; init; }
 
-    /// <summary>
-    /// Query parameter for api_key_id
-    /// </summary>
     public string? ApiKeyID
     {
         get
@@ -85,9 +82,6 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for limit
-    /// </summary>
     public int? Limit
     {
         get
@@ -106,9 +100,6 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for memory_id
-    /// </summary>
     public string? MemoryID
     {
         get
@@ -128,7 +119,8 @@ public record class MemoryVersionListParams : ParamsBase
     }
 
     /// <summary>
-    /// Query parameter for operation
+    /// The kind of mutation a `memory_version` records. Every non-no-op mutation
+    /// to a memory appends exactly one version row with one of these values.
     /// </summary>
     public ApiEnum<string, BetaManagedAgentsMemoryVersionOperation>? Operation
     {
@@ -150,9 +142,6 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for page
-    /// </summary>
     public string? Page
     {
         get
@@ -171,9 +160,6 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for service_account_id
-    /// </summary>
     public string? ServiceAccountID
     {
         get
@@ -192,9 +178,6 @@ public record class MemoryVersionListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for session_id
-    /// </summary>
     public string? SessionID
     {
         get
@@ -214,7 +197,11 @@ public record class MemoryVersionListParams : ParamsBase
     }
 
     /// <summary>
-    /// Query parameter for view
+    /// Selects which projection of a `memory` or `memory_version` the server returns.
+    /// `basic` returns the object with `content` set to `null`; `full` populates
+    /// `content`. When omitted, the default is endpoint-specific: retrieve operations
+    /// default to `full`; list, create, and update operations default to `basic`.
+    /// Listing with `view=full` caps `limit` at 20.
     /// </summary>
     public ApiEnum<string, BetaManagedAgentsMemoryView>? View
     {

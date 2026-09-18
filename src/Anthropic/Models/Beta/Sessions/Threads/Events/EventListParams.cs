@@ -23,9 +23,6 @@ public record class EventListParams : ParamsBase
 
     public string? ThreadID { get; init; }
 
-    /// <summary>
-    /// Query parameter for limit
-    /// </summary>
     public int? Limit
     {
         get
@@ -44,9 +41,6 @@ public record class EventListParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Query parameter for page
-    /// </summary>
     public string? Page
     {
         get
