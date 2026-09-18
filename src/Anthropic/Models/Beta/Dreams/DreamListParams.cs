@@ -25,8 +25,7 @@ namespace Anthropic.Models.Beta.Dreams;
 public record class DreamListParams : ParamsBase
 {
     /// <summary>
-    /// Return dreams with `created_at` strictly after this timestamp (exclusive lower
-    /// bound, RFC 3339). Unset applies no lower bound.
+    /// Return only dreams created after this time (exclusive), in RFC 3339.
     /// </summary>
     public DateTimeOffset? CreatedAtGt
     {
@@ -47,8 +46,7 @@ public record class DreamListParams : ParamsBase
     }
 
     /// <summary>
-    /// Return dreams with `created_at` strictly before this timestamp (exclusive
-    /// upper bound, RFC 3339). Unset applies no upper bound.
+    /// Return only dreams created before this time (exclusive), in RFC 3339.
     /// </summary>
     public DateTimeOffset? CreatedAtLt
     {
@@ -134,8 +132,10 @@ public record class DreamListParams : ParamsBase
     }
 
     /// <summary>
-    /// Filter by lifecycle status. Repeat the parameter to match any of multiple
-    /// statuses. Empty applies no status filter.
+    /// Return only dreams that have one of these statuses.
+    ///
+    /// <para>Repeat the parameter to give more than one status. Leave it out to return
+    /// dreams of every status.</para>
     /// </summary>
     public IReadOnlyList<ApiEnum<string, BetaDreamStatus>>? Statuses
     {

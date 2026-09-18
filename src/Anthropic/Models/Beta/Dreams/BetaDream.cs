@@ -11,11 +11,16 @@ using System = System;
 namespace Anthropic.Models.Beta.Dreams;
 
 /// <summary>
-/// An asynchronous memory-consolidation job that reads a memory store plus a set
-/// of session transcripts and writes consolidated memories into an output memory
-/// store — a new store by default, or an existing store chosen via output_behavior.
-/// The Dreams API is in research preview: the request and response shapes are volatile
-/// and may change without the deprecation period that applies to generally-available endpoints.
+/// An asynchronous job that reads a memory store and past sessions, then writes a
+/// reorganized version of that memory store.
+///
+/// <para>By default the dream writes its result to a new memory store and doesn't
+/// change the input memory store. With `output_behavior` set to `update_existing`,
+/// it writes its result into the input memory store instead. The Dreams API is in
+/// research preview, so this resource can still change.</para>
+///
+/// <para>See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#how-it-works)
+/// for what a dream reads and produces.</para>
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<BetaDream, BetaDreamFromRaw>))]
 public sealed record class BetaDream : JsonModel
@@ -118,8 +123,10 @@ public sealed record class BetaDream : JsonModel
     }
 
     /// <summary>
-    /// Model identifier and configuration applied to every pipeline stage. Same
-    /// wire shape as the Agents API ModelConfig.
+    /// The model that runs a dream, from the request that created it.
+    ///
+    /// <para>The dream uses this model for all of its work. The response always gives
+    /// the model as an object, even if the request gave only a model ID.</para>
     /// </summary>
     public required BetaDreamModelConfig Model
     {
@@ -193,7 +200,13 @@ public sealed record class BetaDream : JsonModel
     }
 
     /// <summary>
-    /// Lifecycle status of a Dream.
+    /// Where a dream is in its lifecycle.
+    ///
+    /// <para>`completed`, `failed`, and `canceled` are final: once a dream has one
+    /// of these statuses, its status doesn't change again.</para>
+    ///
+    /// <para>See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#lifecycle)
+    /// for what each status means.</para>
     /// </summary>
     public required ApiEnum<string, BetaDreamStatus> Status
     {
@@ -218,7 +231,14 @@ public sealed record class BetaDream : JsonModel
     }
 
     /// <summary>
-    /// Cumulative token usage for the dream across every pipeline stage.
+    /// The tokens that a dream has used so far.
+    ///
+    /// <para>The counts are zero while the dream is `pending` and update while it
+    /// is `running`. They can keep changing after a cancel.</para>
+    ///
+    /// <para>See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#billing)
+    /// for how dreams are billed. See the [prompt caching guide](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#tracking-cache-performance)
+    /// for how the input token counts add up.</para>
     /// </summary>
     public required BetaDreamUsage Usage
     {

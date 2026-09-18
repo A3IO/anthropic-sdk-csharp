@@ -11,7 +11,7 @@ using System = System;
 namespace Anthropic.Models.Beta.Dreams;
 
 /// <summary>
-/// Input session transcripts the dream reads.
+/// The sessions that a dream reads, given as an entry in `inputs`.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<BetaDreamSessionsInput, BetaDreamSessionsInputFromRaw>))]
 public sealed record class BetaDreamSessionsInput : JsonModel

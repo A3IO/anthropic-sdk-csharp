@@ -10,7 +10,7 @@ using System = System;
 namespace Anthropic.Models.Beta.Dreams;
 
 /// <summary>
-/// Model identifier and configuration applied to every pipeline stage.
+/// The object form of `model` in a request to create a dream.
 /// </summary>
 [JsonConverter(
     typeof(JsonModelConverter<BetaDreamModelConfigParam, BetaDreamModelConfigParamFromRaw>)
@@ -18,7 +18,12 @@ namespace Anthropic.Models.Beta.Dreams;
 public sealed record class BetaDreamModelConfigParam : JsonModel
 {
     /// <summary>
-    /// Model identifier, e.g. "claude-opus-5". 1-256 characters.
+    /// The ID of the model to run the dream with.
+    ///
+    /// <para>The ID can be 1 to 256 characters long.</para>
+    ///
+    /// <para>The [limits table in the Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams#limits)
+    /// lists the supported models.</para>
     /// </summary>
     public required string ID
     {
