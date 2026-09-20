@@ -21,6 +21,11 @@ public enum Model
     ClaudeFable5_1,
 
     /// <summary>
+    /// Powerful intelligence for coding, knowledge work, and long-running agents
+    /// </summary>
+    ClaudeOpus5_5,
+
+    /// <summary>
     /// Our most capable model for cybersecurity and biology research, available
     /// through trusted access programs
     /// </summary>
@@ -116,6 +121,7 @@ sealed class ModelConverter : JsonConverter<Model>
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
             "claude-fable-5-1" => Model.ClaudeFable5_1,
+            "claude-opus-5-5" => Model.ClaudeOpus5_5,
             "claude-mythos-5-1" => Model.ClaudeMythos5_1,
             "claude-sonnet-5" => Model.ClaudeSonnet5,
             "claude-fable-5" => Model.ClaudeFable5,
@@ -143,6 +149,7 @@ sealed class ModelConverter : JsonConverter<Model>
             value switch
             {
                 Model.ClaudeFable5_1 => "claude-fable-5-1",
+                Model.ClaudeOpus5_5 => "claude-opus-5-5",
                 Model.ClaudeMythos5_1 => "claude-mythos-5-1",
                 Model.ClaudeSonnet5 => "claude-sonnet-5",
                 Model.ClaudeFable5 => "claude-fable-5",

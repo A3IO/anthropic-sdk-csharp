@@ -7,12 +7,12 @@ using Messages = Anthropic.Models.Messages;
 
 namespace Anthropic.Tests.Models.Beta.Messages;
 
-public class BetaToolUnionTest : TestBase
+public class BetaResponseToolUnionTest : TestBase
 {
     [Fact]
-    public void BetaToolValidationWorks()
+    public void BetaResponseToolValidationWorks()
     {
-        BetaToolUnion value = new BetaTool()
+        BetaResponseToolUnion value = new BetaResponseTool()
         {
             InputSchema = new()
             {
@@ -24,8 +24,7 @@ public class BetaToolUnionTest : TestBase
                 Required = ["location"],
             },
             Name = "name",
-            AllowedCallers = [BetaToolAllowedCaller.Direct],
-            CacheControl = new() { Ttl = Ttl.Ttl5m },
+            AllowedCallers = [BetaResponseToolAllowedCaller.Direct],
             DeferLoading = true,
             Description = "Get the current weather in a given location",
             EagerInputStreaming = true,
@@ -37,15 +36,15 @@ public class BetaToolUnionTest : TestBase
                 },
             ],
             Strict = true,
-            Type = BetaToolType.Custom,
+            Type = BetaResponseToolType.Custom,
         };
         value.Validate();
     }
 
     [Fact]
-    public void Bash20241022ValidationWorks()
+    public void ToolBash20241022ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolBash20241022()
+        BetaResponseToolUnion value = new BetaToolBash20241022()
         {
             AllowedCallers = [BetaToolBash20241022AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -63,9 +62,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void Bash20250124ValidationWorks()
+    public void ToolBash20250124ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolBash20250124()
+        BetaResponseToolUnion value = new BetaToolBash20250124()
         {
             AllowedCallers = [BetaToolBash20250124AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -85,7 +84,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void CodeExecutionTool20250522ValidationWorks()
     {
-        BetaToolUnion value = new BetaCodeExecutionTool20250522()
+        BetaResponseToolUnion value = new BetaCodeExecutionTool20250522()
         {
             AllowedCallers = [BetaCodeExecutionTool20250522AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -98,7 +97,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void CodeExecutionTool20250825ValidationWorks()
     {
-        BetaToolUnion value = new BetaCodeExecutionTool20250825()
+        BetaResponseToolUnion value = new BetaCodeExecutionTool20250825()
         {
             AllowedCallers = [BetaCodeExecutionTool20250825AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -111,7 +110,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void CodeExecutionTool20260120ValidationWorks()
     {
-        BetaToolUnion value = new BetaCodeExecutionTool20260120()
+        BetaResponseToolUnion value = new BetaCodeExecutionTool20260120()
         {
             AllowedCallers = [BetaCodeExecutionTool20260120AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -124,7 +123,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void CodeExecutionTool20260521ValidationWorks()
     {
-        BetaToolUnion value = new BetaCodeExecutionTool20260521()
+        BetaResponseToolUnion value = new BetaCodeExecutionTool20260521()
         {
             AllowedCallers = [BetaCodeExecutionTool20260521AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -137,7 +136,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void BrowserToolset20260801ValidationWorks()
     {
-        BetaToolUnion value = new BetaBrowserToolset20260801()
+        BetaResponseToolUnion value = new BetaBrowserToolset20260801()
         {
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Configs = new()
@@ -179,9 +178,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void ComputerUse20241022ValidationWorks()
+    public void ToolComputerUse20241022ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolComputerUse20241022()
+        BetaResponseToolUnion value = new BetaToolComputerUse20241022()
         {
             DisplayHeightPx = 1,
             DisplayWidthPx = 1,
@@ -204,7 +203,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void MemoryTool20250818ValidationWorks()
     {
-        BetaToolUnion value = new BetaMemoryTool20250818()
+        BetaResponseToolUnion value = new BetaMemoryTool20250818()
         {
             AllowedCallers = [BetaMemoryTool20250818AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -222,9 +221,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void ComputerUse20250124ValidationWorks()
+    public void ToolComputerUse20250124ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolComputerUse20250124()
+        BetaResponseToolUnion value = new BetaToolComputerUse20250124()
         {
             DisplayHeightPx = 1,
             DisplayWidthPx = 1,
@@ -245,9 +244,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void TextEditor20241022ValidationWorks()
+    public void ToolTextEditor20241022ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolTextEditor20241022()
+        BetaResponseToolUnion value = new BetaToolTextEditor20241022()
         {
             AllowedCallers = [BetaToolTextEditor20241022AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -265,9 +264,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void ComputerUse20251124ValidationWorks()
+    public void ToolComputerUse20251124ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolComputerUse20251124()
+        BetaResponseToolUnion value = new BetaToolComputerUse20251124()
         {
             DisplayHeightPx = 1,
             DisplayWidthPx = 1,
@@ -291,7 +290,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void ComputerToolset20260801ValidationWorks()
     {
-        BetaToolUnion value = new BetaComputerToolset20260801()
+        BetaResponseToolUnion value = new BetaComputerToolset20260801()
         {
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Configs = new()
@@ -319,9 +318,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void TextEditor20250124ValidationWorks()
+    public void ToolTextEditor20250124ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolTextEditor20250124()
+        BetaResponseToolUnion value = new BetaToolTextEditor20250124()
         {
             AllowedCallers = [BetaToolTextEditor20250124AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -339,9 +338,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void TextEditor20250429ValidationWorks()
+    public void ToolTextEditor20250429ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolTextEditor20250429()
+        BetaResponseToolUnion value = new BetaToolTextEditor20250429()
         {
             AllowedCallers = [BetaToolTextEditor20250429AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -359,9 +358,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void TextEditor20250728ValidationWorks()
+    public void ToolTextEditor20250728ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolTextEditor20250728()
+        BetaResponseToolUnion value = new BetaToolTextEditor20250728()
         {
             AllowedCallers = [BetaToolTextEditor20250728AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -382,7 +381,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebSearchTool20250305ValidationWorks()
     {
-        BetaToolUnion value = new BetaWebSearchTool20250305()
+        BetaResponseToolUnion value = new BetaWebSearchTool20250305()
         {
             AllowedCallers = [BetaWebSearchTool20250305AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -405,7 +404,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebFetchTool20250910ValidationWorks()
     {
-        BetaToolUnion value = new BetaWebFetchTool20250910()
+        BetaResponseToolUnion value = new BetaWebFetchTool20250910()
         {
             AllowedCallers = [BetaWebFetchTool20250910AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -429,7 +428,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebSearchTool20260209ValidationWorks()
     {
-        BetaToolUnion value = new BetaWebSearchTool20260209()
+        BetaResponseToolUnion value = new BetaWebSearchTool20260209()
         {
             AllowedCallers = [BetaWebSearchTool20260209AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -452,7 +451,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebFetchTool20260209ValidationWorks()
     {
-        BetaToolUnion value = new BetaWebFetchTool20260209()
+        BetaResponseToolUnion value = new BetaWebFetchTool20260209()
         {
             AllowedCallers = [BetaWebFetchTool20260209AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -476,7 +475,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebFetchTool20260309ValidationWorks()
     {
-        BetaToolUnion value = new BetaWebFetchTool20260309()
+        BetaResponseToolUnion value = new BetaWebFetchTool20260309()
         {
             AllowedCallers = [BetaWebFetchTool20260309AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -501,7 +500,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebSearchTool20260318ValidationWorks()
     {
-        BetaToolUnion value = new BetaWebSearchTool20260318()
+        BetaResponseToolUnion value = new BetaWebSearchTool20260318()
         {
             AllowedCallers = [BetaWebSearchTool20260318AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -525,7 +524,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebFetchTool20260318ValidationWorks()
     {
-        BetaToolUnion value = new BetaWebFetchTool20260318()
+        BetaResponseToolUnion value = new BetaWebFetchTool20260318()
         {
             AllowedCallers = [BetaWebFetchTool20260318AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -551,7 +550,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void AdvisorTool20260301ValidationWorks()
     {
-        BetaToolUnion value = new BetaAdvisorTool20260301()
+        BetaResponseToolUnion value = new BetaAdvisorTool20260301()
         {
             Model = Messages::Model.ClaudeFable5_1,
             AllowedCallers = [AllowedCaller.Direct],
@@ -566,9 +565,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void SearchToolBm25_20251119ValidationWorks()
+    public void ToolSearchToolBm25_20251119ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolSearchToolBm25_20251119()
+        BetaResponseToolUnion value = new BetaToolSearchToolBm25_20251119()
         {
             Type = BetaToolSearchToolBm25_20251119Type.ToolSearchToolBm25_20251119,
             AllowedCallers = [BetaToolSearchToolBm25_20251119AllowedCaller.Direct],
@@ -580,9 +579,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void SearchToolRegex20251119ValidationWorks()
+    public void ToolSearchToolRegex20251119ValidationWorks()
     {
-        BetaToolUnion value = new BetaToolSearchToolRegex20251119()
+        BetaResponseToolUnion value = new BetaToolSearchToolRegex20251119()
         {
             Type = BetaToolSearchToolRegex20251119Type.ToolSearchToolRegex20251119,
             AllowedCallers = [BetaToolSearchToolRegex20251119AllowedCaller.Direct],
@@ -596,7 +595,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void McpToolsetValidationWorks()
     {
-        BetaToolUnion value = new BetaMcpToolset()
+        BetaResponseToolUnion value = new BetaMcpToolset()
         {
             McpServerName = "x",
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -625,9 +624,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void BetaToolSerializationRoundtripWorks()
+    public void BetaResponseToolSerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaTool()
+        BetaResponseToolUnion value = new BetaResponseTool()
         {
             InputSchema = new()
             {
@@ -639,8 +638,7 @@ public class BetaToolUnionTest : TestBase
                 Required = ["location"],
             },
             Name = "name",
-            AllowedCallers = [BetaToolAllowedCaller.Direct],
-            CacheControl = new() { Ttl = Ttl.Ttl5m },
+            AllowedCallers = [BetaResponseToolAllowedCaller.Direct],
             DeferLoading = true,
             Description = "Get the current weather in a given location",
             EagerInputStreaming = true,
@@ -652,10 +650,10 @@ public class BetaToolUnionTest : TestBase
                 },
             ],
             Strict = true,
-            Type = BetaToolType.Custom,
+            Type = BetaResponseToolType.Custom,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -664,9 +662,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void Bash20241022SerializationRoundtripWorks()
+    public void ToolBash20241022SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolBash20241022()
+        BetaResponseToolUnion value = new BetaToolBash20241022()
         {
             AllowedCallers = [BetaToolBash20241022AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -681,7 +679,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -690,9 +688,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void Bash20250124SerializationRoundtripWorks()
+    public void ToolBash20250124SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolBash20250124()
+        BetaResponseToolUnion value = new BetaToolBash20250124()
         {
             AllowedCallers = [BetaToolBash20250124AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -707,7 +705,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -718,7 +716,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void CodeExecutionTool20250522SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaCodeExecutionTool20250522()
+        BetaResponseToolUnion value = new BetaCodeExecutionTool20250522()
         {
             AllowedCallers = [BetaCodeExecutionTool20250522AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -726,7 +724,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -737,7 +735,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void CodeExecutionTool20250825SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaCodeExecutionTool20250825()
+        BetaResponseToolUnion value = new BetaCodeExecutionTool20250825()
         {
             AllowedCallers = [BetaCodeExecutionTool20250825AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -745,7 +743,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -756,7 +754,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void CodeExecutionTool20260120SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaCodeExecutionTool20260120()
+        BetaResponseToolUnion value = new BetaCodeExecutionTool20260120()
         {
             AllowedCallers = [BetaCodeExecutionTool20260120AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -764,7 +762,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -775,7 +773,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void CodeExecutionTool20260521SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaCodeExecutionTool20260521()
+        BetaResponseToolUnion value = new BetaCodeExecutionTool20260521()
         {
             AllowedCallers = [BetaCodeExecutionTool20260521AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -783,7 +781,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -794,7 +792,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void BrowserToolset20260801SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaBrowserToolset20260801()
+        BetaResponseToolUnion value = new BetaBrowserToolset20260801()
         {
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Configs = new()
@@ -833,7 +831,7 @@ public class BetaToolUnionTest : TestBase
             },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -842,9 +840,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void ComputerUse20241022SerializationRoundtripWorks()
+    public void ToolComputerUse20241022SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolComputerUse20241022()
+        BetaResponseToolUnion value = new BetaToolComputerUse20241022()
         {
             DisplayHeightPx = 1,
             DisplayWidthPx = 1,
@@ -862,7 +860,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -873,7 +871,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void MemoryTool20250818SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaMemoryTool20250818()
+        BetaResponseToolUnion value = new BetaMemoryTool20250818()
         {
             AllowedCallers = [BetaMemoryTool20250818AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -888,7 +886,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -897,9 +895,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void ComputerUse20250124SerializationRoundtripWorks()
+    public void ToolComputerUse20250124SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolComputerUse20250124()
+        BetaResponseToolUnion value = new BetaToolComputerUse20250124()
         {
             DisplayHeightPx = 1,
             DisplayWidthPx = 1,
@@ -917,7 +915,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -926,9 +924,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void TextEditor20241022SerializationRoundtripWorks()
+    public void ToolTextEditor20241022SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolTextEditor20241022()
+        BetaResponseToolUnion value = new BetaToolTextEditor20241022()
         {
             AllowedCallers = [BetaToolTextEditor20241022AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -943,7 +941,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -952,9 +950,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void ComputerUse20251124SerializationRoundtripWorks()
+    public void ToolComputerUse20251124SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolComputerUse20251124()
+        BetaResponseToolUnion value = new BetaToolComputerUse20251124()
         {
             DisplayHeightPx = 1,
             DisplayWidthPx = 1,
@@ -973,7 +971,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -984,7 +982,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void ComputerToolset20260801SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaComputerToolset20260801()
+        BetaResponseToolUnion value = new BetaComputerToolset20260801()
         {
             CacheControl = new() { Ttl = Ttl.Ttl5m },
             Configs = new()
@@ -1009,7 +1007,7 @@ public class BetaToolUnionTest : TestBase
             },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1018,9 +1016,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void TextEditor20250124SerializationRoundtripWorks()
+    public void ToolTextEditor20250124SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolTextEditor20250124()
+        BetaResponseToolUnion value = new BetaToolTextEditor20250124()
         {
             AllowedCallers = [BetaToolTextEditor20250124AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -1035,7 +1033,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1044,9 +1042,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void TextEditor20250429SerializationRoundtripWorks()
+    public void ToolTextEditor20250429SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolTextEditor20250429()
+        BetaResponseToolUnion value = new BetaToolTextEditor20250429()
         {
             AllowedCallers = [BetaToolTextEditor20250429AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -1061,7 +1059,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1070,9 +1068,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void TextEditor20250728SerializationRoundtripWorks()
+    public void ToolTextEditor20250728SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolTextEditor20250728()
+        BetaResponseToolUnion value = new BetaToolTextEditor20250728()
         {
             AllowedCallers = [BetaToolTextEditor20250728AllowedCaller.Direct],
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -1088,7 +1086,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1099,7 +1097,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebSearchTool20250305SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaWebSearchTool20250305()
+        BetaResponseToolUnion value = new BetaWebSearchTool20250305()
         {
             AllowedCallers = [BetaWebSearchTool20250305AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -1117,7 +1115,7 @@ public class BetaToolUnionTest : TestBase
             },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1128,7 +1126,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebFetchTool20250910SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaWebFetchTool20250910()
+        BetaResponseToolUnion value = new BetaWebFetchTool20250910()
         {
             AllowedCallers = [BetaWebFetchTool20250910AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -1147,7 +1145,7 @@ public class BetaToolUnionTest : TestBase
             },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1158,7 +1156,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebSearchTool20260209SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaWebSearchTool20260209()
+        BetaResponseToolUnion value = new BetaWebSearchTool20260209()
         {
             AllowedCallers = [BetaWebSearchTool20260209AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -1176,7 +1174,7 @@ public class BetaToolUnionTest : TestBase
             },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1187,7 +1185,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebFetchTool20260209SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaWebFetchTool20260209()
+        BetaResponseToolUnion value = new BetaWebFetchTool20260209()
         {
             AllowedCallers = [BetaWebFetchTool20260209AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -1206,7 +1204,7 @@ public class BetaToolUnionTest : TestBase
             },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1217,7 +1215,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebFetchTool20260309SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaWebFetchTool20260309()
+        BetaResponseToolUnion value = new BetaWebFetchTool20260309()
         {
             AllowedCallers = [BetaWebFetchTool20260309AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -1237,7 +1235,7 @@ public class BetaToolUnionTest : TestBase
             UseCache = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1248,7 +1246,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebSearchTool20260318SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaWebSearchTool20260318()
+        BetaResponseToolUnion value = new BetaWebSearchTool20260318()
         {
             AllowedCallers = [BetaWebSearchTool20260318AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -1267,7 +1265,7 @@ public class BetaToolUnionTest : TestBase
             },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1278,7 +1276,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void WebFetchTool20260318SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaWebFetchTool20260318()
+        BetaResponseToolUnion value = new BetaWebFetchTool20260318()
         {
             AllowedCallers = [BetaWebFetchTool20260318AllowedCaller.Direct],
             AllowedDomains = ["string"],
@@ -1299,7 +1297,7 @@ public class BetaToolUnionTest : TestBase
             UseCache = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1310,7 +1308,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void AdvisorTool20260301SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaAdvisorTool20260301()
+        BetaResponseToolUnion value = new BetaAdvisorTool20260301()
         {
             Model = Messages::Model.ClaudeFable5_1,
             AllowedCallers = [AllowedCaller.Direct],
@@ -1322,7 +1320,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1331,9 +1329,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void SearchToolBm25_20251119SerializationRoundtripWorks()
+    public void ToolSearchToolBm25_20251119SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolSearchToolBm25_20251119()
+        BetaResponseToolUnion value = new BetaToolSearchToolBm25_20251119()
         {
             Type = BetaToolSearchToolBm25_20251119Type.ToolSearchToolBm25_20251119,
             AllowedCallers = [BetaToolSearchToolBm25_20251119AllowedCaller.Direct],
@@ -1342,7 +1340,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1351,9 +1349,9 @@ public class BetaToolUnionTest : TestBase
     }
 
     [Fact]
-    public void SearchToolRegex20251119SerializationRoundtripWorks()
+    public void ToolSearchToolRegex20251119SerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaToolSearchToolRegex20251119()
+        BetaResponseToolUnion value = new BetaToolSearchToolRegex20251119()
         {
             Type = BetaToolSearchToolRegex20251119Type.ToolSearchToolRegex20251119,
             AllowedCallers = [BetaToolSearchToolRegex20251119AllowedCaller.Direct],
@@ -1362,7 +1360,7 @@ public class BetaToolUnionTest : TestBase
             Strict = true,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1373,7 +1371,7 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void McpToolsetSerializationRoundtripWorks()
     {
-        BetaToolUnion value = new BetaMcpToolset()
+        BetaResponseToolUnion value = new BetaMcpToolset()
         {
             McpServerName = "x",
             CacheControl = new() { Ttl = Ttl.Ttl5m },
@@ -1399,7 +1397,7 @@ public class BetaToolUnionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaToolUnion>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolUnion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1410,16 +1408,16 @@ public class BetaToolUnionTest : TestBase
     [Fact]
     public void UnknownVariantCommonProperties_Works()
     {
-        BetaToolUnion value = new(
+        BetaResponseToolUnion value = new(
             JsonSerializer.Deserialize<JsonElement>(
                 """
                 {
+                  "defer_loading": true,
+                  "strict": true,
                   "cache_control": {
                     "type": "ephemeral",
                     "ttl": "5m"
                   },
-                  "defer_loading": true,
-                  "strict": true,
                   "display_height_px": 1,
                   "display_width_px": 1,
                   "display_number": 0,
@@ -1453,9 +1451,9 @@ public class BetaToolUnionTest : TestBase
         );
         Assert.Throws<AnthropicInvalidDataException>(() => value.Validate());
 
-        BetaCacheControlEphemeral expectedCacheControl = new() { Ttl = Ttl.Ttl5m };
         bool expectedDeferLoading = true;
         bool expectedStrict = true;
+        BetaCacheControlEphemeral expectedCacheControl = new() { Ttl = Ttl.Ttl5m };
         long expectedDisplayHeightPx = 1;
         long expectedDisplayWidthPx = 1;
         long expectedDisplayNumber = 0;
@@ -1477,9 +1475,9 @@ public class BetaToolUnionTest : TestBase
         };
         bool expectedUseCache = true;
 
-        Assert.Equal(expectedCacheControl, value.CacheControl);
         Assert.Equal(expectedDeferLoading, value.DeferLoading);
         Assert.Equal(expectedStrict, value.Strict);
+        Assert.Equal(expectedCacheControl, value.CacheControl);
         Assert.Equal(expectedDisplayHeightPx, value.DisplayHeightPx);
         Assert.Equal(expectedDisplayWidthPx, value.DisplayWidthPx);
         Assert.Equal(expectedDisplayNumber, value.DisplayNumber);
@@ -1490,11 +1488,11 @@ public class BetaToolUnionTest : TestBase
         Assert.Equal(expectedUrlSources, value.UrlSources);
         Assert.Equal(expectedUseCache, value.UseCache);
 
-        BetaToolUnion emptyValue = new(JsonSerializer.Deserialize<JsonElement>("{}"));
+        BetaResponseToolUnion emptyValue = new(JsonSerializer.Deserialize<JsonElement>("{}"));
 
-        Assert.Null(emptyValue.CacheControl);
         Assert.Null(emptyValue.DeferLoading);
         Assert.Null(emptyValue.Strict);
+        Assert.Null(emptyValue.CacheControl);
         Assert.Null(emptyValue.DisplayHeightPx);
         Assert.Null(emptyValue.DisplayWidthPx);
         Assert.Null(emptyValue.DisplayNumber);
@@ -1505,17 +1503,17 @@ public class BetaToolUnionTest : TestBase
         Assert.Null(emptyValue.UrlSources);
         Assert.Null(emptyValue.UseCache);
 
-        BetaToolUnion mismatchedValue = new(
+        BetaResponseToolUnion mismatchedValue = new(
             JsonSerializer.Deserialize<JsonElement>(
                 """
                 {
-                  "cache_control": [
-                    "invalid"
-                  ],
                   "defer_loading": [
                     "invalid"
                   ],
                   "strict": [
+                    "invalid"
+                  ],
+                  "cache_control": [
                     "invalid"
                   ],
                   "display_height_px": [
@@ -1550,9 +1548,9 @@ public class BetaToolUnionTest : TestBase
             )
         );
 
-        Assert.Null(mismatchedValue.CacheControl);
         Assert.Null(mismatchedValue.DeferLoading);
         Assert.Null(mismatchedValue.Strict);
+        Assert.Null(mismatchedValue.CacheControl);
         Assert.Null(mismatchedValue.DisplayHeightPx);
         Assert.Null(mismatchedValue.DisplayWidthPx);
         Assert.Null(mismatchedValue.DisplayNumber);

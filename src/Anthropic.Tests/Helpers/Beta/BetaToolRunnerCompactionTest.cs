@@ -246,6 +246,52 @@ public class BetaToolRunnerCompactionTest
     }
 
     [Fact]
+    public async Task Compaction_KeepsARemovalThatOnlyTheHistoryHeld()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        var script = new Script(CompactedResponse(), ToolUseTurn(), FinalTurn());
+        var runs = 0;
+        var runner = script.Service.ToolRunner(
+            BaseParams,
+            [
+                MakeWeatherToolSync(_ =>
+                {
+                    runs++;
+                    return "Sunny";
+                }),
+            ]
+        );
+
+        runner.PushMessages(
+            new BetaMessageParam
+            {
+                Role = Role.System,
+                Content = new BetaMessageParamContent(
+                    [
+                        new BetaRequestToolRemovalBlock(
+                            new BetaToolChangeToolReference("get_weather")
+                        ),
+                    ]
+                ),
+            }
+        );
+        runner.CompactBeforeNextTurn();
+        await runner.RunUntilDoneAsync(ct);
+
+        Assert.Equal(0, runs);
+        var result = script
+            .Requests[2]
+            .RawBodyData["messages"]
+            .EnumerateArray()
+            .Last()
+            .GetProperty("content")
+            .EnumerateArray()
+            .Single();
+        Assert.True(result.GetProperty("is_error").GetBoolean());
+        Assert.Equal("Tool 'get_weather' not found", result.GetProperty("content").GetString());
+    }
+
+    [Fact]
     public async Task CompactBeforeNextTurn_DuringPausedTurn_WaitsForTheTurnToFinish()
     {
         var ct = TestContext.Current.CancellationToken;

@@ -415,6 +415,14 @@ public class ContentBlockTest : TestBase
             Content = "content",
             EncryptedContent = "encrypted_content",
             Signature = "signature",
+            ToolChanges =
+            [
+                new BetaResponseToolAdditionBlock(
+                    new BetaResponseToolAdditionBlockTool(
+                        new BetaResponseToolChangeToolReference("name")
+                    )
+                ),
+            ],
         };
         value.Validate();
     }
@@ -427,6 +435,28 @@ public class ContentBlockTest : TestBase
             From = new(Messages::Model.ClaudeFable5_1),
             To = new(Messages::Model.ClaudeFable5_1),
             Trigger = new(BetaFallbackRefusalTriggerCategory.Cyber),
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void BetaMcpToolListingValidationWorks()
+    {
+        ContentBlock value = new BetaMcpToolListingBlock()
+        {
+            McpServerName = "mcp_server_name",
+            Tools =
+            [
+                new()
+                {
+                    InputSchema = new Dictionary<string, JsonElement>()
+                    {
+                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                    },
+                    Name = "name",
+                    Description = "description",
+                },
+            ],
         };
         value.Validate();
     }
@@ -732,6 +762,14 @@ public class ContentBlockTest : TestBase
             Content = "content",
             EncryptedContent = "encrypted_content",
             Signature = "signature",
+            ToolChanges =
+            [
+                new BetaResponseToolAdditionBlock(
+                    new BetaResponseToolAdditionBlockTool(
+                        new BetaResponseToolChangeToolReference("name")
+                    )
+                ),
+            ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ContentBlock>(
@@ -750,6 +788,34 @@ public class ContentBlockTest : TestBase
             From = new(Messages::Model.ClaudeFable5_1),
             To = new(Messages::Model.ClaudeFable5_1),
             Trigger = new(BetaFallbackRefusalTriggerCategory.Cyber),
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ContentBlock>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void BetaMcpToolListingSerializationRoundtripWorks()
+    {
+        ContentBlock value = new BetaMcpToolListingBlock()
+        {
+            McpServerName = "mcp_server_name",
+            Tools =
+            [
+                new()
+                {
+                    InputSchema = new Dictionary<string, JsonElement>()
+                    {
+                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                    },
+                    Name = "name",
+                    Description = "description",
+                },
+            ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ContentBlock>(

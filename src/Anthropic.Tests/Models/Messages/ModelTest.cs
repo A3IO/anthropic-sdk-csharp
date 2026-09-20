@@ -9,6 +9,7 @@ public class ModelTest : TestBase
 {
     [Theory]
     [InlineData(Model.ClaudeFable5_1)]
+    [InlineData(Model.ClaudeOpus5_5)]
     [InlineData(Model.ClaudeMythos5_1)]
     [InlineData(Model.ClaudeSonnet5)]
     [InlineData(Model.ClaudeFable5)]
@@ -46,6 +47,7 @@ public class ModelTest : TestBase
 
     [Theory]
     [InlineData(Model.ClaudeFable5_1)]
+    [InlineData(Model.ClaudeOpus5_5)]
     [InlineData(Model.ClaudeMythos5_1)]
     [InlineData(Model.ClaudeSonnet5)]
     [InlineData(Model.ClaudeFable5)]

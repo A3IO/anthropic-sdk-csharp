@@ -136,6 +136,8 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Messages::ClearAt>(),
             new ApiEnumConverter<string, Messages::Effort>(),
             new ApiEnumConverter<string, Messages::Category>(),
+            new ApiEnumConverter<string, Messages::BetaResponseToolAllowedCaller>(),
+            new ApiEnumConverter<string, Messages::BetaResponseToolType>(),
             new ApiEnumConverter<string, Messages::Name>(),
             new ApiEnumConverter<string, Messages::BetaServerToolUseBlockParamName>(),
             new ApiEnumConverter<string, Messages::BetaSkillParamsType>(),

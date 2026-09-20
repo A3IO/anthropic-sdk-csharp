@@ -6,37 +6,35 @@ using Anthropic.Models.Beta.Messages;
 
 namespace Anthropic.Tests.Models.Beta.Messages;
 
-public class BetaRequestToolAdditionBlockTest : TestBase
+public class BetaResponseToolAdditionBlockTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new BetaRequestToolAdditionBlock
+        var model = new BetaResponseToolAdditionBlock
         {
-            Tool = new BetaToolChangeToolReference("name"),
-            CacheControl = new() { Ttl = Ttl.Ttl5m },
+            Tool = new BetaResponseToolChangeToolReference("name"),
         };
 
-        BetaRequestToolAdditionBlockTool expectedTool = new BetaToolChangeToolReference("name");
+        BetaResponseToolAdditionBlockTool expectedTool = new BetaResponseToolChangeToolReference(
+            "name"
+        );
         JsonElement expectedType = JsonSerializer.SerializeToElement("tool_addition");
-        BetaCacheControlEphemeral expectedCacheControl = new() { Ttl = Ttl.Ttl5m };
 
         Assert.Equal(expectedTool, model.Tool);
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
-        Assert.Equal(expectedCacheControl, model.CacheControl);
     }
 
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new BetaRequestToolAdditionBlock
+        var model = new BetaResponseToolAdditionBlock
         {
-            Tool = new BetaToolChangeToolReference("name"),
-            CacheControl = new() { Ttl = Ttl.Ttl5m },
+            Tool = new BetaResponseToolChangeToolReference("name"),
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaRequestToolAdditionBlock>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolAdditionBlock>(
             json,
             ModelBase.SerializerOptions
         );
@@ -47,85 +45,33 @@ public class BetaRequestToolAdditionBlockTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new BetaRequestToolAdditionBlock
+        var model = new BetaResponseToolAdditionBlock
         {
-            Tool = new BetaToolChangeToolReference("name"),
-            CacheControl = new() { Ttl = Ttl.Ttl5m },
+            Tool = new BetaResponseToolChangeToolReference("name"),
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaRequestToolAdditionBlock>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolAdditionBlock>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        BetaRequestToolAdditionBlockTool expectedTool = new BetaToolChangeToolReference("name");
+        BetaResponseToolAdditionBlockTool expectedTool = new BetaResponseToolChangeToolReference(
+            "name"
+        );
         JsonElement expectedType = JsonSerializer.SerializeToElement("tool_addition");
-        BetaCacheControlEphemeral expectedCacheControl = new() { Ttl = Ttl.Ttl5m };
 
         Assert.Equal(expectedTool, deserialized.Tool);
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
-        Assert.Equal(expectedCacheControl, deserialized.CacheControl);
     }
 
     [Fact]
     public void Validation_Works()
     {
-        var model = new BetaRequestToolAdditionBlock
+        var model = new BetaResponseToolAdditionBlock
         {
-            Tool = new BetaToolChangeToolReference("name"),
-            CacheControl = new() { Ttl = Ttl.Ttl5m },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new BetaRequestToolAdditionBlock
-        {
-            Tool = new BetaToolChangeToolReference("name"),
-        };
-
-        Assert.Null(model.CacheControl);
-        Assert.False(model.RawData.ContainsKey("cache_control"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new BetaRequestToolAdditionBlock
-        {
-            Tool = new BetaToolChangeToolReference("name"),
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new BetaRequestToolAdditionBlock
-        {
-            Tool = new BetaToolChangeToolReference("name"),
-
-            CacheControl = null,
-        };
-
-        Assert.Null(model.CacheControl);
-        Assert.True(model.RawData.ContainsKey("cache_control"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new BetaRequestToolAdditionBlock
-        {
-            Tool = new BetaToolChangeToolReference("name"),
-
-            CacheControl = null,
+            Tool = new BetaResponseToolChangeToolReference("name"),
         };
 
         model.Validate();
@@ -134,31 +80,30 @@ public class BetaRequestToolAdditionBlockTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new BetaRequestToolAdditionBlock
+        var model = new BetaResponseToolAdditionBlock
         {
-            Tool = new BetaToolChangeToolReference("name"),
-            CacheControl = new() { Ttl = Ttl.Ttl5m },
+            Tool = new BetaResponseToolChangeToolReference("name"),
         };
 
-        BetaRequestToolAdditionBlock copied = new(model);
+        BetaResponseToolAdditionBlock copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class BetaRequestToolAdditionBlockToolTest : TestBase
+public class BetaResponseToolAdditionBlockToolTest : TestBase
 {
     [Fact]
-    public void BetaToolChangeToolReferenceValidationWorks()
+    public void BetaResponseToolChangeToolReferenceValidationWorks()
     {
-        BetaRequestToolAdditionBlockTool value = new BetaToolChangeToolReference("name");
+        BetaResponseToolAdditionBlockTool value = new BetaResponseToolChangeToolReference("name");
         value.Validate();
     }
 
     [Fact]
-    public void BetaToolChangeMcpToolReferenceValidationWorks()
+    public void BetaResponseToolChangeMcpToolReferenceValidationWorks()
     {
-        BetaRequestToolAdditionBlockTool value = new BetaToolChangeMcpToolReference()
+        BetaResponseToolAdditionBlockTool value = new BetaResponseToolChangeMcpToolReference()
         {
             Name = "name",
             ServerName = "server_name",
@@ -167,20 +112,20 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
     }
 
     [Fact]
-    public void BetaToolChangeMcpToolsetReferenceValidationWorks()
+    public void BetaResponseToolChangeMcpToolsetReferenceValidationWorks()
     {
-        BetaRequestToolAdditionBlockTool value = new BetaToolChangeMcpToolsetReference(
+        BetaResponseToolAdditionBlockTool value = new BetaResponseToolChangeMcpToolsetReference(
             "server_name"
         );
         value.Validate();
     }
 
     [Fact]
-    public void BetaToolChangeToolDefinitionParamValidationWorks()
+    public void BetaToolChangeToolDefinitionValidationWorks()
     {
-        BetaRequestToolAdditionBlockTool value = new BetaToolChangeToolDefinitionParam(
-            new BetaToolUnion(
-                new BetaTool()
+        BetaResponseToolAdditionBlockTool value = new BetaToolChangeToolDefinition(
+            new BetaResponseToolUnion(
+                new BetaResponseTool()
                 {
                     InputSchema = new()
                     {
@@ -192,8 +137,7 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
                         Required = ["location"],
                     },
                     Name = "name",
-                    AllowedCallers = [BetaToolAllowedCaller.Direct],
-                    CacheControl = new() { Ttl = Ttl.Ttl5m },
+                    AllowedCallers = [BetaResponseToolAllowedCaller.Direct],
                     DeferLoading = true,
                     Description = "Get the current weather in a given location",
                     EagerInputStreaming = true,
@@ -205,7 +149,7 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
                         },
                     ],
                     Strict = true,
-                    Type = BetaToolType.Custom,
+                    Type = BetaResponseToolType.Custom,
                 }
             )
         );
@@ -213,11 +157,11 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
     }
 
     [Fact]
-    public void BetaToolChangeToolReferenceSerializationRoundtripWorks()
+    public void BetaResponseToolChangeToolReferenceSerializationRoundtripWorks()
     {
-        BetaRequestToolAdditionBlockTool value = new BetaToolChangeToolReference("name");
+        BetaResponseToolAdditionBlockTool value = new BetaResponseToolChangeToolReference("name");
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaRequestToolAdditionBlockTool>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolAdditionBlockTool>(
             element,
             ModelBase.SerializerOptions
         );
@@ -226,15 +170,15 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
     }
 
     [Fact]
-    public void BetaToolChangeMcpToolReferenceSerializationRoundtripWorks()
+    public void BetaResponseToolChangeMcpToolReferenceSerializationRoundtripWorks()
     {
-        BetaRequestToolAdditionBlockTool value = new BetaToolChangeMcpToolReference()
+        BetaResponseToolAdditionBlockTool value = new BetaResponseToolChangeMcpToolReference()
         {
             Name = "name",
             ServerName = "server_name",
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaRequestToolAdditionBlockTool>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolAdditionBlockTool>(
             element,
             ModelBase.SerializerOptions
         );
@@ -243,13 +187,13 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
     }
 
     [Fact]
-    public void BetaToolChangeMcpToolsetReferenceSerializationRoundtripWorks()
+    public void BetaResponseToolChangeMcpToolsetReferenceSerializationRoundtripWorks()
     {
-        BetaRequestToolAdditionBlockTool value = new BetaToolChangeMcpToolsetReference(
+        BetaResponseToolAdditionBlockTool value = new BetaResponseToolChangeMcpToolsetReference(
             "server_name"
         );
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaRequestToolAdditionBlockTool>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolAdditionBlockTool>(
             element,
             ModelBase.SerializerOptions
         );
@@ -258,11 +202,11 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
     }
 
     [Fact]
-    public void BetaToolChangeToolDefinitionParamSerializationRoundtripWorks()
+    public void BetaToolChangeToolDefinitionSerializationRoundtripWorks()
     {
-        BetaRequestToolAdditionBlockTool value = new BetaToolChangeToolDefinitionParam(
-            new BetaToolUnion(
-                new BetaTool()
+        BetaResponseToolAdditionBlockTool value = new BetaToolChangeToolDefinition(
+            new BetaResponseToolUnion(
+                new BetaResponseTool()
                 {
                     InputSchema = new()
                     {
@@ -274,8 +218,7 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
                         Required = ["location"],
                     },
                     Name = "name",
-                    AllowedCallers = [BetaToolAllowedCaller.Direct],
-                    CacheControl = new() { Ttl = Ttl.Ttl5m },
+                    AllowedCallers = [BetaResponseToolAllowedCaller.Direct],
                     DeferLoading = true,
                     Description = "Get the current weather in a given location",
                     EagerInputStreaming = true,
@@ -287,12 +230,12 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
                         },
                     ],
                     Strict = true,
-                    Type = BetaToolType.Custom,
+                    Type = BetaResponseToolType.Custom,
                 }
             )
         );
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<BetaRequestToolAdditionBlockTool>(
+        var deserialized = JsonSerializer.Deserialize<BetaResponseToolAdditionBlockTool>(
             element,
             ModelBase.SerializerOptions
         );
@@ -303,7 +246,7 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
     [Fact]
     public void UnknownVariantCommonProperties_Works()
     {
-        BetaRequestToolAdditionBlockTool value = new(
+        BetaResponseToolAdditionBlockTool value = new(
             JsonSerializer.Deserialize<JsonElement>(
                 """
                 {
@@ -324,7 +267,7 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, value.Type));
         Assert.Equal(expectedServerName, value.ServerName);
 
-        BetaRequestToolAdditionBlockTool emptyValue = new(
+        BetaResponseToolAdditionBlockTool emptyValue = new(
             JsonSerializer.Deserialize<JsonElement>("{}")
         );
 
@@ -332,7 +275,7 @@ public class BetaRequestToolAdditionBlockToolTest : TestBase
         Assert.Throws<AnthropicInvalidDataException>(() => emptyValue.Type);
         Assert.Null(emptyValue.ServerName);
 
-        BetaRequestToolAdditionBlockTool mismatchedValue = new(
+        BetaResponseToolAdditionBlockTool mismatchedValue = new(
             JsonSerializer.Deserialize<JsonElement>(
                 """
                 {

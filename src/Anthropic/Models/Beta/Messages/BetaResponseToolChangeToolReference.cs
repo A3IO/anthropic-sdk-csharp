@@ -9,15 +9,17 @@ using Anthropic.Exceptions;
 namespace Anthropic.Models.Beta.Messages;
 
 /// <summary>
-/// Reference to a single tool, by the name the model uses to call it: a tool declared
-/// in ``tools`` or defined by an earlier ``tool_addition`` block. Does not accept
-/// the composed ``{server}_{name}`` form the server assigns to MCP-resolved tools;
-/// use ``mcp_tool_reference`` or ``mcp_toolset_reference`` for those.
+/// Reference to a single tool, by the name the model uses to call it, as a ``compaction``
+/// block's ``tool_changes`` entry reports it: a tool declared in ``tools`` or defined
+/// by an earlier ``tool_addition`` block. Send it back unchanged with the block.
 /// </summary>
 [JsonConverter(
-    typeof(JsonModelConverter<BetaToolChangeToolReference, BetaToolChangeToolReferenceFromRaw>)
+    typeof(JsonModelConverter<
+        BetaResponseToolChangeToolReference,
+        BetaResponseToolChangeToolReferenceFromRaw
+    >)
 )]
-public sealed record class BetaToolChangeToolReference : JsonModel
+public sealed record class BetaResponseToolChangeToolReference : JsonModel
 {
     public required string Name
     {
@@ -49,18 +51,20 @@ public sealed record class BetaToolChangeToolReference : JsonModel
         }
     }
 
-    public BetaToolChangeToolReference()
+    public BetaResponseToolChangeToolReference()
     {
         this.Type = JsonSerializer.SerializeToElement("tool_reference");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public BetaToolChangeToolReference(BetaToolChangeToolReference betaToolChangeToolReference)
-        : base(betaToolChangeToolReference) { }
+    public BetaResponseToolChangeToolReference(
+        BetaResponseToolChangeToolReference betaResponseToolChangeToolReference
+    )
+        : base(betaResponseToolChangeToolReference) { }
 #pragma warning restore CS8618
 
-    public BetaToolChangeToolReference(IReadOnlyDictionary<string, JsonElement> rawData)
+    public BetaResponseToolChangeToolReference(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -69,14 +73,14 @@ public sealed record class BetaToolChangeToolReference : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    BetaToolChangeToolReference(FrozenDictionary<string, JsonElement> rawData)
+    BetaResponseToolChangeToolReference(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="BetaToolChangeToolReferenceFromRaw.FromRawUnchecked"/>
-    public static BetaToolChangeToolReference FromRawUnchecked(
+    /// <inheritdoc cref="BetaResponseToolChangeToolReferenceFromRaw.FromRawUnchecked"/>
+    public static BetaResponseToolChangeToolReference FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -84,17 +88,17 @@ public sealed record class BetaToolChangeToolReference : JsonModel
     }
 
     [SetsRequiredMembers]
-    public BetaToolChangeToolReference(string name)
+    public BetaResponseToolChangeToolReference(string name)
         : this()
     {
         this.Name = name;
     }
 }
 
-class BetaToolChangeToolReferenceFromRaw : IFromRawJson<BetaToolChangeToolReference>
+class BetaResponseToolChangeToolReferenceFromRaw : IFromRawJson<BetaResponseToolChangeToolReference>
 {
     /// <inheritdoc/>
-    public BetaToolChangeToolReference FromRawUnchecked(
+    public BetaResponseToolChangeToolReference FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => BetaToolChangeToolReference.FromRawUnchecked(rawData);
+    ) => BetaResponseToolChangeToolReference.FromRawUnchecked(rawData);
 }

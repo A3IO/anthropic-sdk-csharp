@@ -10,23 +10,23 @@ using System = System;
 namespace Anthropic.Models.Beta.Messages;
 
 /// <summary>
-/// Mid-conversation directive to withdraw a tool.
-///
-/// <para>``tool`` references a tool (or MCP toolset) by name: one declared in the
-/// request's ``tools`` or defined earlier in ``messages``. It is no longer offered
-/// to the model from this point in the conversation onward.</para>
+/// An entry of a `compaction` block's `tool_changes`: a tool of the request's `tools`
+/// (or an MCP tool or toolset) that the compacted range withdrew. Send it back unchanged.
 /// </summary>
 [JsonConverter(
-    typeof(JsonModelConverter<BetaRequestToolRemovalBlock, BetaRequestToolRemovalBlockFromRaw>)
+    typeof(JsonModelConverter<BetaResponseToolRemovalBlock, BetaResponseToolRemovalBlockFromRaw>)
 )]
-public sealed record class BetaRequestToolRemovalBlock : JsonModel
+public sealed record class BetaResponseToolRemovalBlock : JsonModel
 {
-    public required BetaRequestToolRemovalBlockTool Tool
+    /// <summary>
+    /// A reference to the withdrawn `tools` entry, MCP tool or MCP toolset.
+    /// </summary>
+    public required BetaResponseToolRemovalBlockTool Tool
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<BetaRequestToolRemovalBlockTool>("tool");
+            return this._rawData.GetNotNullClass<BetaResponseToolRemovalBlockTool>("tool");
         }
         init { this._rawData.Set("tool", value); }
     }
@@ -41,19 +41,6 @@ public sealed record class BetaRequestToolRemovalBlock : JsonModel
         init { this._rawData.Set("type", value); }
     }
 
-    /// <summary>
-    /// Create a cache control breakpoint at this content block.
-    /// </summary>
-    public BetaCacheControlEphemeral? CacheControl
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<BetaCacheControlEphemeral>("cache_control");
-        }
-        init { this._rawData.Set("cache_control", value); }
-    }
-
     /// <inheritdoc/>
     public override void Validate()
     {
@@ -62,21 +49,20 @@ public sealed record class BetaRequestToolRemovalBlock : JsonModel
         {
             throw new AnthropicInvalidDataException("Invalid value given for constant");
         }
-        this.CacheControl?.Validate();
     }
 
-    public BetaRequestToolRemovalBlock()
+    public BetaResponseToolRemovalBlock()
     {
         this.Type = JsonSerializer.SerializeToElement("tool_removal");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public BetaRequestToolRemovalBlock(BetaRequestToolRemovalBlock betaRequestToolRemovalBlock)
-        : base(betaRequestToolRemovalBlock) { }
+    public BetaResponseToolRemovalBlock(BetaResponseToolRemovalBlock betaResponseToolRemovalBlock)
+        : base(betaResponseToolRemovalBlock) { }
 #pragma warning restore CS8618
 
-    public BetaRequestToolRemovalBlock(IReadOnlyDictionary<string, JsonElement> rawData)
+    public BetaResponseToolRemovalBlock(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -85,14 +71,14 @@ public sealed record class BetaRequestToolRemovalBlock : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    BetaRequestToolRemovalBlock(FrozenDictionary<string, JsonElement> rawData)
+    BetaResponseToolRemovalBlock(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="BetaRequestToolRemovalBlockFromRaw.FromRawUnchecked"/>
-    public static BetaRequestToolRemovalBlock FromRawUnchecked(
+    /// <inheritdoc cref="BetaResponseToolRemovalBlockFromRaw.FromRawUnchecked"/>
+    public static BetaResponseToolRemovalBlock FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -100,23 +86,26 @@ public sealed record class BetaRequestToolRemovalBlock : JsonModel
     }
 
     [SetsRequiredMembers]
-    public BetaRequestToolRemovalBlock(BetaRequestToolRemovalBlockTool tool)
+    public BetaResponseToolRemovalBlock(BetaResponseToolRemovalBlockTool tool)
         : this()
     {
         this.Tool = tool;
     }
 }
 
-class BetaRequestToolRemovalBlockFromRaw : IFromRawJson<BetaRequestToolRemovalBlock>
+class BetaResponseToolRemovalBlockFromRaw : IFromRawJson<BetaResponseToolRemovalBlock>
 {
     /// <inheritdoc/>
-    public BetaRequestToolRemovalBlock FromRawUnchecked(
+    public BetaResponseToolRemovalBlock FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => BetaRequestToolRemovalBlock.FromRawUnchecked(rawData);
+    ) => BetaResponseToolRemovalBlock.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(BetaRequestToolRemovalBlockToolConverter))]
-public record class BetaRequestToolRemovalBlockTool : ModelBase
+/// <summary>
+/// A reference to the withdrawn `tools` entry, MCP tool or MCP toolset.
+/// </summary>
+[JsonConverter(typeof(BetaResponseToolRemovalBlockToolConverter))]
+public record class BetaResponseToolRemovalBlockTool : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -139,9 +128,9 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
         {
             return this.Value switch
             {
-                BetaToolChangeToolReference x => x.Name,
-                BetaToolChangeMcpToolReference x => x.Name,
-                BetaToolChangeMcpToolsetReference _ => null,
+                BetaResponseToolChangeToolReference x => x.Name,
+                BetaResponseToolChangeMcpToolReference x => x.Name,
+                BetaResponseToolChangeMcpToolsetReference _ => null,
                 _ => WrappedJsonSerializer.GetNullableClassProperty<string>(this.Json, "name"),
             };
         }
@@ -153,9 +142,9 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
         {
             return this.Value switch
             {
-                BetaToolChangeToolReference x => x.Type,
-                BetaToolChangeMcpToolReference x => x.Type,
-                BetaToolChangeMcpToolsetReference x => x.Type,
+                BetaResponseToolChangeToolReference x => x.Type,
+                BetaResponseToolChangeMcpToolReference x => x.Type,
+                BetaResponseToolChangeMcpToolsetReference x => x.Type,
                 _ => WrappedJsonSerializer.GetNotNullStructProperty<JsonElement>(this.Json, "type"),
             };
         }
@@ -167,9 +156,9 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
         {
             return this.Value switch
             {
-                BetaToolChangeToolReference _ => null,
-                BetaToolChangeMcpToolReference x => x.ServerName,
-                BetaToolChangeMcpToolsetReference x => x.ServerName,
+                BetaResponseToolChangeToolReference _ => null,
+                BetaResponseToolChangeMcpToolReference x => x.ServerName,
+                BetaResponseToolChangeMcpToolsetReference x => x.ServerName,
                 _ => WrappedJsonSerializer.GetNullableClassProperty<string>(
                     this.Json,
                     "server_name"
@@ -178,8 +167,8 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
         }
     }
 
-    public BetaRequestToolRemovalBlockTool(
-        BetaToolChangeToolReference value,
+    public BetaResponseToolRemovalBlockTool(
+        BetaResponseToolChangeToolReference value,
         JsonElement? element = null
     )
     {
@@ -187,8 +176,8 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
         this._element = element;
     }
 
-    public BetaRequestToolRemovalBlockTool(
-        BetaToolChangeMcpToolReference value,
+    public BetaResponseToolRemovalBlockTool(
+        BetaResponseToolChangeMcpToolReference value,
         JsonElement? element = null
     )
     {
@@ -196,8 +185,8 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
         this._element = element;
     }
 
-    public BetaRequestToolRemovalBlockTool(
-        BetaToolChangeMcpToolsetReference value,
+    public BetaResponseToolRemovalBlockTool(
+        BetaResponseToolChangeMcpToolsetReference value,
         JsonElement? element = null
     )
     {
@@ -205,77 +194,77 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
         this._element = element;
     }
 
-    public BetaRequestToolRemovalBlockTool(JsonElement element)
+    public BetaResponseToolRemovalBlockTool(JsonElement element)
     {
         this._element = element;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="BetaToolChangeToolReference"/>.
+    /// type <see cref="BetaResponseToolChangeToolReference"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickBetaToolChangeToolReference(out var value)) {
-    ///     // `value` is of type `BetaToolChangeToolReference`
+    /// if (instance.TryPickBetaResponseToolChangeToolReference(out var value)) {
+    ///     // `value` is of type `BetaResponseToolChangeToolReference`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickBetaToolChangeToolReference(
-        [NotNullWhen(true)] out BetaToolChangeToolReference? value
+    public bool TryPickBetaResponseToolChangeToolReference(
+        [NotNullWhen(true)] out BetaResponseToolChangeToolReference? value
     )
     {
-        value = this.Value as BetaToolChangeToolReference;
+        value = this.Value as BetaResponseToolChangeToolReference;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="BetaToolChangeMcpToolReference"/>.
+    /// type <see cref="BetaResponseToolChangeMcpToolReference"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickBetaToolChangeMcpToolReference(out var value)) {
-    ///     // `value` is of type `BetaToolChangeMcpToolReference`
+    /// if (instance.TryPickBetaResponseToolChangeMcpToolReference(out var value)) {
+    ///     // `value` is of type `BetaResponseToolChangeMcpToolReference`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickBetaToolChangeMcpToolReference(
-        [NotNullWhen(true)] out BetaToolChangeMcpToolReference? value
+    public bool TryPickBetaResponseToolChangeMcpToolReference(
+        [NotNullWhen(true)] out BetaResponseToolChangeMcpToolReference? value
     )
     {
-        value = this.Value as BetaToolChangeMcpToolReference;
+        value = this.Value as BetaResponseToolChangeMcpToolReference;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="BetaToolChangeMcpToolsetReference"/>.
+    /// type <see cref="BetaResponseToolChangeMcpToolsetReference"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickBetaToolChangeMcpToolsetReference(out var value)) {
-    ///     // `value` is of type `BetaToolChangeMcpToolsetReference`
+    /// if (instance.TryPickBetaResponseToolChangeMcpToolsetReference(out var value)) {
+    ///     // `value` is of type `BetaResponseToolChangeMcpToolsetReference`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickBetaToolChangeMcpToolsetReference(
-        [NotNullWhen(true)] out BetaToolChangeMcpToolsetReference? value
+    public bool TryPickBetaResponseToolChangeMcpToolsetReference(
+        [NotNullWhen(true)] out BetaResponseToolChangeMcpToolsetReference? value
     )
     {
-        value = this.Value as BetaToolChangeMcpToolsetReference;
+        value = this.Value as BetaResponseToolChangeMcpToolsetReference;
         return value != null;
     }
 
@@ -293,33 +282,33 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (BetaToolChangeToolReference value) =&gt; {...},
-    ///     (BetaToolChangeMcpToolReference value) =&gt; {...},
-    ///     (BetaToolChangeMcpToolsetReference value) =&gt; {...}
+    ///     (BetaResponseToolChangeToolReference value) =&gt; {...},
+    ///     (BetaResponseToolChangeMcpToolReference value) =&gt; {...},
+    ///     (BetaResponseToolChangeMcpToolsetReference value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
-        System::Action<BetaToolChangeToolReference> betaToolChangeToolReference,
-        System::Action<BetaToolChangeMcpToolReference> betaToolChangeMcpToolReference,
-        System::Action<BetaToolChangeMcpToolsetReference> betaToolChangeMcpToolsetReference
+        System::Action<BetaResponseToolChangeToolReference> betaResponseToolChangeToolReference,
+        System::Action<BetaResponseToolChangeMcpToolReference> betaResponseToolChangeMcpToolReference,
+        System::Action<BetaResponseToolChangeMcpToolsetReference> betaResponseToolChangeMcpToolsetReference
     )
     {
         switch (this.Value)
         {
-            case BetaToolChangeToolReference value:
-                betaToolChangeToolReference(value);
+            case BetaResponseToolChangeToolReference value:
+                betaResponseToolChangeToolReference(value);
                 break;
-            case BetaToolChangeMcpToolReference value:
-                betaToolChangeMcpToolReference(value);
+            case BetaResponseToolChangeMcpToolReference value:
+                betaResponseToolChangeMcpToolReference(value);
                 break;
-            case BetaToolChangeMcpToolsetReference value:
-                betaToolChangeMcpToolsetReference(value);
+            case BetaResponseToolChangeMcpToolsetReference value:
+                betaResponseToolChangeMcpToolsetReference(value);
                 break;
             default:
                 throw new AnthropicInvalidDataException(
-                    "Data did not match any variant of BetaRequestToolRemovalBlockTool"
+                    "Data did not match any variant of BetaResponseToolRemovalBlockTool"
                 );
         }
     }
@@ -339,40 +328,49 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (BetaToolChangeToolReference value) =&gt; {...},
-    ///     (BetaToolChangeMcpToolReference value) =&gt; {...},
-    ///     (BetaToolChangeMcpToolsetReference value) =&gt; {...}
+    ///     (BetaResponseToolChangeToolReference value) =&gt; {...},
+    ///     (BetaResponseToolChangeMcpToolReference value) =&gt; {...},
+    ///     (BetaResponseToolChangeMcpToolsetReference value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
-        System::Func<BetaToolChangeToolReference, T> betaToolChangeToolReference,
-        System::Func<BetaToolChangeMcpToolReference, T> betaToolChangeMcpToolReference,
-        System::Func<BetaToolChangeMcpToolsetReference, T> betaToolChangeMcpToolsetReference
+        System::Func<BetaResponseToolChangeToolReference, T> betaResponseToolChangeToolReference,
+        System::Func<
+            BetaResponseToolChangeMcpToolReference,
+            T
+        > betaResponseToolChangeMcpToolReference,
+        System::Func<
+            BetaResponseToolChangeMcpToolsetReference,
+            T
+        > betaResponseToolChangeMcpToolsetReference
     )
     {
         return this.Value switch
         {
-            BetaToolChangeToolReference value => betaToolChangeToolReference(value),
-            BetaToolChangeMcpToolReference value => betaToolChangeMcpToolReference(value),
-            BetaToolChangeMcpToolsetReference value => betaToolChangeMcpToolsetReference(value),
+            BetaResponseToolChangeToolReference value => betaResponseToolChangeToolReference(value),
+            BetaResponseToolChangeMcpToolReference value => betaResponseToolChangeMcpToolReference(
+                value
+            ),
+            BetaResponseToolChangeMcpToolsetReference value =>
+                betaResponseToolChangeMcpToolsetReference(value),
             _ => throw new AnthropicInvalidDataException(
-                "Data did not match any variant of BetaRequestToolRemovalBlockTool"
+                "Data did not match any variant of BetaResponseToolRemovalBlockTool"
             ),
         };
     }
 
-    public static implicit operator BetaRequestToolRemovalBlockTool(
-        BetaToolChangeToolReference value
+    public static implicit operator BetaResponseToolRemovalBlockTool(
+        BetaResponseToolChangeToolReference value
     ) => new(value);
 
-    public static implicit operator BetaRequestToolRemovalBlockTool(
-        BetaToolChangeMcpToolReference value
+    public static implicit operator BetaResponseToolRemovalBlockTool(
+        BetaResponseToolChangeMcpToolReference value
     ) => new(value);
 
-    public static implicit operator BetaRequestToolRemovalBlockTool(
-        BetaToolChangeMcpToolsetReference value
+    public static implicit operator BetaResponseToolRemovalBlockTool(
+        BetaResponseToolChangeMcpToolsetReference value
     ) => new(value);
 
     /// <summary>
@@ -390,17 +388,19 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
         if (this.Value == null)
         {
             throw new AnthropicInvalidDataException(
-                "Data did not match any variant of BetaRequestToolRemovalBlockTool"
+                "Data did not match any variant of BetaResponseToolRemovalBlockTool"
             );
         }
         this.Switch(
-            (betaToolChangeToolReference) => betaToolChangeToolReference.Validate(),
-            (betaToolChangeMcpToolReference) => betaToolChangeMcpToolReference.Validate(),
-            (betaToolChangeMcpToolsetReference) => betaToolChangeMcpToolsetReference.Validate()
+            (betaResponseToolChangeToolReference) => betaResponseToolChangeToolReference.Validate(),
+            (betaResponseToolChangeMcpToolReference) =>
+                betaResponseToolChangeMcpToolReference.Validate(),
+            (betaResponseToolChangeMcpToolsetReference) =>
+                betaResponseToolChangeMcpToolsetReference.Validate()
         );
     }
 
-    public virtual bool Equals(BetaRequestToolRemovalBlockTool? other) =>
+    public virtual bool Equals(BetaResponseToolRemovalBlockTool? other) =>
         other != null
         && this.VariantIndex() == other.VariantIndex()
         && JsonElement.DeepEquals(this.Json, other.Json);
@@ -420,18 +420,18 @@ public record class BetaRequestToolRemovalBlockTool : ModelBase
     {
         return this.Value switch
         {
-            BetaToolChangeToolReference _ => 0,
-            BetaToolChangeMcpToolReference _ => 1,
-            BetaToolChangeMcpToolsetReference _ => 2,
+            BetaResponseToolChangeToolReference _ => 0,
+            BetaResponseToolChangeMcpToolReference _ => 1,
+            BetaResponseToolChangeMcpToolsetReference _ => 2,
             _ => -1,
         };
     }
 }
 
-sealed class BetaRequestToolRemovalBlockToolConverter
-    : JsonConverter<BetaRequestToolRemovalBlockTool>
+sealed class BetaResponseToolRemovalBlockToolConverter
+    : JsonConverter<BetaResponseToolRemovalBlockTool>
 {
-    public override BetaRequestToolRemovalBlockTool? Read(
+    public override BetaResponseToolRemovalBlockTool? Read(
         ref Utf8JsonReader reader,
         System::Type typeToConvert,
         JsonSerializerOptions options
@@ -454,10 +454,11 @@ sealed class BetaRequestToolRemovalBlockToolConverter
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<BetaToolChangeToolReference>(
-                        element,
-                        options
-                    );
+                    var deserialized =
+                        JsonSerializer.Deserialize<BetaResponseToolChangeToolReference>(
+                            element,
+                            options
+                        );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -474,10 +475,11 @@ sealed class BetaRequestToolRemovalBlockToolConverter
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<BetaToolChangeMcpToolReference>(
-                        element,
-                        options
-                    );
+                    var deserialized =
+                        JsonSerializer.Deserialize<BetaResponseToolChangeMcpToolReference>(
+                            element,
+                            options
+                        );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -495,7 +497,7 @@ sealed class BetaRequestToolRemovalBlockToolConverter
                 try
                 {
                     var deserialized =
-                        JsonSerializer.Deserialize<BetaToolChangeMcpToolsetReference>(
+                        JsonSerializer.Deserialize<BetaResponseToolChangeMcpToolsetReference>(
                             element,
                             options
                         );
@@ -513,14 +515,14 @@ sealed class BetaRequestToolRemovalBlockToolConverter
             }
             default:
             {
-                return new BetaRequestToolRemovalBlockTool(element);
+                return new BetaResponseToolRemovalBlockTool(element);
             }
         }
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        BetaRequestToolRemovalBlockTool value,
+        BetaResponseToolRemovalBlockTool value,
         JsonSerializerOptions options
     )
     {

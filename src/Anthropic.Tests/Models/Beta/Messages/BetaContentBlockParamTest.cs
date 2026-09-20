@@ -323,6 +323,14 @@ public class BetaContentBlockParamTest : TestBase
             Content = "content",
             EncryptedContent = "encrypted_content",
             Signature = "signature",
+            ToolChanges =
+            [
+                new BetaRequestToolAdditionBlock()
+                {
+                    Tool = new BetaToolChangeToolReference("name"),
+                    CacheControl = new() { Ttl = Ttl.Ttl5m },
+                },
+            ],
         };
         value.Validate();
     }
@@ -345,6 +353,28 @@ public class BetaContentBlockParamTest : TestBase
         {
             Tool = new BetaToolChangeToolReference("name"),
             CacheControl = new() { Ttl = Ttl.Ttl5m },
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void McpToolListingValidationWorks()
+    {
+        BetaContentBlockParam value = new BetaMcpToolListingBlockParam()
+        {
+            McpServerName = "x",
+            Tools =
+            [
+                new()
+                {
+                    InputSchema = new Dictionary<string, JsonElement>()
+                    {
+                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                    },
+                    Name = "x",
+                    Description = "description",
+                },
+            ],
         };
         value.Validate();
     }
@@ -789,6 +819,14 @@ public class BetaContentBlockParamTest : TestBase
             Content = "content",
             EncryptedContent = "encrypted_content",
             Signature = "signature",
+            ToolChanges =
+            [
+                new BetaRequestToolAdditionBlock()
+                {
+                    Tool = new BetaToolChangeToolReference("name"),
+                    CacheControl = new() { Ttl = Ttl.Ttl5m },
+                },
+            ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<BetaContentBlockParam>(
@@ -823,6 +861,34 @@ public class BetaContentBlockParamTest : TestBase
         {
             Tool = new BetaToolChangeToolReference("name"),
             CacheControl = new() { Ttl = Ttl.Ttl5m },
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<BetaContentBlockParam>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void McpToolListingSerializationRoundtripWorks()
+    {
+        BetaContentBlockParam value = new BetaMcpToolListingBlockParam()
+        {
+            McpServerName = "x",
+            Tools =
+            [
+                new()
+                {
+                    InputSchema = new Dictionary<string, JsonElement>()
+                    {
+                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                    },
+                    Name = "x",
+                    Description = "description",
+                },
+            ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<BetaContentBlockParam>(
