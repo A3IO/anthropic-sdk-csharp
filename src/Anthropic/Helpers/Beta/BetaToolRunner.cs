@@ -473,16 +473,10 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
         _compacting = true;
         try
         {
-            var parameters = BuildRequestParams(messages) with { Compaction = compaction };
-            // The API refuses `compaction` alongside `context_management`; later requests keep
-            // it. The key is removed because `ContextManagement = null` would send a null.
-            var rawBodyData = parameters.RawBodyData.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            rawBodyData.Remove("context_management");
-            parameters = MessageCreateParams.FromRawUnchecked(
-                parameters.RawHeaderData,
-                parameters.RawQueryData,
-                rawBodyData
-            );
+            var parameters = WithoutCompactionIncompatibleParams(BuildRequestParams(messages)) with
+            {
+                Compaction = compaction,
+            };
 
             var (item, message) = await send(parameters, cancellationToken).ConfigureAwait(false);
 
@@ -494,6 +488,86 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
         {
             _compacting = false;
         }
+    }
+
+    /// <summary>
+    /// A compaction request returns only the compaction block, never a reply, so the API rejects
+    /// the params that only shape a reply. The runner's later requests keep them.
+    /// </summary>
+    private static MessageCreateParams WithoutCompactionIncompatibleParams(
+        MessageCreateParams parameters
+    )
+    {
+        // The keys are removed because setting a param to null would send a null.
+        var rawBodyData = parameters.RawBodyData.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        rawBodyData.Remove("context_management");
+        rawBodyData.Remove("stop_sequences");
+        rawBodyData.Remove("output_format");
+        if (
+            parameters.ToolChoice is { } toolChoice
+            && (toolChoice.TryPickAny(out _) || toolChoice.TryPickTool(out _))
+        )
+        {
+            rawBodyData.Remove("tool_choice");
+        }
+        RemoveOutputFormat(rawBodyData);
+        if (
+            rawBodyData.TryGetValue("fallbacks", out var fallbacks)
+            && fallbacks.ValueKind == JsonValueKind.Array
+        )
+        {
+            rawBodyData["fallbacks"] = JsonSerializer.SerializeToElement(
+                fallbacks.EnumerateArray().Select(WithoutOutputFormat).ToList()
+            );
+        }
+        return MessageCreateParams.FromRawUnchecked(
+            parameters.RawHeaderData,
+            parameters.RawQueryData,
+            rawBodyData
+        );
+    }
+
+    /// <summary>
+    /// Removes <c>output_config.format</c>, and <c>output_config</c> itself when it held nothing
+    /// else.
+    /// </summary>
+    private static void RemoveOutputFormat(Dictionary<string, JsonElement> fields)
+    {
+        if (
+            !fields.TryGetValue("output_config", out var outputConfig)
+            || outputConfig.ValueKind != JsonValueKind.Object
+            || !outputConfig.TryGetProperty("format", out _)
+        )
+        {
+            return;
+        }
+
+        var rest = outputConfig
+            .EnumerateObject()
+            .Where(field => field.Name != "format")
+            .ToDictionary(field => field.Name, field => field.Value);
+        if (rest.Count == 0)
+        {
+            fields.Remove("output_config");
+        }
+        else
+        {
+            fields["output_config"] = JsonSerializer.SerializeToElement(rest);
+        }
+    }
+
+    private static JsonElement WithoutOutputFormat(JsonElement fallback)
+    {
+        if (fallback.ValueKind != JsonValueKind.Object)
+        {
+            return fallback;
+        }
+
+        var fields = fallback
+            .EnumerateObject()
+            .ToDictionary(field => field.Name, field => field.Value);
+        RemoveOutputFormat(fields);
+        return JsonSerializer.SerializeToElement(fields);
     }
 
     private static bool HasCompactionSummary(BetaMessage response) =>
