@@ -679,18 +679,19 @@ public class BetaToolRunnerTest
                     }
                 );
             }
-            else if (turns.Requests.Count == 2)
+            else if (turns.Requests.Count == 3)
             {
                 runner.AddTools(weatherTool);
             }
         }
 
         Assert.Equal(["user"], SentRoles(turns.Requests[1]));
-        var refused = AssertToolResultsThenToolChanges(
-            turns.Requests[2],
-            ToolChangesJson(ToolAdditionJson(WeatherToolDefinition))
+        AssertToolNotFound(
+            Assert.Single(
+                SentMessages(turns.Requests[2])[^1].GetProperty("content").EnumerateArray()
+            ),
+            "get_weather"
         );
-        AssertToolNotFound(Assert.Single(refused), "get_weather");
         Assert.Equal(["get_weather"], calls);
     }
 
@@ -727,9 +728,9 @@ public class BetaToolRunnerTest
                 ToolAdditionJson(WeatherToolDefinition)
             )
         );
-        AssertToolNotFound(Assert.Single(firstResults), "get_weather");
+        Assert.Equal("get_weather", Assert.Single(firstResults).GetProperty("content").GetString());
 
-        Assert.Equal(["get_weather"], calls);
+        Assert.Equal(["get_weather", "get_weather"], calls);
         var results = SentMessages(turns.Requests[2])[^1]
             .GetProperty("content")
             .EnumerateArray()
@@ -739,7 +740,7 @@ public class BetaToolRunnerTest
     }
 
     [Fact]
-    public async Task AddTools_ReplacesToolOfSameNameFromNextRequest()
+    public async Task AddTools_ReplacesToolOfSameNameForCallAlreadyInTurn()
     {
         var ct = TestContext.Current.CancellationToken;
         var turns = new ScriptedTurns(
@@ -763,8 +764,65 @@ public class BetaToolRunnerTest
             }
         }
 
-        // The call the model made before the swap still ran the old tool.
-        Assert.Equal(["old", "new"], calls);
+        Assert.Equal(["new", "new"], calls);
+    }
+
+    [Fact]
+    public async Task AddTools_AnswersCallAlreadyInTurnFromTheToolAddedUnderItsName()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        var turns = new ScriptedTurns(MakeToolUseTurn("get_weather"), MakeFinalTurn());
+        var calls = new List<string>();
+        var runner = turns.Service.ToolRunner(
+            BaseParams,
+            [MakeRecordingTool("get_weather", WeatherToolDefinition, calls, "old")]
+        );
+        var forecastDefinition = WeatherToolDefinition with { Description = "Get the forecast" };
+
+        await foreach (var _ in runner.WithCancellation(ct))
+        {
+            if (turns.Requests.Count == 1)
+            {
+                runner.AddTools(MakeRecordingTool("get_weather", forecastDefinition, calls, "new"));
+            }
+        }
+
+        Assert.Equal(["new"], calls);
+        var toolResults = AssertToolResultsThenToolChanges(
+            turns.Requests[1],
+            ToolChangesJson(ToolAdditionJson(forecastDefinition))
+        );
+        Assert.Equal("new", Assert.Single(toolResults).GetProperty("content").GetString());
+    }
+
+    [Fact]
+    public async Task AddTools_RunsCallAlreadyInTurnToAToolTheHistoryRemoved()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        var turns = new ScriptedTurns(MakeToolUseTurn("get_weather"), MakeFinalTurn());
+        var calls = new List<string>();
+        var weatherTool = MakeRecordingTool("get_weather", WeatherToolDefinition, calls);
+        var runner = turns.Service.ToolRunner(
+            BaseParams with
+            {
+                Messages =
+                [
+                    .. BaseParams.Messages,
+                    MakeSystemToolChangeMessage(MakeToolRemovalBlock("get_weather")),
+                ],
+            },
+            [weatherTool]
+        );
+
+        await foreach (var _ in runner.WithCancellation(ct))
+        {
+            if (turns.Requests.Count == 1)
+            {
+                runner.AddTools(weatherTool);
+            }
+        }
+
+        Assert.Equal(["get_weather"], calls);
     }
 
     [Fact]
@@ -815,8 +873,7 @@ public class BetaToolRunnerTest
             }
         }
 
-        // The call made before the definition went out still ran the tool; the next one does not.
-        Assert.Equal(["get_weather"], calls);
+        Assert.Empty(calls);
         AssertToolNotFound(
             Assert.Single(
                 SentMessages(turns.Requests[2])[^1].GetProperty("content").EnumerateArray()
@@ -970,7 +1027,7 @@ public class BetaToolRunnerTest
         runner.CompactBeforeNextTurn();
         await foreach (var _ in runner.WithCancellation(ct))
         {
-            if (turns.Requests.Count == 2)
+            if (turns.Requests.Count == 3)
             {
                 runner.AddTools(weatherTool);
             }
@@ -979,11 +1036,12 @@ public class BetaToolRunnerTest
         Assert.True(turns.Requests[0].RawBodyData.ContainsKey("compaction"));
         Assert.Equal(["user", "system"], SentRoles(turns.Requests[0]));
         Assert.Equal(["assistant"], SentRoles(turns.Requests[1]));
-        var refused = AssertToolResultsThenToolChanges(
-            turns.Requests[2],
-            ToolChangesJson(ToolAdditionJson(WeatherToolDefinition))
+        AssertToolNotFound(
+            Assert.Single(
+                SentMessages(turns.Requests[2])[^1].GetProperty("content").EnumerateArray()
+            ),
+            "get_weather"
         );
-        AssertToolNotFound(Assert.Single(refused), "get_weather");
         Assert.Equal(["get_weather"], calls);
     }
 

@@ -337,6 +337,15 @@ public class BetaToolRunnerCompactionTest
         );
     }
 
+    private static BetaMessageParam WeatherToolRemoval =>
+        new()
+        {
+            Role = Role.System,
+            Content = new BetaMessageParamContent(
+                [new BetaRequestToolRemovalBlock(new BetaToolChangeToolReference("get_weather"))]
+            ),
+        };
+
     [Fact]
     public async Task Compaction_KeepsARemovalThatOnlyTheHistoryHeld()
     {
@@ -354,19 +363,7 @@ public class BetaToolRunnerCompactionTest
             ]
         );
 
-        runner.PushMessages(
-            new BetaMessageParam
-            {
-                Role = Role.System,
-                Content = new BetaMessageParamContent(
-                    [
-                        new BetaRequestToolRemovalBlock(
-                            new BetaToolChangeToolReference("get_weather")
-                        ),
-                    ]
-                ),
-            }
-        );
+        runner.PushMessages(WeatherToolRemoval);
         runner.CompactBeforeNextTurn();
         await runner.RunUntilDoneAsync(ct);
 
@@ -381,6 +378,37 @@ public class BetaToolRunnerCompactionTest
             .Single();
         Assert.True(result.GetProperty("is_error").GetBoolean());
         Assert.Equal("Tool 'get_weather' not found", result.GetProperty("content").GetString());
+    }
+
+    [Fact]
+    public async Task Compaction_KeepsAToolAddedBackWhileItsResponseIsHandled()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        var script = new Script(CompactedResponse(), ToolUseTurn(), FinalTurn());
+        var weatherTool = MakeWeatherToolSync(_ => "Sunny");
+        var runner = script.Service.ToolRunner(BaseParams, [weatherTool]);
+
+        runner.PushMessages(WeatherToolRemoval);
+        runner.CompactBeforeNextTurn();
+        await foreach (var message in runner.WithCancellation(ct))
+        {
+            if (message.StopReason == BetaStopReason.Compaction)
+            {
+                runner.AddTools(weatherTool);
+            }
+        }
+
+        Assert.Equal(["assistant", "system"], Roles(script.Requests[1]));
+        Assert.Equal("tool_addition", LastBlockType(script.Requests[1]));
+        var result = script
+            .Requests[2]
+            .RawBodyData["messages"]
+            .EnumerateArray()
+            .Last()
+            .GetProperty("content")
+            .EnumerateArray()
+            .Single();
+        Assert.Equal("Sunny", result.GetProperty("content").GetString());
     }
 
     [Fact]

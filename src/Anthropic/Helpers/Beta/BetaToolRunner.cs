@@ -35,12 +35,8 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
     // Stays set while the consumer handles the yielded compaction response.
     private bool _compacting;
 
-    // Tools run in parallel and may call AddTools / RemoveTools. Each Apply edits _toolsByName
-    // when its block is sent.
-    private readonly ConcurrentQueue<(
-        BetaContentBlockParam Block,
-        Action Apply
-    )> _pendingToolChanges = new();
+    // Tools run in parallel and may call AddTools / RemoveTools.
+    private readonly ConcurrentQueue<BetaContentBlockParam> _pendingToolChanges = new();
 
     internal BetaToolRunner(
         IMessageService service,
@@ -129,17 +125,16 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
 
     /// <summary>
     /// Sends each tool's definition in a <c>tool_addition</c> block with the next request, without
-    /// changing <c>Tools</c> (which would miss the prompt cache), and runs the tool from that
-    /// request on, in place of any tool of the same name. Requires the
-    /// <c>inline-tools-2026-09-15</c> beta, which the runner does not add.
+    /// changing <c>Tools</c> (which would miss the prompt cache). The runner runs the tool at once,
+    /// in place of any tool of the same name, even for calls in the message it last returned.
+    /// Requires the <c>inline-tools-2026-09-15</c> beta, which the runner does not add.
     /// </summary>
     public void AddTools(params IBetaRunnableTool[] tools)
     {
         foreach (var tool in tools)
         {
-            _pendingToolChanges.Enqueue(
-                (ToolAddition(tool.Definition), () => _toolsByName[tool.Name] = tool)
-            );
+            _toolsByName[tool.Name] = tool;
+            _pendingToolChanges.Enqueue(ToolAddition(tool.Definition));
         }
     }
 
@@ -152,16 +147,9 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
     {
         foreach (var definition in definitions)
         {
-            _pendingToolChanges.Enqueue(
-                (
-                    ToolAddition(definition),
-                    () =>
-                    {
-                        if (DefinitionName(definition) is { } name)
-                            _toolsByName.TryRemove(name, out _);
-                    }
-                )
-            );
+            if (DefinitionName(definition) is { } name)
+                _toolsByName.TryRemove(name, out _);
+            _pendingToolChanges.Enqueue(ToolAddition(definition));
         }
     }
 
@@ -180,12 +168,8 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
         foreach (var name in names)
         {
             _toolsByName.TryRemove(name, out _);
-            // Again when sent: an addition queued before this may have registered the name.
             _pendingToolChanges.Enqueue(
-                (
-                    new BetaRequestToolRemovalBlock(new BetaToolChangeToolReference(name)),
-                    () => _toolsByName.TryRemove(name, out _)
-                )
+                new BetaRequestToolRemovalBlock(new BetaToolChangeToolReference(name))
             );
         }
     }
@@ -210,10 +194,9 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
             return;
 
         var blocks = new List<BetaContentBlockParam>();
-        while (_pendingToolChanges.TryDequeue(out var change))
+        while (_pendingToolChanges.TryDequeue(out var block))
         {
-            change.Apply();
-            blocks.Add(change.Block);
+            blocks.Add(block);
         }
 
         if (blocks.Count > 0)
@@ -758,6 +741,19 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
             foreach (var block in blocks)
             {
                 ApplyToolChange(block, available);
+            }
+        }
+
+        // A tool added since is already registered, and its block will follow that history.
+        foreach (var block in _pendingToolChanges)
+        {
+            if (
+                block.Value is BetaRequestToolAdditionBlock addition
+                && addition.Tool.Value is BetaToolChangeToolDefinitionParam added
+                && DefinitionName(added.Definition) is { } addedName
+            )
+            {
+                available.Add(addedName);
             }
         }
 
