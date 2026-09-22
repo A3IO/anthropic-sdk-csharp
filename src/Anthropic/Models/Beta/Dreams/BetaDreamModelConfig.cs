@@ -10,14 +10,16 @@ using System = System;
 namespace Anthropic.Models.Beta.Dreams;
 
 /// <summary>
-/// Model identifier and configuration applied to every pipeline stage. Same wire
-/// shape as the Agents API ModelConfig.
+/// The model that runs a dream, from the request that created it.
+///
+/// <para>The dream uses this model for all of its work. The response always gives
+/// the model as an object, even if the request gave only a model ID.</para>
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<BetaDreamModelConfig, BetaDreamModelConfigFromRaw>))]
 public sealed record class BetaDreamModelConfig : JsonModel
 {
     /// <summary>
-    /// Model identifier, e.g. "claude-opus-5". 1-256 characters.
+    /// The ID of the model that runs the dream, as given in the request that created it.
     /// </summary>
     public required string ID
     {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -21,7 +22,7 @@ namespace Anthropic.Helpers.Beta;
 public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
 {
     private readonly IMessageService _service;
-    private readonly Dictionary<string, IBetaRunnableTool> _toolsByName;
+    private readonly ConcurrentDictionary<string, IBetaRunnableTool> _toolsByName;
     private readonly IReadOnlyList<BetaToolUnion> _allToolDefinitions;
     private readonly int? _maxIterations;
     private int _consumed;
@@ -34,6 +35,9 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
     // Stays set while the consumer handles the yielded compaction response.
     private bool _compacting;
 
+    // Tools run in parallel and may call AddTools / RemoveTools.
+    private readonly ConcurrentQueue<BetaContentBlockParam> _pendingToolChanges = new();
+
     internal BetaToolRunner(
         IMessageService service,
         MessageCreateParams parameters,
@@ -45,7 +49,7 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
         _service = service;
         _maxIterations = maxIterations;
 
-        _toolsByName = new Dictionary<string, IBetaRunnableTool>(StringComparer.Ordinal);
+        _toolsByName = new ConcurrentDictionary<string, IBetaRunnableTool>(StringComparer.Ordinal);
         var allDefs = new List<BetaToolUnion>();
 
         foreach (var tool in tools)
@@ -117,6 +121,94 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
     public void PushMessages(params BetaMessageParam[] messages)
     {
         SetParams(p => p with { Messages = [.. p.Messages, .. messages] });
+    }
+
+    /// <summary>
+    /// Sends each tool's definition in a <c>tool_addition</c> block with the next request, without
+    /// changing <c>Tools</c> (which would miss the prompt cache). The runner runs the tool at once,
+    /// in place of any tool of the same name, even for calls in the message it last returned.
+    /// Requires the <c>inline-tools-2026-09-15</c> beta, which the runner does not add.
+    /// </summary>
+    public void AddTools(params IBetaRunnableTool[] tools)
+    {
+        foreach (var tool in tools)
+        {
+            _toolsByName[tool.Name] = tool;
+            _pendingToolChanges.Enqueue(ToolAddition(tool.Definition));
+        }
+    }
+
+    /// <summary>
+    /// Like <see cref="AddTools(IBetaRunnableTool[])"/> for definitions the runner has nothing to
+    /// execute, such as a server tool. Each is sent as given. A client tool added this way is never
+    /// run, and replaces any runnable tool of the same name.
+    /// </summary>
+    public void AddTools(params BetaToolUnion[] definitions)
+    {
+        foreach (var definition in definitions)
+        {
+            if (DefinitionName(definition) is { } name)
+                _toolsByName.TryRemove(name, out _);
+            _pendingToolChanges.Enqueue(ToolAddition(definition));
+        }
+    }
+
+    /// <summary>
+    /// Sends a <c>tool_removal</c> block with the next request, without changing <c>Tools</c>. The
+    /// runner stops starting the tools at once, even for calls in the message it last returned
+    /// (calls already running are not interrupted), until <c>AddTools</c> adds them again.
+    /// </summary>
+    /// <remarks>
+    /// A conversation that starts from a compaction block made elsewhere, whose
+    /// <c>tool_changes</c> removes a tool that is also passed to the runner, is not refused
+    /// locally (the API applies the removal for the model): call this for that tool.
+    /// </remarks>
+    public void RemoveTools(params string[] names)
+    {
+        foreach (var name in names)
+        {
+            _toolsByName.TryRemove(name, out _);
+            _pendingToolChanges.Enqueue(
+                new BetaRequestToolRemovalBlock(new BetaToolChangeToolReference(name))
+            );
+        }
+    }
+
+    /// <summary>Removes each tool by its <see cref="IBetaRunnableTool.Name"/>.</summary>
+    public void RemoveTools(params IBetaRunnableTool[] tools)
+    {
+        RemoveTools([.. tools.Select(tool => tool.Name)]);
+    }
+
+    private static BetaContentBlockParam ToolAddition(BetaToolUnion definition) =>
+        new BetaRequestToolAdditionBlock(new BetaToolChangeToolDefinitionParam(definition));
+
+    private static string? DefinitionName(BetaToolUnion definition) =>
+        definition.Json.TryGetProperty("name", out var name) ? name.GetString() : null;
+
+    private void SendPendingToolChanges(List<BetaMessageParam> messages, bool resumingPausedTurn)
+    {
+        // A paused turn goes back as the last message, so changes wait until it has finished. A
+        // compaction is resumed the same way but can be followed by them.
+        if (resumingPausedTurn)
+            return;
+
+        var blocks = new List<BetaContentBlockParam>();
+        while (_pendingToolChanges.TryDequeue(out var block))
+        {
+            blocks.Add(block);
+        }
+
+        if (blocks.Count > 0)
+        {
+            messages.Add(
+                new BetaMessageParam
+                {
+                    Role = Role.System,
+                    Content = new BetaMessageParamContent(blocks),
+                }
+            );
+        }
     }
 
     /// <summary>
@@ -246,6 +338,7 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
         var messages = new List<BetaMessageParam>(_currentParams.Messages);
         var iterations = 0;
         var turnPaused = false;
+        var resumingPausedTurn = false;
 
         while (true)
         {
@@ -253,6 +346,8 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
                 yield break;
 
             _paramsMutated = false;
+
+            SendPendingToolChanges(messages, resumingPausedTurn);
 
             // The API can't compact a conversation that ends mid-turn, so a paused turn is
             // resumed first.
@@ -279,6 +374,7 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
 
             var nextStep = DetermineNextStepFromStopReason(response);
             turnPaused = nextStep == NextStep.Resume;
+            resumingPausedTurn = response.StopReason?.Value() == BetaStopReason.PauseTurn;
             if (turnPaused)
             {
                 if (_paramsMutated)
@@ -360,16 +456,10 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
         _compacting = true;
         try
         {
-            var parameters = BuildRequestParams(messages) with { Compaction = compaction };
-            // The API refuses `compaction` alongside `context_management`; later requests keep
-            // it. The key is removed because `ContextManagement = null` would send a null.
-            var rawBodyData = parameters.RawBodyData.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            rawBodyData.Remove("context_management");
-            parameters = MessageCreateParams.FromRawUnchecked(
-                parameters.RawHeaderData,
-                parameters.RawQueryData,
-                rawBodyData
-            );
+            var parameters = WithoutCompactionIncompatibleParams(BuildRequestParams(messages)) with
+            {
+                Compaction = compaction,
+            };
 
             var (item, message) = await send(parameters, cancellationToken).ConfigureAwait(false);
 
@@ -381,6 +471,86 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
         {
             _compacting = false;
         }
+    }
+
+    /// <summary>
+    /// A compaction request returns only the compaction block, never a reply, so the API rejects
+    /// the params that only shape a reply. The runner's later requests keep them.
+    /// </summary>
+    private static MessageCreateParams WithoutCompactionIncompatibleParams(
+        MessageCreateParams parameters
+    )
+    {
+        // The keys are removed because setting a param to null would send a null.
+        var rawBodyData = parameters.RawBodyData.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        rawBodyData.Remove("context_management");
+        rawBodyData.Remove("stop_sequences");
+        rawBodyData.Remove("output_format");
+        if (
+            parameters.ToolChoice is { } toolChoice
+            && (toolChoice.TryPickAny(out _) || toolChoice.TryPickTool(out _))
+        )
+        {
+            rawBodyData.Remove("tool_choice");
+        }
+        RemoveOutputFormat(rawBodyData);
+        if (
+            rawBodyData.TryGetValue("fallbacks", out var fallbacks)
+            && fallbacks.ValueKind == JsonValueKind.Array
+        )
+        {
+            rawBodyData["fallbacks"] = JsonSerializer.SerializeToElement(
+                fallbacks.EnumerateArray().Select(WithoutOutputFormat).ToList()
+            );
+        }
+        return MessageCreateParams.FromRawUnchecked(
+            parameters.RawHeaderData,
+            parameters.RawQueryData,
+            rawBodyData
+        );
+    }
+
+    /// <summary>
+    /// Removes <c>output_config.format</c>, and <c>output_config</c> itself when it held nothing
+    /// else.
+    /// </summary>
+    private static void RemoveOutputFormat(Dictionary<string, JsonElement> fields)
+    {
+        if (
+            !fields.TryGetValue("output_config", out var outputConfig)
+            || outputConfig.ValueKind != JsonValueKind.Object
+            || !outputConfig.TryGetProperty("format", out _)
+        )
+        {
+            return;
+        }
+
+        var rest = outputConfig
+            .EnumerateObject()
+            .Where(field => field.Name != "format")
+            .ToDictionary(field => field.Name, field => field.Value);
+        if (rest.Count == 0)
+        {
+            fields.Remove("output_config");
+        }
+        else
+        {
+            fields["output_config"] = JsonSerializer.SerializeToElement(rest);
+        }
+    }
+
+    private static JsonElement WithoutOutputFormat(JsonElement fallback)
+    {
+        if (fallback.ValueKind != JsonValueKind.Object)
+        {
+            return fallback;
+        }
+
+        var fields = fallback
+            .EnumerateObject()
+            .ToDictionary(field => field.Name, field => field.Value);
+        RemoveOutputFormat(fields);
+        return JsonSerializer.SerializeToElement(fields);
     }
 
     private static bool HasCompactionSummary(BetaMessage response) =>
@@ -399,6 +569,7 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
         // The response has to be sent back as it came, first, replacing the messages it
         // summarizes.
         var compacted = ToAssistantParam(response);
+        DropUnavailableTools();
         messages.Clear();
         messages.Add(compacted);
         _currentParams = _currentParams with { Messages = [compacted] };
@@ -573,7 +744,33 @@ public class BetaToolRunner : IAsyncEnumerable<BetaMessage>
             }
         }
 
+        // A tool added since is already registered, and its block will follow that history.
+        foreach (var block in _pendingToolChanges)
+        {
+            if (
+                block.Value is BetaRequestToolAdditionBlock addition
+                && addition.Tool.Value is BetaToolChangeToolDefinitionParam added
+                && DefinitionName(added.Definition) is { } addedName
+            )
+            {
+                available.Add(addedName);
+            }
+        }
+
         return available;
+    }
+
+    /// <summary>
+    /// Forgets the callables the history made unavailable: a compaction replaces that history,
+    /// which would bring them back.
+    /// </summary>
+    private void DropUnavailableTools()
+    {
+        var available = AvailableToolNames(_currentParams.Messages);
+        foreach (var name in _toolsByName.Keys.Where(name => !available.Contains(name)).ToList())
+        {
+            _toolsByName.TryRemove(name, out _);
+        }
     }
 
     private static void ApplyToolChange(BetaContentBlockParam block, HashSet<string> available)

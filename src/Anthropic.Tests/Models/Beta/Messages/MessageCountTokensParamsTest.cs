@@ -1607,6 +1607,18 @@ public class ToolTest : TestBase
                 },
             },
             DefaultConfig = new() { DeferLoading = true, Enabled = true },
+            Tools =
+            [
+                new()
+                {
+                    InputSchema = new Dictionary<string, JsonElement>()
+                    {
+                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                    },
+                    Name = "x",
+                    Description = "description",
+                },
+            ],
         };
         value.Validate();
     }
@@ -2291,6 +2303,18 @@ public class ToolTest : TestBase
                 },
             },
             DefaultConfig = new() { DeferLoading = true, Enabled = true },
+            Tools =
+            [
+                new()
+                {
+                    InputSchema = new Dictionary<string, JsonElement>()
+                    {
+                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                    },
+                    Name = "x",
+                    Description = "description",
+                },
+            ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<Tool>(element, ModelBase.SerializerOptions);

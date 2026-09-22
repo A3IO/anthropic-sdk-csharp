@@ -9,6 +9,13 @@ using System = System;
 
 namespace Anthropic.Models.Beta.UserProfiles;
 
+/// <summary>
+/// A record of an entity that the platform serves through the API, such as an end-user
+/// of the platform's product or a company that the platform resells Claude access to.
+///
+/// <para>A Messages, Message Batches or token counting request can send a profile's
+/// `id` in the `anthropic-user-profile-id` header to attribute the request to that entity.</para>
+/// </summary>
 [JsonConverter(typeof(JsonModelConverter<BetaUserProfile, BetaUserProfileFromRaw>))]
 public sealed record class BetaUserProfile : JsonModel
 {
@@ -312,7 +319,15 @@ sealed class TypeConverter : JsonConverter<global::Anthropic.Models.Beta.UserPro
 [JsonConverter(typeof(BetaUserProfileAccessTypeConverter))]
 public enum BetaUserProfileAccessType
 {
+    /// <summary>
+    /// The user profile represents an individual end-user of a product that the
+    /// platform builds on the API. New profiles get this value by default.
+    /// </summary>
     Application,
+
+    /// <summary>
+    /// The user profile represents a company that the platform resells Claude access to.
+    /// </summary>
     Passthrough,
 }
 

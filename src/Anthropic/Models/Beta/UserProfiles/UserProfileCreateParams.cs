@@ -184,6 +184,14 @@ public record class UserProfileCreateParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Optional header to select the Workspace for this request. The value is a Workspace
+    /// ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
+    ///
+    /// <para>Only needed for credentials that can act on more than one Workspace.
+    /// A credential that belongs to a specific Workspace may omit it; if sent, it
+    /// must match that Workspace.</para>
+    /// </summary>
     public string? WorkspaceID
     {
         get
@@ -323,7 +331,15 @@ public record class UserProfileCreateParams : ParamsBase
 [JsonConverter(typeof(AccessTypeConverter))]
 public enum AccessType
 {
+    /// <summary>
+    /// The user profile represents an individual end-user of a product that the
+    /// platform builds on the API. New profiles get this value by default.
+    /// </summary>
     Application,
+
+    /// <summary>
+    /// The user profile represents a company that the platform resells Claude access to.
+    /// </summary>
     Passthrough,
 }
 

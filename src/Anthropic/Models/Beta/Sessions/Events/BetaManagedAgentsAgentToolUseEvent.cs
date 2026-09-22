@@ -93,16 +93,13 @@ public sealed record class BetaManagedAgentsAgentToolUseEvent : JsonModel
     /// <summary>
     /// AgentEvaluatedPermission enum
     /// </summary>
-    public ApiEnum<
-        string,
-        BetaManagedAgentsAgentToolUseEventEvaluatedPermission
-    >? EvaluatedPermission
+    public ApiEnum<string, BetaManagedAgentsAgentEvaluatedPermission>? EvaluatedPermission
     {
         get
         {
             this._rawData.Freeze();
             return this._rawData.GetNullableClass<
-                ApiEnum<string, BetaManagedAgentsAgentToolUseEventEvaluatedPermission>
+                ApiEnum<string, BetaManagedAgentsAgentEvaluatedPermission>
             >("evaluated_permission");
         }
         init
@@ -242,57 +239,6 @@ sealed class BetaManagedAgentsAgentToolUseEventTypeConverter
             value switch
             {
                 BetaManagedAgentsAgentToolUseEventType.AgentToolUse => "agent.tool_use",
-                _ => throw new AnthropicInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
-/// AgentEvaluatedPermission enum
-/// </summary>
-[JsonConverter(typeof(BetaManagedAgentsAgentToolUseEventEvaluatedPermissionConverter))]
-public enum BetaManagedAgentsAgentToolUseEventEvaluatedPermission
-{
-    Allow,
-    Ask,
-    Deny,
-}
-
-sealed class BetaManagedAgentsAgentToolUseEventEvaluatedPermissionConverter
-    : JsonConverter<BetaManagedAgentsAgentToolUseEventEvaluatedPermission>
-{
-    public override BetaManagedAgentsAgentToolUseEventEvaluatedPermission Read(
-        ref Utf8JsonReader reader,
-        System::Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "allow" => BetaManagedAgentsAgentToolUseEventEvaluatedPermission.Allow,
-            "ask" => BetaManagedAgentsAgentToolUseEventEvaluatedPermission.Ask,
-            "deny" => BetaManagedAgentsAgentToolUseEventEvaluatedPermission.Deny,
-            _ => (BetaManagedAgentsAgentToolUseEventEvaluatedPermission)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        BetaManagedAgentsAgentToolUseEventEvaluatedPermission value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                BetaManagedAgentsAgentToolUseEventEvaluatedPermission.Allow => "allow",
-                BetaManagedAgentsAgentToolUseEventEvaluatedPermission.Ask => "ask",
-                BetaManagedAgentsAgentToolUseEventEvaluatedPermission.Deny => "deny",
                 _ => throw new AnthropicInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

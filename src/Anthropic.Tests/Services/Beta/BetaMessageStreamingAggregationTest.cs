@@ -1094,13 +1094,17 @@ public class BetaMessageStreamingAggregationTest
     {
         // The block arrives whole on content_block_start and has to be sent back unchanged;
         // the deltas only fill in content and encrypted_content.
+        const string ToolChanges =
+            """[{"type":"tool_removal","tool":{"type":"tool_reference","name":"get_tides"}},{"type":"tool_addition","tool":{"type":"tool_definition","definition":{"name":"get_time","description":"Get the local time.","input_schema":{"type":"object","properties":{"zone":{"type":"string"},"city":{"type":"string"}},"required":["zone"]}}}}]""";
         static BetaRawMessageStreamEvent Event(string json) =>
             JsonSerializer.Deserialize<BetaRawMessageStreamEvent>(json)!;
         static async IAsyncEnumerable<BetaRawMessageStreamEvent> GetTestValues()
         {
             yield return new(new BetaRawMessageStartEvent(GenerateStartMessage));
             yield return Event(
-                """{"type":"content_block_start","index":0,"content_block":{"type":"compaction","content":null,"encrypted_content":null,"signature":"sig_01"}}"""
+                """{"type":"content_block_start","index":0,"content_block":{"type":"compaction","content":null,"encrypted_content":null,"signature":"sig_01","tool_changes":"""
+                    + ToolChanges
+                    + "}}"
             );
             yield return Event(
                 """{"type":"content_block_delta","index":0,"delta":{"type":"compaction_delta","content":"Summary.","encrypted_content":"opaque"}}"""
@@ -1113,10 +1117,12 @@ public class BetaMessageStreamingAggregationTest
         var stream = await GetTestValues().Aggregate();
 
         stream.Validate();
-        var compaction = Assert.IsType<BetaCompactionBlock>(Assert.Single(stream.Content).Value);
+        var block = Assert.Single(stream.Content);
+        var compaction = Assert.IsType<BetaCompactionBlock>(block.Value);
         Assert.Equal("Summary.", compaction.Content);
         Assert.Equal("opaque", compaction.EncryptedContent);
         Assert.Equal("sig_01", compaction.Signature);
+        Assert.Equal(ToolChanges, block.Json.GetProperty("tool_changes").GetRawText());
     }
 
     [Fact]

@@ -54,6 +54,8 @@ public enum AnthropicBeta
     ThinkingBindingControls2026_08_01,
     MidConversationSystemClearAt2026_08_21,
     Compact2026_09_04,
+    InlineTools2026_09_15,
+    McpClient2026_09_15,
 }
 
 sealed class AnthropicBetaConverter : JsonConverter<AnthropicBeta>
@@ -117,6 +119,8 @@ sealed class AnthropicBetaConverter : JsonConverter<AnthropicBeta>
             "mid-conversation-system-clear-at-2026-08-21" =>
                 AnthropicBeta.MidConversationSystemClearAt2026_08_21,
             "compact-2026-09-04" => AnthropicBeta.Compact2026_09_04,
+            "inline-tools-2026-09-15" => AnthropicBeta.InlineTools2026_09_15,
+            "mcp-client-2026-09-15" => AnthropicBeta.McpClient2026_09_15,
             _ => (AnthropicBeta)(-1),
         };
     }
@@ -183,6 +187,8 @@ sealed class AnthropicBetaConverter : JsonConverter<AnthropicBeta>
                 AnthropicBeta.MidConversationSystemClearAt2026_08_21 =>
                     "mid-conversation-system-clear-at-2026-08-21",
                 AnthropicBeta.Compact2026_09_04 => "compact-2026-09-04",
+                AnthropicBeta.InlineTools2026_09_15 => "inline-tools-2026-09-15",
+                AnthropicBeta.McpClient2026_09_15 => "mcp-client-2026-09-15",
                 _ => throw new AnthropicInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
